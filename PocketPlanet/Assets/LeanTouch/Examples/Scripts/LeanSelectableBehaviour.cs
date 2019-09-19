@@ -3,6 +3,7 @@ using UnityEngine;
 namespace Lean.Touch
 {
 	// This script makes handling selectable actions easier
+	[RequireComponent(typeof(LeanSelectable))]
 	public abstract class LeanSelectableBehaviour : MonoBehaviour
 	{
 		[System.NonSerialized]
@@ -14,7 +15,7 @@ namespace Lean.Touch
 			{
 				if (selectable == null)
 				{
-					UpdateSelectable();
+					selectable = GetComponent<LeanSelectable>();
 				}
 
 				return selectable;
@@ -23,7 +24,10 @@ namespace Lean.Touch
 
 		protected virtual void OnEnable()
 		{
-			UpdateSelectable();
+			if (selectable == null)
+			{
+				selectable = GetComponent<LeanSelectable>();
+			}
 
 			// Hook LeanSelectable events
 			selectable.OnSelect.AddListener(OnSelect);
@@ -33,19 +37,22 @@ namespace Lean.Touch
 
 		protected virtual void OnDisable()
 		{
-			UpdateSelectable();
+			if (selectable == null)
+			{
+				selectable = GetComponent<LeanSelectable>();
+			}
 
 			// Unhook LeanSelectable events
 			selectable.OnSelect.RemoveListener(OnSelect);
 			selectable.OnSelectUp.RemoveListener(OnSelectUp);
 			selectable.OnDeselect.RemoveListener(OnDeselect);
 		}
-
+		
 		// Called when selection begins (finger = the finger that selected this)
 		protected virtual void OnSelect(LeanFinger finger)
 		{
 		}
-
+		
 		// Called when the selecting finger goes up (finger = the finger that selected this)
 		protected virtual void OnSelectUp(LeanFinger finger)
 		{
@@ -54,19 +61,6 @@ namespace Lean.Touch
 		// Called when this is deselected, if OnSelectUp hasn't been called yet, it will get called first
 		protected virtual void OnDeselect()
 		{
-		}
-
-		private void UpdateSelectable()
-		{
-			if (selectable == null)
-			{
-				selectable = GetComponentInParent<LeanSelectable>();
-
-				if (selectable == null)
-				{
-					Debug.LogError("This GameObject or one of its parents must have the LeanSelectable component.", this);
-				}
-			}
 		}
 	}
 }

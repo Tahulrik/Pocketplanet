@@ -6,10 +6,7 @@ namespace Lean.Touch
 	public class LeanRotate : MonoBehaviour
 	{
 		[Tooltip("Ignore fingers with StartedOverGui?")]
-		public bool IgnoreStartedOverGui = true;
-
-		[Tooltip("Ignore fingers with IsOverGui?")]
-		public bool IgnoreIsOverGui;
+		public bool IgnoreGuiFingers;
 
 		[Tooltip("Allows you to force rotation with a specific amount of fingers (0 = any)")]
 		public int RequiredFingerCount;
@@ -17,8 +14,11 @@ namespace Lean.Touch
 		[Tooltip("Does rotation require an object to be selected?")]
 		public LeanSelectable RequiredSelectable;
 
-		[Tooltip("The camera we will be used to calculate relative rotations (None = MainCamera)")]
+		[Tooltip("The camera we will be moving")]
 		public Camera Camera;
+
+		[Tooltip("The rotation axis used for non-relative rotations")]
+		public Vector3 RotateAxis = Vector3.forward;
 
 		[Tooltip("Should the rotation be performanced relative to the finger center?")]
 		public bool Relative;
@@ -26,123 +26,49 @@ namespace Lean.Touch
 #if UNITY_EDITOR
 		protected virtual void Reset()
 		{
-			Start();
-		}
-#endif
-
-		protected virtual void Start()
-		{
 			if (RequiredSelectable == null)
 			{
 				RequiredSelectable = GetComponent<LeanSelectable>();
 			}
 		}
+#endif
 
 		protected virtual void Update()
 		{
+			// If we require a selectable and it isn't selected, cancel rotation
+			if (RequiredSelectable != null && RequiredSelectable.IsSelected == false)
+			{
+				return;
+			}
+
 			// Get the fingers we want to use
-			var fingers = LeanSelectable.GetFingersOrClear(IgnoreStartedOverGui, IgnoreIsOverGui, RequiredFingerCount, RequiredSelectable);
+			var fingers = LeanTouch.GetFingers(IgnoreGuiFingers, RequiredFingerCount);
 
 			// Calculate the rotation values based on these fingers
-			var twistDegrees = LeanGesture.GetTwistDegrees(fingers);
+			var center  = LeanGesture.GetScreenCenter(fingers);
+			var degrees = LeanGesture.GetTwistDegrees(fingers);
 
-			if (twistDegrees != 0.0f)
-			{
-				if (Relative == true)
-				{
-					var twistScreenCenter = LeanGesture.GetScreenCenter(fingers);
-
-					if (transform is RectTransform)
-					{
-						TranslateUI(twistDegrees, twistScreenCenter);
-						RotateUI(twistDegrees);
-					}
-					else
-					{
-						Translate(twistDegrees, twistScreenCenter);
-						Rotate(twistDegrees);
-					}
-				}
-				else
-				{
-					if (transform is RectTransform)
-					{
-						RotateUI(twistDegrees);
-					}
-					else
-					{
-						Rotate(twistDegrees);
-					}
-				}
-			}
+			// Perform the rotation
+			Rotate(center, degrees);
 		}
 
-		protected virtual void TranslateUI(float twistDegrees, Vector2 twistScreenCenter)
+		private void Rotate(Vector3 center, float degrees)
 		{
-			// Screen position of the transform
-			var screenPoint = RectTransformUtility.WorldToScreenPoint(Camera, transform.position);
-
-			// Twist screen point around the twistScreenCenter by twistDegrees
-			var twistRotation = Quaternion.Euler(0.0f, 0.0f, twistDegrees);
-			var screenDelta   = twistRotation * (screenPoint - twistScreenCenter);
-
-			screenPoint.x = twistScreenCenter.x + screenDelta.x;
-			screenPoint.y = twistScreenCenter.y + screenDelta.y;
-
-			// Convert back to world space
-			var worldPoint = default(Vector3);
-
-			if (RectTransformUtility.ScreenPointToWorldPointInRectangle(transform.parent as RectTransform, screenPoint, Camera, out worldPoint) == true)
+			if (Relative == true)
 			{
-				transform.position = worldPoint;
-			}
-		}
-
-		protected virtual void Translate(float twistDegrees, Vector2 twistScreenCenter)
-		{
-			// Make sure the camera exists
-			var camera = LeanTouch.GetCamera(Camera, gameObject);
-
-			if (camera != null)
-			{
-				// Screen position of the transform
-				var screenPoint = camera.WorldToScreenPoint(transform.position);
-
-				// Twist screen point around the twistScreenCenter by twistDegrees
-				var twistRotation = Quaternion.Euler(0.0f, 0.0f, twistDegrees);
-				var screenDelta   = twistRotation * ((Vector2)screenPoint - twistScreenCenter);
-
-				screenPoint.x = twistScreenCenter.x + screenDelta.x;
-				screenPoint.y = twistScreenCenter.y + screenDelta.y;
-
-				// Convert back to world space
-				transform.position = camera.ScreenToWorldPoint(screenPoint);
+				// If camera is null, try and get the main camera, return true if a camera was found
+				if (LeanTouch.GetCamera(ref Camera) == true)
+				{
+					// World position of the reference point
+					var worldReferencePoint = Camera.ScreenToWorldPoint(center);
+					
+					// Rotate the transform around the world reference point
+					transform.RotateAround(worldReferencePoint, Camera.transform.forward, degrees);
+				}
 			}
 			else
 			{
-				Debug.LogError("Failed to find camera. Either tag your cameras MainCamera, or set one in this component.", this);
-			}
-		}
-
-		protected virtual void RotateUI(float twistDegrees)
-		{
-			transform.rotation *= Quaternion.Euler(0.0f, 0.0f, twistDegrees);
-		}
-
-		protected virtual void Rotate(float twistDegrees)
-		{
-			// Make sure the camera exists
-			var camera = LeanTouch.GetCamera(Camera, gameObject);
-
-			if (camera != null)
-			{
-				var axis = transform.InverseTransformDirection(camera.transform.forward);
-
-				transform.rotation *= Quaternion.AngleAxis(twistDegrees, axis);
-			}
-			else
-			{
-				Debug.LogError("Failed to find camera. Either tag your cameras MainCamera, or set one in this component.", this);
+				transform.rotation *= Quaternion.AngleAxis(degrees, RotateAxis);
 			}
 		}
 	}

@@ -1,16 +1,14 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace Lean.Touch
 {
-	// This component allows you to select LeanSelectable components
+	// This script allows you to select LeanSelectable components
 	public class LeanSelect : MonoBehaviour
 	{
 		public enum SelectType
 		{
 			Raycast3D,
-			Overlap2D,
-			CanvasUI
+			Overlap2D
 		}
 
 		public enum SearchType
@@ -19,7 +17,7 @@ namespace Lean.Touch
 			GetComponentInParent,
 			GetComponentInChildren
 		}
-
+		
 		public enum ReselectType
 		{
 			KeepSelected,
@@ -28,42 +26,25 @@ namespace Lean.Touch
 			SelectAgain
 		}
 
-		public static List<LeanSelect> Instances = new List<LeanSelect>();
-
 		public SelectType SelectUsing;
 
-		[Tooltip("The layers you want the raycast/overlap to hit")]
+		[Tooltip("This stores the layers we want the raycast/overlap to hit (make sure this GameObject's layer is included!)")]
 		public LayerMask LayerMask = Physics.DefaultRaycastLayers;
 
-		[Tooltip("The camera used to calculate the ray (None = MainCamera)")]
-		public Camera Camera;
+		[Tooltip("How should the selected GameObject be searched for the LeanSelectable component?")]
+		public SearchType Search;
 
-		[Tooltip("The maximum number of selectables that can be selected at the same time (0 = Unlimited)")]
-		public int MaxSelectables;
-
-		[Tooltip("How should the candidate GameObjects be searched for the LeanSelectable component?")]
-		public SearchType Search = SearchType.GetComponentInParent;
+		[Tooltip("The currently selected LeanSelectable")]
+		public LeanSelectable CurrentSelectable;
 
 		[Tooltip("If you select an already selected selectable, what should happen?")]
 		public ReselectType Reselect;
-
-		[Tooltip("Automatically deselect everything if nothing was selected?")]
+		
+		[Tooltip("Automatically deselect the CurrentSelectable if Select gets called with null?")]
 		public bool AutoDeselect;
-
+		
 		// NOTE: This must be called from somewhere
-		public void SelectStartScreenPosition(LeanFinger finger)
-		{
-			SelectScreenPosition(finger, finger.StartScreenPosition);
-		}
-
-		// NOTE: This must be called from somewhere
-		public void SelectScreenPosition(LeanFinger finger)
-		{
-			SelectScreenPosition(finger, finger.ScreenPosition);
-		}
-
-		// NOTE: This must be called from somewhere
-		public void SelectScreenPosition(LeanFinger finger, Vector2 screenPosition)
+		public void Select(LeanFinger finger)
 		{
 			// Stores the component we hit (Collider or Collider2D)
 			var component = default(Component);
@@ -72,52 +53,27 @@ namespace Lean.Touch
 			{
 				case SelectType.Raycast3D:
 				{
-					// Make sure the camera exists
-					var camera = LeanTouch.GetCamera(Camera, gameObject);
+					// Get ray for finger
+					var ray = finger.GetRay();
 
-					if (camera != null)
+					// Stores the raycast hit info
+					var hit = default(RaycastHit);
+					
+					// Was this finger pressed down on a collider?
+					if (Physics.Raycast(ray, out hit, float.PositiveInfinity, LayerMask) == true)
 					{
-						var ray = camera.ScreenPointToRay(screenPosition);
-						var hit = default(RaycastHit);
-
-						if (Physics.Raycast(ray, out hit, float.PositiveInfinity, LayerMask) == true)
-						{
-							component = hit.collider;
-						}
-					}
-					else
-					{
-						Debug.LogError("Failed to find camera. Either tag your cameras MainCamera, or set one in this component.", this);
+						component = hit.collider;
 					}
 				}
 				break;
-
+				
 				case SelectType.Overlap2D:
 				{
-					// Make sure the camera exists
-					var camera = LeanTouch.GetCamera(Camera, gameObject);
+					// Find the position under the current finger
+					var point = finger.GetWorldPosition(1.0f);
 
-					if (camera != null)
-					{
-						var point = camera.ScreenToWorldPoint(screenPosition);
-
-						component = Physics2D.OverlapPoint(point, LayerMask);
-					}
-					else
-					{
-						Debug.LogError("Failed to find camera. Either tag your cameras MainCamera, or set one in this component.", this);
-					}
-				}
-				break;
-
-				case SelectType.CanvasUI:
-				{
-					var results = LeanTouch.RaycastGui(screenPosition, LayerMask);
-
-					if (results != null && results.Count > 0)
-					{
-						component = results[0].gameObject.transform;
-					}
+					// Find the collider at this position
+					component = Physics2D.OverlapPoint(point, LayerMask);
 				}
 				break;
 			}
@@ -149,32 +105,19 @@ namespace Lean.Touch
 		public void Select(LeanFinger finger, LeanSelectable selectable)
 		{
 			// Something was selected?
-			if (selectable != null && selectable.isActiveAndEnabled == true)
+			if (selectable != null)
 			{
-				if (selectable.HideWithFinger == true)
-				{
-					for (var i = LeanSelectable.Instances.Count - 1; i >= 0; i--)
-					{
-						var instance = LeanSelectable.Instances[i];
-
-						if (instance.HideWithFinger == true && instance.IsSelected == true)
-						{
-							return;
-						}
-					}
-				}
-
 				// Did we select a new LeanSelectable?
-				if (selectable.IsSelected == false)
+				if (selectable != CurrentSelectable)
 				{
-					// Deselect some if we have too many
-					if (MaxSelectables > 0)
-					{
-						LeanSelectable.Cull(MaxSelectables - 1);
-					}
+					// Deselect the current
+					Deselect();
 
-					// Select
-					selectable.Select(finger);
+					// Change current
+					CurrentSelectable = selectable;
+
+					// Call select event on current
+					CurrentSelectable.Select(finger);
 				}
 				// Did we reselect the current LeanSelectable?
 				else
@@ -183,20 +126,27 @@ namespace Lean.Touch
 					{
 						case ReselectType.Deselect:
 						{
-							selectable.Deselect();
+							Deselect();
 						}
 						break;
 
 						case ReselectType.DeselectAndSelect:
 						{
-							selectable.Deselect();
-							selectable.Select(finger);
+							// Deselect the current
+							Deselect();
+
+							// Change current
+							CurrentSelectable = selectable;
+
+							// Call select event on current
+							CurrentSelectable.Select(finger);
 						}
 						break;
 
 						case ReselectType.SelectAgain:
 						{
-							selectable.Select(finger);
+							// Call select event on current
+							CurrentSelectable.Select(finger);
 						}
 						break;
 					}
@@ -208,30 +158,41 @@ namespace Lean.Touch
 				// Deselect?
 				if (AutoDeselect == true)
 				{
-					DeselectAll();
+					Deselect();
 				}
 			}
 		}
-
-		[ContextMenu("Deselect All")]
-		public void DeselectAll()
+		
+		[ContextMenu("Deselect")]
+		public void Deselect()
 		{
-			LeanSelectable.DeselectAll();
-		}
-
-		protected virtual void OnEnable()
-		{
-			if (Instances.Count > 0)
+			// Is there a selected object?
+			if (CurrentSelectable != null)
 			{
-				Debug.LogWarning("Your scene already contains a LeanSelect component, using more than once at once may cause selection issues", Instances[0]);
-			}
+				// Deselect it
+				CurrentSelectable.Deselect();
 
-			Instances.Add(this);
+				// Mark it null
+				CurrentSelectable = null;
+			}
 		}
 
-		protected virtual void OnDisable()
+		public void Deselect(LeanFinger finger)
 		{
-			Instances.Remove(this);
+			// Is there a selected object?
+			if (CurrentSelectable != null)
+			{
+				// Does its finger match?
+				// NOTE: This will usually only work with OnFingerDown selection, and OnFingerUp deselection
+				if (CurrentSelectable.SelectingFinger == finger)
+				{
+					// Deselect it
+					CurrentSelectable.Deselect();
+
+					// Mark it null
+					CurrentSelectable = null;
+				}
+			}
 		}
 	}
 }

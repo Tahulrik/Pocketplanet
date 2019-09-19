@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 64e0935973af84f73b9a92d73bc1fbc5
+timeCreated: 1492189805
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - personPrefab: {instanceID: 0}
+  - SoundHolder: {fileID: 1632358959552050, guid: 8fdbd7f77b9a9124c8671334eeaa13c5,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

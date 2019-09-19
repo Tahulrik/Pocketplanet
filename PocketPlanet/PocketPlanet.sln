@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketPlanet", "Assembly-CSharp.csproj", "{40249BF5-C635-F64E-8B69-2AD54A9FFD43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P10 Master", "Assembly-CSharp.csproj", "{8B7549CF-B666-CCCF-603C-A54C03352D2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P10 Master", "Assembly-CSharp-Editor.csproj", "{11B135EB-84A4-DE93-7498-AE8B39BBD4C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +11,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{40249BF5-C635-F64E-8B69-2AD54A9FFD43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{40249BF5-C635-F64E-8B69-2AD54A9FFD43}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{40249BF5-C635-F64E-8B69-2AD54A9FFD43}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{40249BF5-C635-F64E-8B69-2AD54A9FFD43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B7549CF-B666-CCCF-603C-A54C03352D2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B7549CF-B666-CCCF-603C-A54C03352D2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B7549CF-B666-CCCF-603C-A54C03352D2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B7549CF-B666-CCCF-603C-A54C03352D2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11B135EB-84A4-DE93-7498-AE8B39BBD4C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11B135EB-84A4-DE93-7498-AE8B39BBD4C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11B135EB-84A4-DE93-7498-AE8B39BBD4C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11B135EB-84A4-DE93-7498-AE8B39BBD4C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

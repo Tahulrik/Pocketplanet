@@ -11,7 +11,7 @@ namespace Lean.Touch
 
 		[Tooltip("The amount of times this GameObject has been reselected")]
 		public int ReselectCount;
-
+		
 		public void OnSelect(LeanFinger finger)
 		{
 			ReselectCount += 1;

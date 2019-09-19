@@ -10,58 +10,32 @@ namespace Lean.Touch
 		[System.Serializable] public class LeanFingerEvent : UnityEvent<LeanFinger> {}
 
 		[Tooltip("Ignore fingers with StartedOverGui?")]
-		public bool IgnoreStartedOverGui = true;
+		public bool IgnoreGuiFingers = true;
 
-		[Tooltip("Ignore fingers with OverGui?")]
-		public bool IgnoreIsOverGui;
-
-		[Tooltip("How many times must this finger tap before OnTap gets called? (0 = every time) Keep in mind OnTap will only be called once if you use this.")]
+		[Tooltip("How many times must this finger tap before OnFingerTap gets called? (0 = every time)")]
 		public int RequiredTapCount = 0;
 
-		[Tooltip("How many times repeating must this finger tap before OnTap gets called? (0 = every time) (e.g. a setting of 2 means OnTap will get called when you tap 2 times, 4 times, 6, 8, 10, etc)")]
+		[Tooltip("How many times repeating must this finger tap before OnFingerTap gets called? (e.g. 2 = 2, 4, 6, 8, etc) (0 = every time)")]
 		public int RequiredTapInterval;
 
-		[Tooltip("Do nothing if this LeanSelectable isn't selected?")]
-		public LeanSelectable RequiredSelectable;
-
-		public LeanFingerEvent OnTap;
-
-#if UNITY_EDITOR
-		protected virtual void Reset()
-		{
-			Start();
-		}
-#endif
-
-		protected virtual void Start()
-		{
-			if (RequiredSelectable == null)
-			{
-				RequiredSelectable = GetComponent<LeanSelectable>();
-			}
-		}
-
+		public LeanFingerEvent OnFingerTap;
+		
 		protected virtual void OnEnable()
 		{
 			// Hook events
 			LeanTouch.OnFingerTap += FingerTap;
 		}
-
+		
 		protected virtual void OnDisable()
 		{
 			// Unhook events
 			LeanTouch.OnFingerTap -= FingerTap;
 		}
-
+		
 		private void FingerTap(LeanFinger finger)
 		{
-			// Ignore?
-			if (IgnoreStartedOverGui == true && finger.StartedOverGui == true)
-			{
-				return;
-			}
-
-			if (IgnoreIsOverGui == true && finger.IsOverGui == true)
+			// Ignore this finger?
+			if (IgnoreGuiFingers == true && finger.StartedOverGui == true)
 			{
 				return;
 			}
@@ -76,16 +50,8 @@ namespace Lean.Touch
 				return;
 			}
 
-			if (RequiredSelectable != null && RequiredSelectable.IsSelected == false)
-			{
-				return;
-			}
-
 			// Call event
-			if (OnTap != null)
-			{
-				OnTap.Invoke(finger);
-			}
+			OnFingerTap.Invoke(finger);
 		}
 	}
 }

@@ -1,54 +1,30 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace Lean.Touch
 {
-	// This script allows you to change the color of the Renderer attached to the current GameObject
+	// This script allows you to change the color of the SpriteRenderer attached to the current GameObject
 	[RequireComponent(typeof(Renderer))]
 	public class LeanSelectableRendererColor : LeanSelectableBehaviour
 	{
-		[Tooltip("Automatically read the DefaultColor from the material?")]
+		[Tooltip("Automatically read the DefaultColor from the Renderer.material?")]
 		public bool AutoGetDefaultColor;
 
-		[Tooltip("The default color given to the materials")]
+		[Tooltip("The default color given to the Renderer.material")]
 		public Color DefaultColor = Color.white;
 
-		[Tooltip("The color given to the materials when selected")]
+		[Tooltip("The color given to the Renderer.material when selected")]
 		public Color SelectedColor = Color.green;
-
-		[Tooltip("Should the materials get cloned at the start?")]
-		public bool CloneMaterials = true;
-
-		[System.NonSerialized]
-		private Renderer cachedRenderer;
-
-#if UNITY_EDITOR
-		protected virtual void Reset()
-		{
-			Awake();
-		}
-#endif
 
 		protected virtual void Awake()
 		{
-			if (cachedRenderer == null) cachedRenderer = GetComponent<Renderer>();
-
 			if (AutoGetDefaultColor == true)
 			{
-				var material0 = cachedRenderer.sharedMaterial;
+				var renderer = GetComponent<Renderer>();
 
-				if (material0 != null)
-				{
-					DefaultColor = material0.color;
-				}
-			}
-
-			if (CloneMaterials == true)
-			{
-				cachedRenderer.sharedMaterials = cachedRenderer.materials;
+				DefaultColor = renderer.sharedMaterial.color;
 			}
 		}
-
+		
 		protected override void OnSelect(LeanFinger finger)
 		{
 			ChangeColor(SelectedColor);
@@ -61,14 +37,10 @@ namespace Lean.Touch
 
 		private void ChangeColor(Color color)
 		{
-			if (cachedRenderer == null) cachedRenderer = GetComponent<Renderer>();
+			var renderer = GetComponent<Renderer>();
 
-			var materials = cachedRenderer.sharedMaterials;
-
-			for (var i = materials.Length - 1; i >= 0; i--)
-			{
-				materials[i].color = color;
-			}
+			// Clone material and change color
+			renderer.material.color = color;
 		}
 	}
 }

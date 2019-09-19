@@ -1,3 +1,7 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 Shader "Lean/Smooth"
 {
 	Properties
@@ -12,56 +16,72 @@ Shader "Lean/Smooth"
 	SubShader
 	{
 		Blend SrcAlpha OneMinusSrcAlpha
-		ZWrite Off
+
+		Fog
+		{
+			Mode Off
+		}
 
 		Tags
 		{
-			"Queue"       = "Transparent"
-			"RenderType"  = "Transparent"
-			"PreviewType" = "Sphere"
+			"Queue" = "Transparent"
+			"RenderType" = "Transparent"
+			"PreviewType" = "Plane"
 		}
 
-		CGPROGRAM
-		#pragma surface Surf NoLighting alpha:fade
-
-		float3 _Color;
-		float3 _MainColor;
-		float3 _RimColor;
-		float  _RimPower;
-		float  _FadePower;
-
-		struct Input
+		Pass
 		{
-			float3 worldNormal;
-			float3 worldRefl;
-			float3 worldPos;
-			float4 color : COLOR;
-		};
+			CGPROGRAM
+			#pragma vertex Vert
+			#pragma fragment Frag
 
-		fixed4 LightingNoLighting(SurfaceOutput s, fixed3 lightDir, fixed atten)
-		{
-			return fixed4(s.Albedo, s.Alpha);
+			float3 _Color;
+			float3 _MainColor;
+			float3 _RimColor;
+			float  _RimPower;
+			float  _FadePower;
+
+			struct a2v
+			{
+				float4 vertex : POSITION;
+				float3 normal : NORMAL;
+			};
+
+			struct v2f
+			{
+				float4 vertex : SV_POSITION;
+				float3 normal : TEXCOORD0;
+				float3 facing : TEXCOORD1;
+			};
+
+			void Vert(a2v i, out v2f o)
+			{
+				float4 wVertex = mul(unity_ObjectToWorld, i.vertex);
+
+				o.vertex = UnityObjectToClipPos(i.vertex);
+				o.normal = mul((float3x3)unity_ObjectToWorld, i.normal);
+				o.facing = _WorldSpaceCameraPos - wVertex.xyz;
+			}
+
+			void Frag(v2f i, out float4 o:COLOR0)
+			{
+				// Find dot between normal and facing directions
+				i.normal = normalize(i.normal);
+				i.facing = normalize(i.facing);
+
+				float nfDot = dot(i.normal, i.facing);
+
+				// Make the color a rim lit gradient
+				float gradient = 1.0f - pow(1.0f - nfDot, _RimPower);
+
+				o.rgb = lerp(_RimColor, _MainColor, gradient) * _Color;
+
+				// Make the alpha rim lit
+				float fade = 1.0f - pow(1.0f - nfDot, _FadePower);
+
+				o.a = fade;
+			}
+			ENDCG
 		}
-
-		void Surf(Input i, inout SurfaceOutput o)
-		{
-			// Normalize vectors before use
-			i.worldNormal = normalize(i.worldNormal);
-			i.worldRefl   = normalize(i.worldRefl);
-
-			// Find dot between normal and reflection vectors
-			float nfDot = dot(i.worldNormal, i.worldRefl);
-
-			// Make the color a rim gradient
-			float rim = 1.0f - pow(1.0f - nfDot, _RimPower);
-
-			o.Albedo = lerp(_RimColor, _MainColor, rim) * _Color * i.color.rgb;
-
-			// Make the alpha a rim gradient
-			float fade = 1.0f - pow(1.0f - nfDot, _FadePower);
-
-			o.Alpha = fade;
-		}
-		ENDCG
 	}
 }

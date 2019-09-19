@@ -2,14 +2,11 @@ using UnityEngine;
 
 namespace Lean.Touch
 {
-	// This script allows you to translate the current GameObject relative to the camera
+	// This script allows you to transform the current GameObject
 	public class LeanTranslate : MonoBehaviour
 	{
 		[Tooltip("Ignore fingers with StartedOverGui?")]
-		public bool IgnoreStartedOverGui = true;
-
-		[Tooltip("Ignore fingers with IsOverGui?")]
-		public bool IgnoreIsOverGui;
+		public bool IgnoreGuiFingers = true;
 
 		[Tooltip("Ignore fingers if the finger count doesn't match? (0 = any)")]
 		public int RequiredFingerCount;
@@ -17,82 +14,50 @@ namespace Lean.Touch
 		[Tooltip("Does translation require an object to be selected?")]
 		public LeanSelectable RequiredSelectable;
 
-		[Tooltip("The camera the translation will be calculated using (None = MainCamera)")]
+		[Tooltip("The camera the translation will be calculated using (default = MainCamera)")]
 		public Camera Camera;
-
+		
 #if UNITY_EDITOR
 		protected virtual void Reset()
-		{
-			Start();
-		}
-#endif
-
-		protected virtual void Start()
 		{
 			if (RequiredSelectable == null)
 			{
 				RequiredSelectable = GetComponent<LeanSelectable>();
 			}
 		}
+#endif
 
 		protected virtual void Update()
 		{
+			// If we require a selectable and it isn't selected, cancel translation
+			if (RequiredSelectable != null && RequiredSelectable.IsSelected == false)
+			{
+				return;
+			}
+
 			// Get the fingers we want to use
-			var fingers = LeanSelectable.GetFingers(IgnoreStartedOverGui, IgnoreIsOverGui, RequiredFingerCount, RequiredSelectable);
+			var fingers = LeanTouch.GetFingers(IgnoreGuiFingers, RequiredFingerCount);
 
 			// Calculate the screenDelta value based on these fingers
 			var screenDelta = LeanGesture.GetScreenDelta(fingers);
 
-			if (screenDelta != Vector2.zero)
-			{
-				// Perform the translation
-				if (transform is RectTransform)
-				{
-					TranslateUI(screenDelta);
-				}
-				else
-				{
-					Translate(screenDelta);
-				}
-			}
+			// Perform the translation
+			Translate(screenDelta);
 		}
 
-		protected virtual void TranslateUI(Vector2 screenDelta)
+		private void Translate(Vector2 screenDelta)
 		{
-			// Screen position of the transform
-			var screenPoint = RectTransformUtility.WorldToScreenPoint(Camera, transform.position);
-
-			// Add the deltaPosition
-			screenPoint += screenDelta;
-
-			// Convert back to world space
-			var worldPoint = default(Vector3);
-
-			if (RectTransformUtility.ScreenPointToWorldPointInRectangle(transform.parent as RectTransform, screenPoint, Camera, out worldPoint) == true)
-			{
-				transform.position = worldPoint;
-			}
-		}
-
-		protected virtual void Translate(Vector2 screenDelta)
-		{
-			// Make sure the camera exists
-			var camera = LeanTouch.GetCamera(Camera, gameObject);
-
-			if (camera != null)
+			// If camera is null, try and get the main camera, return true if a camera was found
+			if (LeanTouch.GetCamera(ref Camera) == true)
 			{
 				// Screen position of the transform
-				var screenPoint = camera.WorldToScreenPoint(transform.position);
-
+				var screenPosition = Camera.WorldToScreenPoint(transform.position);
+				
 				// Add the deltaPosition
-				screenPoint += (Vector3)screenDelta;
-
+				screenPosition += (Vector3)screenDelta;
+				
 				// Convert back to world space
-				transform.position = camera.ScreenToWorldPoint(screenPoint);
-			}
-			else
-			{
-				Debug.LogError("Failed to find camera. Either tag your cameras MainCamera, or set one in this component.", this);
+				transform.position = Camera.ScreenToWorldPoint(screenPosition);
 			}
 		}
 	}

@@ -16,7 +16,7 @@ namespace Lean.Touch
 		{
 			var center = default(Vector2); TryGetScreenCenter(fingers, ref center); return center;
 		}
-
+		
 		public static bool TryGetScreenCenter(List<LeanFinger> fingers, ref Vector2 center)
 		{
 			if (fingers != null)
@@ -34,7 +34,7 @@ namespace Lean.Touch
 						count += 1;
 					}
 				}
-
+				
 				if (count > 0)
 				{
 					center = total / count; return true;
@@ -43,7 +43,7 @@ namespace Lean.Touch
 
 			return false;
 		}
-
+		
 		// Gets the last average ScreenPosition of the fingers
 		public static Vector2 GetLastScreenCenter()
 		{
@@ -54,7 +54,7 @@ namespace Lean.Touch
 		{
 			var center = default(Vector2); TryGetLastScreenCenter(fingers, ref center); return center;
 		}
-
+		
 		public static bool TryGetLastScreenCenter(List<LeanFinger> fingers, ref Vector2 center)
 		{
 			if (fingers != null)
@@ -72,7 +72,7 @@ namespace Lean.Touch
 						count += 1;
 					}
 				}
-
+				
 				if (count > 0)
 				{
 					center = total / count; return true;
@@ -81,45 +81,7 @@ namespace Lean.Touch
 
 			return false;
 		}
-
-		// Gets the start average ScreenPosition of the fingers
-		public static Vector2 GetStartScreenCenter()
-		{
-			return GetStartScreenCenter(LeanTouch.Fingers);
-		}
-
-		public static Vector2 GetStartScreenCenter(List<LeanFinger> fingers)
-		{
-			var center = default(Vector2); TryGetStartScreenCenter(fingers, ref center); return center;
-		}
-
-		public static bool TryGetStartScreenCenter(List<LeanFinger> fingers, ref Vector2 center)
-		{
-			if (fingers != null)
-			{
-				var total = Vector2.zero;
-				var count = 0;
-
-				for (var i = fingers.Count - 1; i >= 0; i--)
-				{
-					var finger = fingers[i];
-
-					if (finger != null)
-					{
-						total += finger.StartScreenPosition;
-						count += 1;
-					}
-				}
-
-				if (count > 0)
-				{
-					center = total / count; return true;
-				}
-			}
-
-			return false;
-		}
-
+		
 		// Gets the average ScreenDelta of the fingers
 		public static Vector2 GetScreenDelta()
 		{
@@ -148,7 +110,7 @@ namespace Lean.Touch
 						count += 1;
 					}
 				}
-
+				
 				if (count > 0)
 				{
 					delta = total / count; return true;
@@ -192,31 +154,34 @@ namespace Lean.Touch
 
 		public static bool TryGetWorldDelta(List<LeanFinger> fingers, float distance, ref Vector3 delta, Camera camera = null)
 		{
-			if (fingers != null)
+			if (LeanTouch.GetCamera(ref camera) == true)
 			{
-				var total = Vector3.zero;
-				var count = 0;
-
-				for (var i = fingers.Count - 1; i >= 0; i--)
+				if (fingers != null)
 				{
-					var finger = fingers[i];
+					var total = Vector3.zero;
+					var count = 0;
 
-					if (finger != null)
+					for (var i = fingers.Count - 1; i >= 0; i--)
 					{
-						total += finger.GetWorldDelta(distance, camera);
-						count += 1;
-					}
-				}
+						var finger = fingers[i];
 
-				if (count > 0)
-				{
-					delta = total / count; return true;
+						if (finger != null)
+						{
+							total += finger.GetWorldDelta(distance, camera);
+							count += 1;
+						}
+					}
+					
+					if (count > 0)
+					{
+						delta = total / count; return true;
+					}
 				}
 			}
 
 			return false;
 		}
-
+		
 		// Gets the average ScreenPosition distance between the fingers
 		public static float GetScreenDistance()
 		{
@@ -235,12 +200,12 @@ namespace Lean.Touch
 
 			return distance;
 		}
-
+		
 		public static float GetScreenDistance(List<LeanFinger> fingers, Vector2 center)
 		{
 			var distance = default(float); TryGetScreenDistance(fingers, center, ref distance); return distance;
 		}
-
+		
 		public static bool TryGetScreenDistance(List<LeanFinger> fingers, Vector2 center, ref float distance)
 		{
 			if (fingers != null)
@@ -258,7 +223,7 @@ namespace Lean.Touch
 						count += 1;
 					}
 				}
-
+				
 				if (count > 0)
 				{
 					distance = total / count; return true;
@@ -267,7 +232,7 @@ namespace Lean.Touch
 
 			return false;
 		}
-
+		
 		// Gets the average ScreenPosition distance * LeanTouch.ScalingFactor between the fingers
 		public static float GetScaledDistance()
 		{
@@ -312,12 +277,12 @@ namespace Lean.Touch
 
 			return distance;
 		}
-
+		
 		public static float GetLastScreenDistance(List<LeanFinger> fingers, Vector2 center)
 		{
 			var distance = default(float); TryGetLastScreenDistance(fingers, center, ref distance); return distance;
 		}
-
+		
 		public static bool TryGetLastScreenDistance(List<LeanFinger> fingers, Vector2 center, ref float distance)
 		{
 			if (fingers != null)
@@ -335,7 +300,7 @@ namespace Lean.Touch
 						count += 1;
 					}
 				}
-
+				
 				if (count > 0)
 				{
 					distance = total / count; return true;
@@ -370,84 +335,7 @@ namespace Lean.Touch
 
 			return false;
 		}
-
-		// Gets the start average ScreenPosition distance between all fingers
-		public static float GetStartScreenDistance()
-		{
-			return GetStartScreenDistance(LeanTouch.Fingers);
-		}
-
-		public static float GetStartScreenDistance(List<LeanFinger> fingers)
-		{
-			var distance = default(float);
-			var center   = default(Vector2);
-
-			if (TryGetStartScreenCenter(fingers, ref center) == true)
-			{
-				TryGetStartScreenDistance(fingers, center, ref distance);
-			}
-
-			return distance;
-		}
-
-		public static float GetStartScreenDistance(List<LeanFinger> fingers, Vector2 center)
-		{
-			var distance = default(float); TryGetStartScreenDistance(fingers, center, ref distance); return distance;
-		}
-
-		public static bool TryGetStartScreenDistance(List<LeanFinger> fingers, Vector2 center, ref float distance)
-		{
-			if (fingers != null)
-			{
-				var total = 0.0f;
-				var count = 0;
-
-				for (var i = fingers.Count - 1; i >= 0; i--)
-				{
-					var finger = fingers[i];
-
-					if (finger != null)
-					{
-						total += finger.GetStartScreenDistance(center);
-						count += 1;
-					}
-				}
-
-				if (count > 0)
-				{
-					distance = total / count; return true;
-				}
-			}
-
-			return false;
-		}
-
-		// Gets the start average ScreenPosition distance * LeanTouch.ScalingFactor between all fingers
-		public static float GetStartScaledDistance()
-		{
-			return GetStartScreenDistance() * LeanTouch.ScalingFactor;
-		}
-
-		public static float GetStartScaledDistance(List<LeanFinger> fingers)
-		{
-			return GetStartScreenDistance(fingers) * LeanTouch.ScalingFactor;
-		}
-
-		public static float GetStartScaledDistance(List<LeanFinger> fingers, Vector2 center)
-		{
-			return GetStartScreenDistance(fingers, center) * LeanTouch.ScalingFactor;
-		}
-
-		public static bool TryGetStartScaledDistance(List<LeanFinger> fingers, Vector2 center, ref float distance)
-		{
-			if (TryGetStartScreenDistance(fingers, center, ref distance) == true)
-			{
-				distance *= LeanTouch.ScalingFactor; return true;
-			}
-
-			return false;
-		}
-
+		
 		// Gets the pinch scale of the fingers
 		public static float GetPinchScale(float wheelSensitivity = 0.0f)
 		{
@@ -483,7 +371,7 @@ namespace Lean.Touch
 				{
 					scale = 1.0f - wheelSensitivity; return true;
 				}
-
+				
 				if (scroll < 0.0f)
 				{
 					scale = 1.0f + wheelSensitivity; return true;
@@ -530,7 +418,7 @@ namespace Lean.Touch
 				{
 					ratio = 1.0f + wheelSensitivity; return true;
 				}
-
+				
 				if (scroll < 0.0f)
 				{
 					ratio = 1.0f - wheelSensitivity; return true;
@@ -578,7 +466,7 @@ namespace Lean.Touch
 		{
 			var center     = LeanGesture.GetScreenCenter(fingers);
 			var lastCenter = LeanGesture.GetLastScreenCenter(fingers);
-
+			
 			return GetTwistRadians(fingers, center, lastCenter);
 		}
 
@@ -604,7 +492,7 @@ namespace Lean.Touch
 						count += 1;
 					}
 				}
-
+				
 				if (count > 0)
 				{
 					radians = total / count; return true;

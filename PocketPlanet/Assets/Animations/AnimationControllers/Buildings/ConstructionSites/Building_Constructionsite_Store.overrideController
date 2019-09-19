@@ -1,0 +1,14 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Building_Constructionsite_Store
+  m_Controller: {fileID: 9100000, guid: c8f7ac0a789554d82a102dbd59a77ece, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: bea29365fc2994f3185049d3a5aba887, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2d8a32a27d21e714bb31231cab9d12d5, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: cdc90c69a9a78421cbcd01aeccc716de, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 01fa593b33f96474db49c1f225398615, type: 2}

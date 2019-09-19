@@ -15,7 +15,7 @@ namespace Lean.Touch
 		[Tooltip("The color given to the SpriteRenderer when selected")]
 		public Color SelectedColor = Color.green;
 
-		protected virtual void Start()
+		protected virtual void Awake()
 		{
 			if (AutoGetDefaultColor == true)
 			{

@@ -1,0 +1,5286 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1720345334797532}
+  m_IsPrefabParent: 1
+--- !u!1 &1720345334797532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4449102335348654}
+  - component: {fileID: 114191143039189768}
+  - component: {fileID: 114102094042971862}
+  m_Layer: 0
+  m_Name: DataHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4449102335348654
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1720345334797532}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114102094042971862
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1720345334797532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6de1a80f41c404c0892d127702cabc54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  averageMontlyIncome: 0
+  MontlyExpenses: 0
+  pointsPerDay: 3
+  timescale: 1
+  timeBetweenEvents: 5
+  weeklyUsableAmount: 6000
+--- !u!114 &114191143039189768
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1720345334797532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a18ed0496e3884b9f994254e39a00606, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CPRNumber: 2412820042
+  accountNumber: 4574000042
+  currentBalance: 36000
+  minWaitTime: 0.4
+  maxWaitTime: 1
+  dataSaved: 1
+  transactions:
+  - TransactionDate: 2016-02-24T07:24:30Z
+    TransactionDateTimestamp: 1456298670219
+    Amount: -5347
+  - TransactionDate: 2016-02-23T11:09:37Z
+    TransactionDateTimestamp: 1456225777571
+    Amount: -370.14
+  - TransactionDate: 2016-02-23T09:34:13Z
+    TransactionDateTimestamp: 1456220053736
+    Amount: -7.5
+  - TransactionDate: 2016-02-23T08:38:41Z
+    TransactionDateTimestamp: 1456216721825
+    Amount: 20
+  - TransactionDate: 2016-02-22T16:56:46Z
+    TransactionDateTimestamp: 1456160206052
+    Amount: 73
+  - TransactionDate: 2016-02-22T14:24:24Z
+    TransactionDateTimestamp: 1456151064306
+    Amount: -50
+  - TransactionDate: 2016-02-22T13:30:48Z
+    TransactionDateTimestamp: 1456147848776
+    Amount: -25
+  - TransactionDate: 2016-02-22T04:26:38Z
+    TransactionDateTimestamp: 1456115198673
+    Amount: -26.4
+  - TransactionDate: 2016-02-21T13:20:06Z
+    TransactionDateTimestamp: 1456060806743
+    Amount: -205
+  - TransactionDate: 2016-02-21T07:05:53Z
+    TransactionDateTimestamp: 1456038353438
+    Amount: -768.81
+  - TransactionDate: 2016-02-20T11:13:19Z
+    TransactionDateTimestamp: 1455966799393
+    Amount: 500
+  - TransactionDate: 2016-02-20T04:13:46Z
+    TransactionDateTimestamp: 1455941626137
+    Amount: -151
+  - TransactionDate: 2016-02-19T06:59:38Z
+    TransactionDateTimestamp: 1455865178405
+    Amount: -153.05
+  - TransactionDate: 2016-02-19T06:50:11Z
+    TransactionDateTimestamp: 1455864611292
+    Amount: -25
+  - TransactionDate: 2016-02-19T05:08:37Z
+    TransactionDateTimestamp: 1455858517440
+    Amount: -57
+  - TransactionDate: 2016-02-19T04:32:32Z
+    TransactionDateTimestamp: 1455856352625
+    Amount: -500.01
+  - TransactionDate: 2016-02-18T05:40:52Z
+    TransactionDateTimestamp: 1455774052209
+    Amount: -15
+  - TransactionDate: 2016-02-18T04:16:02Z
+    TransactionDateTimestamp: 1455768962908
+    Amount: -20
+  - TransactionDate: 2016-02-16T18:24:45Z
+    TransactionDateTimestamp: 1455647085330
+    Amount: 312.5
+  - TransactionDate: 2016-02-16T10:54:44Z
+    TransactionDateTimestamp: 1455620084672
+    Amount: -189.39
+  - TransactionDate: 2016-02-16T09:29:53Z
+    TransactionDateTimestamp: 1455614993600
+    Amount: -70
+  - TransactionDate: 2016-02-15T03:43:29Z
+    TransactionDateTimestamp: 1455507809975
+    Amount: -26.99
+  - TransactionDate: 2016-02-14T06:24:21Z
+    TransactionDateTimestamp: 1455431061335
+    Amount: -73
+  - TransactionDate: 2016-02-14T06:08:42Z
+    TransactionDateTimestamp: 1455430122505
+    Amount: -300
+  - TransactionDate: 2016-02-13T09:14:10Z
+    TransactionDateTimestamp: 1455354850860
+    Amount: -149
+  - TransactionDate: 2016-02-13T08:43:59Z
+    TransactionDateTimestamp: 1455353039707
+    Amount: -7.49
+  - TransactionDate: 2016-02-12T12:18:39Z
+    TransactionDateTimestamp: 1455279519816
+    Amount: 100
+  - TransactionDate: 2016-02-12T05:14:52Z
+    TransactionDateTimestamp: 1455254092848
+    Amount: -87.25
+  - TransactionDate: 2016-02-12T05:11:40Z
+    TransactionDateTimestamp: 1455253900009
+    Amount: -25
+  - TransactionDate: 2016-02-11T04:53:47Z
+    TransactionDateTimestamp: 1455166427797
+    Amount: -25.5
+  - TransactionDate: 2016-02-10T07:41:15Z
+    TransactionDateTimestamp: 1455090075306
+    Amount: -41
+  - TransactionDate: 2016-02-10T07:41:14Z
+    TransactionDateTimestamp: 1455090074942
+    Amount: -218.1
+  - TransactionDate: 2016-02-10T07:14:34Z
+    TransactionDateTimestamp: 1455088474818
+    Amount: -147.75
+  - TransactionDate: 2016-02-10T06:41:47Z
+    TransactionDateTimestamp: 1455086507189
+    Amount: -20
+  - TransactionDate: 2016-02-10T06:30:49Z
+    TransactionDateTimestamp: 1455085849683
+    Amount: -266.25
+  - TransactionDate: 2016-02-10T04:28:57Z
+    TransactionDateTimestamp: 1455078537425
+    Amount: -133.9
+  - TransactionDate: 2016-02-10T02:12:50Z
+    TransactionDateTimestamp: 1455070370694
+    Amount: -125
+  - TransactionDate: 2016-02-09T15:59:58Z
+    TransactionDateTimestamp: 1455033598977
+    Amount: 50
+  - TransactionDate: 2016-02-09T04:42:16Z
+    TransactionDateTimestamp: 1454992936915
+    Amount: -458.64
+  - TransactionDate: 2016-02-07T13:11:39Z
+    TransactionDateTimestamp: 1454850699072
+    Amount: -20
+  - TransactionDate: 2016-02-07T05:44:49Z
+    TransactionDateTimestamp: 1454823889757
+    Amount: -20
+  - TransactionDate: 2016-02-07T04:11:45Z
+    TransactionDateTimestamp: 1454818305996
+    Amount: -115.35
+  - TransactionDate: 2016-02-07T01:53:48Z
+    TransactionDateTimestamp: 1454810028381
+    Amount: 85
+  - TransactionDate: 2016-02-06T07:22:07Z
+    TransactionDateTimestamp: 1454743327620
+    Amount: -249
+  - TransactionDate: 2016-02-06T05:52:11Z
+    TransactionDateTimestamp: 1454737931994
+    Amount: -35
+  - TransactionDate: 2016-02-06T03:32:06Z
+    TransactionDateTimestamp: 1454729526203
+    Amount: 100
+  - TransactionDate: 2016-02-05T04:20:29Z
+    TransactionDateTimestamp: 1454646029671
+    Amount: -304.45
+  - TransactionDate: 2016-02-05T02:36:09Z
+    TransactionDateTimestamp: 1454639769115
+    Amount: 1305.72
+  - TransactionDate: 2016-02-05T02:33:34Z
+    TransactionDateTimestamp: 1454639614197
+    Amount: -890
+  - TransactionDate: 2016-02-05T02:29:22Z
+    TransactionDateTimestamp: 1454639362949
+    Amount: -151.08
+  - TransactionDate: 2016-02-05T02:25:34Z
+    TransactionDateTimestamp: 1454639134033
+    Amount: -310
+  - TransactionDate: 2016-02-05T02:22:27Z
+    TransactionDateTimestamp: 1454638947776
+    Amount: -352
+  - TransactionDate: 2016-02-04T06:11:11Z
+    TransactionDateTimestamp: 1454566271671
+    Amount: -14
+  - TransactionDate: 2016-02-03T11:24:03Z
+    TransactionDateTimestamp: 1454498643724
+    Amount: 7
+  - TransactionDate: 2016-02-03T09:57:51Z
+    TransactionDateTimestamp: 1454493471396
+    Amount: -48
+  - TransactionDate: 2016-02-03T05:05:03Z
+    TransactionDateTimestamp: 1454475903220
+    Amount: -261
+  - TransactionDate: 2016-02-03T04:35:26Z
+    TransactionDateTimestamp: 1454474126434
+    Amount: -45
+  - TransactionDate: 2016-02-03T04:13:16Z
+    TransactionDateTimestamp: 1454472796287
+    Amount: -55.95
+  - TransactionDate: 2016-02-02T10:38:30Z
+    TransactionDateTimestamp: 1454409510093
+    Amount: -49.95
+  - TransactionDate: 2016-02-02T02:17:54Z
+    TransactionDateTimestamp: 1454379474225
+    Amount: -268
+  - TransactionDate: 2016-02-02T02:04:25Z
+    TransactionDateTimestamp: 1454378665770
+    Amount: -238.92
+  - TransactionDate: 2016-02-01T09:03:41Z
+    TransactionDateTimestamp: 1454317421450
+    Amount: 25
+  - TransactionDate: 2016-02-01T02:56:44Z
+    TransactionDateTimestamp: 1454295404452
+    Amount: -609
+  - TransactionDate: 2016-02-01T02:56:44Z
+    TransactionDateTimestamp: 1454295404395
+    Amount: -164.5
+  - TransactionDate: 2016-02-01T02:46:40Z
+    TransactionDateTimestamp: 1454294800627
+    Amount: -250
+  - TransactionDate: 2016-02-01T02:42:38Z
+    TransactionDateTimestamp: 1454294558769
+    Amount: -258
+  - TransactionDate: 2016-02-01T02:37:04Z
+    TransactionDateTimestamp: 1454294224070
+    Amount: -1255.84
+  - TransactionDate: 2016-02-01T02:35:47Z
+    TransactionDateTimestamp: 1454294147493
+    Amount: -619.96
+  - TransactionDate: 2016-02-01T02:34:36Z
+    TransactionDateTimestamp: 1454294076744
+    Amount: -995.5
+  - TransactionDate: 2016-02-01T02:33:58Z
+    TransactionDateTimestamp: 1454294038749
+    Amount: -200
+  - TransactionDate: 2016-02-01T02:31:06Z
+    TransactionDateTimestamp: 1454293866029
+    Amount: -5023.76
+  - TransactionDate: 2016-02-01T02:29:54Z
+    TransactionDateTimestamp: 1454293794754
+    Amount: -7182.7
+  - TransactionDate: 2016-02-01T02:29:54Z
+    TransactionDateTimestamp: 1454293794705
+    Amount: -3197.13
+  - TransactionDate: 2016-02-01T02:28:06Z
+    TransactionDateTimestamp: 1454293686379
+    Amount: -1765
+  - TransactionDate: 2016-02-01T02:24:16Z
+    TransactionDateTimestamp: 1454293456123
+    Amount: -1740
+  - TransactionDate: 2016-02-01T02:22:35Z
+    TransactionDateTimestamp: 1454293355858
+    Amount: -1053
+  - TransactionDate: 2016-02-01T02:20:05Z
+    TransactionDateTimestamp: 1454293205850
+    Amount: -63
+  - TransactionDate: 2016-02-01T02:14:33Z
+    TransactionDateTimestamp: 1454292873080
+    Amount: -613.6
+  - TransactionDate: 2016-02-01T02:12:45Z
+    TransactionDateTimestamp: 1454292765564
+    Amount: -676.45
+  - TransactionDate: 2016-02-01T02:09:59Z
+    TransactionDateTimestamp: 1454292599817
+    Amount: -150
+  - TransactionDate: 2016-02-01T02:02:48Z
+    TransactionDateTimestamp: 1454292168345
+    Amount: -803
+  - TransactionDate: 2016-01-31T13:16:50Z
+    TransactionDateTimestamp: 1454246210628
+    Amount: -1000
+  - TransactionDate: 2016-01-31T10:01:38Z
+    TransactionDateTimestamp: 1454234498562
+    Amount: -199
+  - TransactionDate: 2016-01-31T04:39:26Z
+    TransactionDateTimestamp: 1454215166492
+    Amount: -14.95
+  - TransactionDate: 2016-01-30T12:22:45Z
+    TransactionDateTimestamp: 1454156565026
+    Amount: -115
+  - TransactionDate: 2016-01-30T11:51:24Z
+    TransactionDateTimestamp: 1454154684814
+    Amount: -239
+  - TransactionDate: 2016-01-30T11:16:44Z
+    TransactionDateTimestamp: 1454152604480
+    Amount: -66
+  - TransactionDate: 2016-01-30T09:55:28Z
+    TransactionDateTimestamp: 1454147728054
+    Amount: -290.8
+  - TransactionDate: 2016-01-29T17:53:34Z
+    TransactionDateTimestamp: 1454090014024
+    Amount: -67
+  - TransactionDate: 2016-01-29T08:38:17Z
+    TransactionDateTimestamp: 1454056697243
+    Amount: -53
+  - TransactionDate: 2016-01-29T04:08:31Z
+    TransactionDateTimestamp: 1454040511612
+    Amount: -230
+  - TransactionDate: 2016-01-29T02:24:03Z
+    TransactionDateTimestamp: 1454034243271
+    Amount: -4023.51
+  - TransactionDate: 2016-01-28T14:41:34Z
+    TransactionDateTimestamp: 1453992094128
+    Amount: -50
+  - TransactionDate: 2016-01-28T07:42:16Z
+    TransactionDateTimestamp: 1453966936983
+    Amount: -396.14
+  - TransactionDate: 2016-01-28T06:48:13Z
+    TransactionDateTimestamp: 1453963693320
+    Amount: -50
+  - TransactionDate: 2016-01-28T05:33:07Z
+    TransactionDateTimestamp: 1453959187821
+    Amount: -24
+  - TransactionDate: 2016-01-27T13:47:52Z
+    TransactionDateTimestamp: 1453902472020
+    Amount: -110
+  - TransactionDate: 2016-01-27T04:42:16Z
+    TransactionDateTimestamp: 1453869736465
+    Amount: -39
+  - TransactionDate: 2016-01-26T04:54:24Z
+    TransactionDateTimestamp: 1453784064492
+    Amount: -43
+  - TransactionDate: 2016-01-26T04:02:13Z
+    TransactionDateTimestamp: 1453780933487
+    Amount: -57.7
+  - TransactionDate: 2016-01-25T13:22:19Z
+    TransactionDateTimestamp: 1453728139395
+    Amount: 1000
+  - TransactionDate: 2016-01-24T05:35:16Z
+    TransactionDateTimestamp: 1453613716962
+    Amount: -296.85
+  - TransactionDate: 2016-01-23T08:23:12Z
+    TransactionDateTimestamp: 1453537392850
+    Amount: 40
+  - TransactionDate: 2016-01-22T21:56:42Z
+    TransactionDateTimestamp: 1453499802432
+    Amount: 200
+  - TransactionDate: 2016-01-22T17:27:07Z
+    TransactionDateTimestamp: 1453483627625
+    Amount: 55
+  - TransactionDate: 2016-01-22T08:43:12Z
+    TransactionDateTimestamp: 1453452192781
+    Amount: 1750
+  - TransactionDate: 2016-01-22T08:15:12Z
+    TransactionDateTimestamp: 1453450512847
+    Amount: -30.38
+  - TransactionDate: 2016-01-21T03:55:12Z
+    TransactionDateTimestamp: 1453348512815
+    Amount: -153.1
+  - TransactionDate: 2016-01-20T17:06:32Z
+    TransactionDateTimestamp: 1453309592951
+    Amount: -40
+  - TransactionDate: 2016-01-20T06:37:55Z
+    TransactionDateTimestamp: 1453271875338
+    Amount: -11.95
+  - TransactionDate: 2016-01-20T04:29:42Z
+    TransactionDateTimestamp: 1453264182218
+    Amount: -376.87
+  - TransactionDate: 2016-01-19T11:27:53Z
+    TransactionDateTimestamp: 1453202873933
+    Amount: -188.71
+  - TransactionDate: 2016-01-19T09:37:14Z
+    TransactionDateTimestamp: 1453196234270
+    Amount: -48.2
+  - TransactionDate: 2016-01-19T09:14:14Z
+    TransactionDateTimestamp: 1453194854405
+    Amount: -11
+  - TransactionDate: 2016-01-18T20:46:16Z
+    TransactionDateTimestamp: 1453149976134
+    Amount: -790
+  - TransactionDate: 2016-01-18T19:43:07Z
+    TransactionDateTimestamp: 1453146187575
+    Amount: 458
+  - TransactionDate: 2016-01-18T13:05:51Z
+    TransactionDateTimestamp: 1453122351489
+    Amount: -40
+  - TransactionDate: 2016-01-18T06:59:29Z
+    TransactionDateTimestamp: 1453100369761
+    Amount: -90
+  - TransactionDate: 2016-01-17T20:17:10Z
+    TransactionDateTimestamp: 1453061830057
+    Amount: -60.9
+  - TransactionDate: 2016-01-17T19:24:54Z
+    TransactionDateTimestamp: 1453058694450
+    Amount: -40
+  - TransactionDate: 2016-01-17T17:38:50Z
+    TransactionDateTimestamp: 1453052330787
+    Amount: -100
+  - TransactionDate: 2016-01-17T17:33:04Z
+    TransactionDateTimestamp: 1453051984072
+    Amount: -35
+  - TransactionDate: 2016-01-16T11:12:02Z
+    TransactionDateTimestamp: 1452942722844
+    Amount: -69.51
+  - TransactionDate: 2016-01-16T09:09:16Z
+    TransactionDateTimestamp: 1452935356679
+    Amount: -101.85
+  - TransactionDate: 2016-01-16T07:44:30Z
+    TransactionDateTimestamp: 1452930270739
+    Amount: -54.8
+  - TransactionDate: 2016-01-16T04:53:47Z
+    TransactionDateTimestamp: 1452920027247
+    Amount: -40
+  - TransactionDate: 2016-01-16T04:04:25Z
+    TransactionDateTimestamp: 1452917065651
+    Amount: -45
+  - TransactionDate: 2016-01-15T17:44:06Z
+    TransactionDateTimestamp: 1452879846332
+    Amount: -200
+  - TransactionDate: 2016-01-15T16:03:43Z
+    TransactionDateTimestamp: 1452873823734
+    Amount: 50
+  - TransactionDate: 2016-01-15T13:44:18Z
+    TransactionDateTimestamp: 1452865458925
+    Amount: 100
+  - TransactionDate: 2016-01-15T04:09:24Z
+    TransactionDateTimestamp: 1452830964328
+    Amount: -700
+  - TransactionDate: 2016-01-14T14:27:17Z
+    TransactionDateTimestamp: 1452781637382
+    Amount: -130
+  - TransactionDate: 2016-01-13T14:28:41Z
+    TransactionDateTimestamp: 1452695321615
+    Amount: 49.75
+  - TransactionDate: 2016-01-13T13:43:33Z
+    TransactionDateTimestamp: 1452692613757
+    Amount: 5
+  - TransactionDate: 2016-01-13T04:56:14Z
+    TransactionDateTimestamp: 1452660974275
+    Amount: -73.75
+  - TransactionDate: 2016-01-13T03:53:46Z
+    TransactionDateTimestamp: 1452657226707
+    Amount: -27.81
+  - TransactionDate: 2016-01-12T12:07:11Z
+    TransactionDateTimestamp: 1452600431089
+    Amount: 50
+  - TransactionDate: 2016-01-12T10:28:49Z
+    TransactionDateTimestamp: 1452594529222
+    Amount: -618.21
+  - TransactionDate: 2016-01-11T20:31:49Z
+    TransactionDateTimestamp: 1452544309752
+    Amount: 75
+  - TransactionDate: 2016-01-11T02:08:40Z
+    TransactionDateTimestamp: 1452478120729
+    Amount: -205
+  - TransactionDate: 2016-01-11T02:02:13Z
+    TransactionDateTimestamp: 1452477733617
+    Amount: -205
+  - TransactionDate: 2016-01-11T02:01:47Z
+    TransactionDateTimestamp: 1452477707343
+    Amount: -205
+  - TransactionDate: 2016-01-10T05:45:40Z
+    TransactionDateTimestamp: 1452404740096
+    Amount: -423
+  - TransactionDate: 2016-01-10T03:53:11Z
+    TransactionDateTimestamp: 1452397991450
+    Amount: -125.95
+  - TransactionDate: 2016-01-09T20:06:54Z
+    TransactionDateTimestamp: 1452370014898
+    Amount: 125
+  - TransactionDate: 2016-01-09T14:16:35Z
+    TransactionDateTimestamp: 1452348995150
+    Amount: -100
+  - TransactionDate: 2016-01-08T22:09:58Z
+    TransactionDateTimestamp: 1452290998317
+    Amount: 50
+  - TransactionDate: 2016-01-08T04:14:44Z
+    TransactionDateTimestamp: 1452226484848
+    Amount: -16
+  - TransactionDate: 2016-01-07T16:59:42Z
+    TransactionDateTimestamp: 1452185982335
+    Amount: -115
+  - TransactionDate: 2016-01-07T15:00:52Z
+    TransactionDateTimestamp: 1452178852491
+    Amount: -130
+  - TransactionDate: 2016-01-07T13:53:26Z
+    TransactionDateTimestamp: 1452174806300
+    Amount: 46
+  - TransactionDate: 2016-01-07T13:47:11Z
+    TransactionDateTimestamp: 1452174431336
+    Amount: 30
+  - TransactionDate: 2016-01-07T13:06:36Z
+    TransactionDateTimestamp: 1452171996461
+    Amount: 300
+  - TransactionDate: 2016-01-07T06:51:59Z
+    TransactionDateTimestamp: 1452149519413
+    Amount: -499
+  - TransactionDate: 2016-01-07T02:02:10Z
+    TransactionDateTimestamp: 1452132130213
+    Amount: -2627.59
+  - TransactionDate: 2016-01-06T20:21:40Z
+    TransactionDateTimestamp: 1452111700025
+    Amount: -115
+  - TransactionDate: 2016-01-06T02:45:47Z
+    TransactionDateTimestamp: 1452048347637
+    Amount: -657
+  - TransactionDate: 2016-01-06T02:45:20Z
+    TransactionDateTimestamp: 1452048320507
+    Amount: -597
+  - TransactionDate: 2016-01-05T16:24:01Z
+    TransactionDateTimestamp: 1452011041632
+    Amount: 40
+  - TransactionDate: 2016-01-05T04:19:32Z
+    TransactionDateTimestamp: 1451967572154
+    Amount: -378.1
+  - TransactionDate: 2016-01-05T02:36:27Z
+    TransactionDateTimestamp: 1451961387851
+    Amount: -1440
+  - TransactionDate: 2016-01-05T02:31:44Z
+    TransactionDateTimestamp: 1451961104777
+    Amount: -352
+  - TransactionDate: 2016-01-05T02:30:27Z
+    TransactionDateTimestamp: 1451961027571
+    Amount: -1378
+  - TransactionDate: 2016-01-05T02:27:16Z
+    TransactionDateTimestamp: 1451960836029
+    Amount: -2430
+  - TransactionDate: 2016-01-05T02:16:13Z
+    TransactionDateTimestamp: 1451960173175
+    Amount: -82387.08
+  - TransactionDate: 2016-01-05T02:15:18Z
+    TransactionDateTimestamp: 1451960118472
+    Amount: -100
+  - TransactionDate: 2016-01-04T08:29:31Z
+    TransactionDateTimestamp: 1451896171870
+    Amount: -1041.43
+  - TransactionDate: 2016-01-04T08:15:54Z
+    TransactionDateTimestamp: 1451895354972
+    Amount: -1281
+  - TransactionDate: 2016-01-04T08:12:50Z
+    TransactionDateTimestamp: 1451895170219
+    Amount: -2614.73
+  - TransactionDate: 2016-01-04T08:06:44Z
+    TransactionDateTimestamp: 1451894804247
+    Amount: -375.7
+  - TransactionDate: 2016-01-04T07:58:13Z
+    TransactionDateTimestamp: 1451894293108
+    Amount: -516
+  - TransactionDate: 2016-01-04T07:57:16Z
+    TransactionDateTimestamp: 1451894236029
+    Amount: -5486
+  - TransactionDate: 2016-01-04T07:52:47Z
+    TransactionDateTimestamp: 1451893967829
+    Amount: -1848.62
+  - TransactionDate: 2016-01-04T07:51:12Z
+    TransactionDateTimestamp: 1451893872632
+    Amount: -952
+  - TransactionDate: 2016-01-04T07:48:18Z
+    TransactionDateTimestamp: 1451893698750
+    Amount: -1576
+  - TransactionDate: 2016-01-04T07:43:28Z
+    TransactionDateTimestamp: 1451893408959
+    Amount: -248
+  - TransactionDate: 2016-01-04T07:43:28Z
+    TransactionDateTimestamp: 1451893408652
+    Amount: -890
+  - TransactionDate: 2016-01-04T07:33:38Z
+    TransactionDateTimestamp: 1451892818837
+    Amount: -257
+  - TransactionDate: 2016-01-04T07:31:49Z
+    TransactionDateTimestamp: 1451892709408
+    Amount: -108.75
+  - TransactionDate: 2016-01-04T07:30:35Z
+    TransactionDateTimestamp: 1451892635535
+    Amount: -2321.48
+  - TransactionDate: 2016-01-04T07:25:58Z
+    TransactionDateTimestamp: 1451892358256
+    Amount: -6158.7
+  - TransactionDate: 2016-01-04T07:14:11Z
+    TransactionDateTimestamp: 1451891651933
+    Amount: -3196.55
+  - TransactionDate: 2016-01-04T07:09:20Z
+    TransactionDateTimestamp: 1451891360855
+    Amount: -5778.24
+  - TransactionDate: 2016-01-04T07:08:44Z
+    TransactionDateTimestamp: 1451891324308
+    Amount: -7186.23
+  - TransactionDate: 2016-01-04T07:06:14Z
+    TransactionDateTimestamp: 1451891174341
+    Amount: -198
+  - TransactionDate: 2016-01-04T07:03:50Z
+    TransactionDateTimestamp: 1451891030486
+    Amount: -1238.5
+  - TransactionDate: 2016-01-04T07:02:41Z
+    TransactionDateTimestamp: 1451890961345
+    Amount: -1407
+  - TransactionDate: 2016-01-04T07:02:34Z
+    TransactionDateTimestamp: 1451890954810
+    Amount: -90
+  - TransactionDate: 2016-01-04T06:58:18Z
+    TransactionDateTimestamp: 1451890698649
+    Amount: -1238.5
+  - TransactionDate: 2016-01-04T05:16:31Z
+    TransactionDateTimestamp: 1451884591355
+    Amount: -500
+  - TransactionDate: 2016-01-04T04:52:31Z
+    TransactionDateTimestamp: 1451883151457
+    Amount: -70
+  - TransactionDate: 2016-01-04T04:30:44Z
+    TransactionDateTimestamp: 1451881844225
+    Amount: -148.85
+  - TransactionDate: 2016-01-04T03:54:25Z
+    TransactionDateTimestamp: 1451879665469
+    Amount: -800
+  - TransactionDate: 2016-01-03T23:08:17Z
+    TransactionDateTimestamp: 1451862497207
+    Amount: 24.18
+  - TransactionDate: 2016-01-03T19:47:58Z
+    TransactionDateTimestamp: 1451850478798
+    Amount: 31
+  - TransactionDate: 2016-01-02T07:37:58Z
+    TransactionDateTimestamp: 1451720278344
+    Amount: 120
+  - TransactionDate: 2016-01-02T05:34:03Z
+    TransactionDateTimestamp: 1451712843012
+    Amount: -40.7
+  - TransactionDate: 2016-01-01T15:36:17Z
+    TransactionDateTimestamp: 1451662577251
+    Amount: -119
+  - TransactionDate: 2015-12-31T11:08:30Z
+    TransactionDateTimestamp: 1451560110850
+    Amount: -500
+  - TransactionDate: 2015-12-31T10:57:17Z
+    TransactionDateTimestamp: 1451559437716
+    Amount: 100
+  - TransactionDate: 2015-12-31T09:57:37Z
+    TransactionDateTimestamp: 1451555857247
+    Amount: -129.05
+  - TransactionDate: 2015-12-31T05:10:37Z
+    TransactionDateTimestamp: 1451538637824
+    Amount: -313.3
+  - TransactionDate: 2015-12-30T19:12:04Z
+    TransactionDateTimestamp: 1451502724087
+    Amount: 150
+  - TransactionDate: 2015-12-30T19:11:49Z
+    TransactionDateTimestamp: 1451502709769
+    Amount: 150
+  - TransactionDate: 2015-12-30T16:19:35Z
+    TransactionDateTimestamp: 1451492375489
+    Amount: 300
+  - TransactionDate: 2015-12-30T16:18:37Z
+    TransactionDateTimestamp: 1451492317142
+    Amount: -100
+  - TransactionDate: 2015-12-30T12:34:55Z
+    TransactionDateTimestamp: 1451478895160
+    Amount: 1000
+  - TransactionDate: 2015-12-30T03:48:46Z
+    TransactionDateTimestamp: 1451447326368
+    Amount: -2433.74
+  - TransactionDate: 2015-12-30T03:39:39Z
+    TransactionDateTimestamp: 1451446779320
+    Amount: -1308.75
+  - TransactionDate: 2015-12-30T03:37:08Z
+    TransactionDateTimestamp: 1451446628922
+    Amount: -1155.75
+  - TransactionDate: 2015-12-30T01:12:57Z
+    TransactionDateTimestamp: 1451437977755
+    Amount: 5912
+  - TransactionDate: 2015-12-29T19:42:21Z
+    TransactionDateTimestamp: 1451418141329
+    Amount: 60
+  - TransactionDate: 2015-12-29T09:52:10Z
+    TransactionDateTimestamp: 1451382730557
+    Amount: 32
+  - TransactionDate: 2015-12-29T08:37:28Z
+    TransactionDateTimestamp: 1451378248222
+    Amount: -18
+  - TransactionDate: 2015-12-29T08:02:58Z
+    TransactionDateTimestamp: 1451376178134
+    Amount: 399
+  - TransactionDate: 2015-12-28T03:51:02Z
+    TransactionDateTimestamp: 1451274662988
+    Amount: -324
+  - TransactionDate: 2015-12-27T03:28:07Z
+    TransactionDateTimestamp: 1451186887482
+    Amount: -450
+  - TransactionDate: 2015-12-26T23:19:27Z
+    TransactionDateTimestamp: 1451171967239
+    Amount: -300
+  - TransactionDate: 2015-12-25T03:33:14Z
+    TransactionDateTimestamp: 1451014394928
+    Amount: -379.95
+  - TransactionDate: 2015-12-24T10:00:56Z
+    TransactionDateTimestamp: 1450951256822
+    Amount: -386.06
+  - TransactionDate: 2015-12-23T17:04:47Z
+    TransactionDateTimestamp: 1450890287947
+    Amount: -1440
+  - TransactionDate: 2015-12-22T15:52:10Z
+    TransactionDateTimestamp: 1450799530330
+    Amount: 500
+  - TransactionDate: 2015-12-22T15:26:12Z
+    TransactionDateTimestamp: 1450797972701
+    Amount: 239
+  - TransactionDate: 2015-12-22T09:01:09Z
+    TransactionDateTimestamp: 1450774869312
+    Amount: -41
+  - TransactionDate: 2015-12-22T09:01:08Z
+    TransactionDateTimestamp: 1450774868460
+    Amount: -69
+  - TransactionDate: 2015-12-22T04:54:47Z
+    TransactionDateTimestamp: 1450760087914
+    Amount: -65
+  - TransactionDate: 2015-12-22T04:28:51Z
+    TransactionDateTimestamp: 1450758531798
+    Amount: -70
+  - TransactionDate: 2015-12-21T21:32:29Z
+    TransactionDateTimestamp: 1450733549358
+    Amount: -3996
+  - TransactionDate: 2015-12-20T23:16:59Z
+    TransactionDateTimestamp: 1450653419117
+    Amount: 100
+  - TransactionDate: 2015-12-20T18:49:38Z
+    TransactionDateTimestamp: 1450637378695
+    Amount: 300
+  - TransactionDate: 2015-12-20T05:20:34Z
+    TransactionDateTimestamp: 1450588834039
+    Amount: -51.49
+  - TransactionDate: 2015-12-19T17:45:13Z
+    TransactionDateTimestamp: 1450547113172
+    Amount: -294
+  - TransactionDate: 2015-12-19T08:04:19Z
+    TransactionDateTimestamp: 1450512259260
+    Amount: 1460
+  - TransactionDate: 2015-12-19T08:04:03Z
+    TransactionDateTimestamp: 1450512243196
+    Amount: -39.95
+  - TransactionDate: 2015-12-19T04:43:49Z
+    TransactionDateTimestamp: 1450500229591
+    Amount: -198
+  - TransactionDate: 2015-12-18T14:42:55Z
+    TransactionDateTimestamp: 1450449775307
+    Amount: -400
+  - TransactionDate: 2015-12-18T10:03:30Z
+    TransactionDateTimestamp: 1450433010933
+    Amount: -449.28
+  - TransactionDate: 2015-12-18T04:34:18Z
+    TransactionDateTimestamp: 1450413258928
+    Amount: -149
+  - TransactionDate: 2015-12-17T18:02:31Z
+    TransactionDateTimestamp: 1450375351937
+    Amount: -350
+  - TransactionDate: 2015-12-17T15:21:39Z
+    TransactionDateTimestamp: 1450365699126
+    Amount: -71
+  - TransactionDate: 2015-12-17T08:34:54Z
+    TransactionDateTimestamp: 1450341294096
+    Amount: -75.66
+  - TransactionDate: 2015-12-17T07:06:56Z
+    TransactionDateTimestamp: 1450336016367
+    Amount: -108
+  - TransactionDate: 2015-12-17T04:20:43Z
+    TransactionDateTimestamp: 1450326043644
+    Amount: -553.16
+  - TransactionDate: 2015-12-16T22:34:55Z
+    TransactionDateTimestamp: 1450305295055
+    Amount: 42
+  - TransactionDate: 2015-12-16T07:53:00Z
+    TransactionDateTimestamp: 1450252380931
+    Amount: -20
+  - TransactionDate: 2015-12-16T04:29:13Z
+    TransactionDateTimestamp: 1450240153254
+    Amount: -80
+  - TransactionDate: 2015-12-15T23:13:09Z
+    TransactionDateTimestamp: 1450221189119
+    Amount: 57.5
+  - TransactionDate: 2015-12-15T10:30:51Z
+    TransactionDateTimestamp: 1450175451536
+    Amount: -260.55
+  - TransactionDate: 2015-12-15T10:13:15Z
+    TransactionDateTimestamp: 1450174395565
+    Amount: -62.95
+  - TransactionDate: 2015-12-15T09:24:05Z
+    TransactionDateTimestamp: 1450171445620
+    Amount: -100
+  - TransactionDate: 2015-12-15T07:44:51Z
+    TransactionDateTimestamp: 1450165491161
+    Amount: -87
+  - TransactionDate: 2015-12-15T07:22:42Z
+    TransactionDateTimestamp: 1450164162276
+    Amount: -104
+  - TransactionDate: 2015-12-14T15:21:14Z
+    TransactionDateTimestamp: 1450106474701
+    Amount: -24.5
+  - TransactionDate: 2015-12-13T09:55:28Z
+    TransactionDateTimestamp: 1450000528918
+    Amount: -250
+  - TransactionDate: 2015-12-13T08:31:59Z
+    TransactionDateTimestamp: 1449995519502
+    Amount: -126
+  - TransactionDate: 2015-12-12T15:59:45Z
+    TransactionDateTimestamp: 1449935985082
+    Amount: -55
+  - TransactionDate: 2015-12-12T15:39:03Z
+    TransactionDateTimestamp: 1449934743921
+    Amount: -24
+  - TransactionDate: 2015-12-12T11:56:54Z
+    TransactionDateTimestamp: 1449921414557
+    Amount: -106.22
+  - TransactionDate: 2015-12-12T10:52:53Z
+    TransactionDateTimestamp: 1449917573039
+    Amount: -37.68
+  - TransactionDate: 2015-12-12T09:52:41Z
+    TransactionDateTimestamp: 1449913961959
+    Amount: -30
+  - TransactionDate: 2015-12-11T19:06:22Z
+    TransactionDateTimestamp: 1449860782073
+    Amount: -336
+  - TransactionDate: 2015-12-11T14:18:09Z
+    TransactionDateTimestamp: 1449843489070
+    Amount: 64
+  - TransactionDate: 2015-12-11T10:12:33Z
+    TransactionDateTimestamp: 1449828753571
+    Amount: -949
+  - TransactionDate: 2015-12-11T07:03:05Z
+    TransactionDateTimestamp: 1449817385819
+    Amount: -87.95
+  - TransactionDate: 2015-12-10T18:13:01Z
+    TransactionDateTimestamp: 1449771181932
+    Amount: -1
+  - TransactionDate: 2015-12-10T16:07:31Z
+    TransactionDateTimestamp: 1449763651634
+    Amount: -50
+  - TransactionDate: 2015-12-10T07:42:39Z
+    TransactionDateTimestamp: 1449733359920
+    Amount: -45
+  - TransactionDate: 2015-12-09T09:13:17Z
+    TransactionDateTimestamp: 1449652397608
+    Amount: 90
+  - TransactionDate: 2015-12-08T15:16:28Z
+    TransactionDateTimestamp: 1449587788540
+    Amount: -37
+  - TransactionDate: 2015-12-08T14:03:58Z
+    TransactionDateTimestamp: 1449583438208
+    Amount: 20
+  - TransactionDate: 2015-12-08T11:57:53Z
+    TransactionDateTimestamp: 1449575873853
+    Amount: 20
+  - TransactionDate: 2015-12-08T11:44:37Z
+    TransactionDateTimestamp: 1449575077979
+    Amount: 50
+  - TransactionDate: 2015-12-08T05:37:22Z
+    TransactionDateTimestamp: 1449553042105
+    Amount: -11
+  - TransactionDate: 2015-12-08T04:32:09Z
+    TransactionDateTimestamp: 1449549129759
+    Amount: -129
+  - TransactionDate: 2015-12-07T06:07:39Z
+    TransactionDateTimestamp: 1449468459536
+    Amount: -80
+  - TransactionDate: 2015-12-07T02:06:28Z
+    TransactionDateTimestamp: 1449453988799
+    Amount: -1925.68
+  - TransactionDate: 2015-12-07T02:05:34Z
+    TransactionDateTimestamp: 1449453934311
+    Amount: -925
+  - TransactionDate: 2015-12-07T02:00:43Z
+    TransactionDateTimestamp: 1449453643227
+    Amount: -8591.77
+  - TransactionDate: 2015-12-07T01:58:46Z
+    TransactionDateTimestamp: 1449453526370
+    Amount: -140
+  - TransactionDate: 2015-12-07T01:57:54Z
+    TransactionDateTimestamp: 1449453474225
+    Amount: -147
+  - TransactionDate: 2015-12-06T19:58:43Z
+    TransactionDateTimestamp: 1449431923098
+    Amount: 193
+  - TransactionDate: 2015-12-06T04:21:47Z
+    TransactionDateTimestamp: 1449375707276
+    Amount: -114.8
+  - TransactionDate: 2015-12-05T13:24:32Z
+    TransactionDateTimestamp: 1449321872740
+    Amount: 2000
+  - TransactionDate: 2015-12-05T05:05:06Z
+    TransactionDateTimestamp: 1449291906926
+    Amount: -31
+  - TransactionDate: 2015-12-04T02:12:10Z
+    TransactionDateTimestamp: 1449195130789
+    Amount: -3836.53
+  - TransactionDate: 2015-12-03T10:00:13Z
+    TransactionDateTimestamp: 1449136813944
+    Amount: -289.52
+  - TransactionDate: 2015-12-03T05:30:26Z
+    TransactionDateTimestamp: 1449120626677
+    Amount: -36
+  - TransactionDate: 2015-12-02T10:19:55Z
+    TransactionDateTimestamp: 1449051595196
+    Amount: -26
+  - TransactionDate: 2015-12-02T08:29:13Z
+    TransactionDateTimestamp: 1449044953449
+    Amount: -181.1
+  - TransactionDate: 2015-12-02T05:06:08Z
+    TransactionDateTimestamp: 1449032768691
+    Amount: -226
+  - TransactionDate: 2015-12-02T04:55:39Z
+    TransactionDateTimestamp: 1449032139483
+    Amount: -611.17
+  - TransactionDate: 2015-12-01T16:25:12Z
+    TransactionDateTimestamp: 1448987112234
+    Amount: -140
+  - TransactionDate: 2015-12-01T15:51:32Z
+    TransactionDateTimestamp: 1448985092250
+    Amount: 200
+  - TransactionDate: 2015-12-01T15:16:46Z
+    TransactionDateTimestamp: 1448983006315
+    Amount: -225
+  - TransactionDate: 2015-12-01T13:03:10Z
+    TransactionDateTimestamp: 1448974990869
+    Amount: -12
+  - TransactionDate: 2015-12-01T04:27:45Z
+    TransactionDateTimestamp: 1448944065956
+    Amount: -903.43
+  - TransactionDate: 2015-12-01T04:13:21Z
+    TransactionDateTimestamp: 1448943201121
+    Amount: -1510
+  - TransactionDate: 2015-12-01T04:10:31Z
+    TransactionDateTimestamp: 1448943031271
+    Amount: -205
+  - TransactionDate: 2015-12-01T04:08:16Z
+    TransactionDateTimestamp: 1448942896356
+    Amount: -557
+  - TransactionDate: 2015-12-01T04:02:18Z
+    TransactionDateTimestamp: 1448942538545
+    Amount: -4839.34
+  - TransactionDate: 2015-12-01T04:00:09Z
+    TransactionDateTimestamp: 1448942409803
+    Amount: -477.42
+  - TransactionDate: 2015-12-01T03:59:42Z
+    TransactionDateTimestamp: 1448942382206
+    Amount: -119
+  - TransactionDate: 2015-12-01T03:53:25Z
+    TransactionDateTimestamp: 1448942005275
+    Amount: -225
+  - TransactionDate: 2015-12-01T03:31:01Z
+    TransactionDateTimestamp: 1448940661248
+    Amount: -149
+  - TransactionDate: 2015-12-01T03:26:31Z
+    TransactionDateTimestamp: 1448940391152
+    Amount: -3602.8
+  - TransactionDate: 2015-11-30T20:52:57Z
+    TransactionDateTimestamp: 1448916777759
+    Amount: -100
+  - TransactionDate: 2015-11-30T20:21:34Z
+    TransactionDateTimestamp: 1448914894294
+    Amount: 2075
+  - TransactionDate: 2015-11-30T12:40:14Z
+    TransactionDateTimestamp: 1448887214040
+    Amount: 38022.74
+  - TransactionDate: 2015-11-30T11:20:11Z
+    TransactionDateTimestamp: 1448882411682
+    Amount: 10
+  - TransactionDate: 2015-11-30T08:28:10Z
+    TransactionDateTimestamp: 1448872090615
+    Amount: 158.25
+  - TransactionDate: 2015-11-30T03:52:12Z
+    TransactionDateTimestamp: 1448855532511
+    Amount: -24.95
+  - TransactionDate: 2015-11-30T02:02:48Z
+    TransactionDateTimestamp: 1448848968761
+    Amount: -1737.36
+  - TransactionDate: 2015-11-29T08:16:21Z
+    TransactionDateTimestamp: 1448784981188
+    Amount: -267
+  - TransactionDate: 2015-11-29T08:03:47Z
+    TransactionDateTimestamp: 1448784227054
+    Amount: -98.37
+  - TransactionDate: 2015-11-29T07:32:33Z
+    TransactionDateTimestamp: 1448782353943
+    Amount: -49.95
+  - TransactionDate: 2015-11-29T04:18:43Z
+    TransactionDateTimestamp: 1448770723078
+    Amount: -38.88
+  - TransactionDate: 2015-11-28T16:05:13Z
+    TransactionDateTimestamp: 1448726713929
+    Amount: 50
+  - TransactionDate: 2015-11-28T11:39:17Z
+    TransactionDateTimestamp: 1448710757796
+    Amount: -659.13
+  - TransactionDate: 2015-11-28T09:03:36Z
+    TransactionDateTimestamp: 1448701416275
+    Amount: -78
+  - TransactionDate: 2015-11-27T21:31:06Z
+    TransactionDateTimestamp: 1448659866522
+    Amount: 50
+  - TransactionDate: 2015-11-27T08:15:53Z
+    TransactionDateTimestamp: 1448612153722
+    Amount: -374.85
+  - TransactionDate: 2015-11-27T07:59:54Z
+    TransactionDateTimestamp: 1448611194698
+    Amount: -118
+  - TransactionDate: 2015-11-26T14:48:09Z
+    TransactionDateTimestamp: 1448549289281
+    Amount: -56
+  - TransactionDate: 2015-11-26T07:43:40Z
+    TransactionDateTimestamp: 1448523820104
+    Amount: -42.9
+  - TransactionDate: 2015-11-26T07:34:02Z
+    TransactionDateTimestamp: 1448523242739
+    Amount: -20
+  - TransactionDate: 2015-11-25T07:34:27Z
+    TransactionDateTimestamp: 1448436867519
+    Amount: -272.53
+  - TransactionDate: 2015-11-25T04:44:39Z
+    TransactionDateTimestamp: 1448426679198
+    Amount: -12
+  - TransactionDate: 2015-11-25T04:44:38Z
+    TransactionDateTimestamp: 1448426678938
+    Amount: -16
+  - TransactionDate: 2015-11-25T04:26:28Z
+    TransactionDateTimestamp: 1448425588545
+    Amount: -24.55
+  - TransactionDate: 2015-11-24T14:01:59Z
+    TransactionDateTimestamp: 1448373719578
+    Amount: -50
+  - TransactionDate: 2015-11-24T13:43:35Z
+    TransactionDateTimestamp: 1448372615961
+    Amount: 30
+  - TransactionDate: 2015-11-24T09:13:39Z
+    TransactionDateTimestamp: 1448356419930
+    Amount: -90.8
+  - TransactionDate: 2015-11-23T04:53:24Z
+    TransactionDateTimestamp: 1448254404699
+    Amount: -70
+  - TransactionDate: 2015-11-22T21:45:34Z
+    TransactionDateTimestamp: 1448228734935
+    Amount: -65
+  - TransactionDate: 2015-11-21T20:19:43Z
+    TransactionDateTimestamp: 1448137183741
+    Amount: -100
+  - TransactionDate: 2015-11-21T16:50:33Z
+    TransactionDateTimestamp: 1448124633241
+    Amount: -300
+  - TransactionDate: 2015-11-21T14:06:41Z
+    TransactionDateTimestamp: 1448114801262
+    Amount: 650
+  - TransactionDate: 2015-11-21T11:47:09Z
+    TransactionDateTimestamp: 1448106429767
+    Amount: -169.2
+  - TransactionDate: 2015-11-21T11:41:16Z
+    TransactionDateTimestamp: 1448106076122
+    Amount: -1243.53
+  - TransactionDate: 2015-11-21T08:54:51Z
+    TransactionDateTimestamp: 1448096091577
+    Amount: -100
+  - TransactionDate: 2015-11-21T08:07:59Z
+    TransactionDateTimestamp: 1448093279939
+    Amount: -14
+  - TransactionDate: 2015-11-20T04:02:50Z
+    TransactionDateTimestamp: 1447992170162
+    Amount: -70.85
+  - TransactionDate: 2015-11-19T11:15:53Z
+    TransactionDateTimestamp: 1447931753556
+    Amount: 50
+  - TransactionDate: 2015-11-18T12:25:09Z
+    TransactionDateTimestamp: 1447849509717
+    Amount: 128
+  - TransactionDate: 2015-11-18T11:42:34Z
+    TransactionDateTimestamp: 1447846954714
+    Amount: -49.9
+  - TransactionDate: 2015-11-18T09:42:56Z
+    TransactionDateTimestamp: 1447839776291
+    Amount: -129.44
+  - TransactionDate: 2015-11-18T06:37:07Z
+    TransactionDateTimestamp: 1447828627597
+    Amount: -20
+  - TransactionDate: 2015-11-18T06:32:18Z
+    TransactionDateTimestamp: 1447828338402
+    Amount: -37.85
+  - TransactionDate: 2015-11-17T05:51:33Z
+    TransactionDateTimestamp: 1447739493303
+    Amount: -1619.85
+  - TransactionDate: 2015-11-17T05:13:39Z
+    TransactionDateTimestamp: 1447737219938
+    Amount: -10
+  - TransactionDate: 2015-11-16T06:21:00Z
+    TransactionDateTimestamp: 1447654860114
+    Amount: -520.2
+  - TransactionDate: 2015-11-16T04:41:54Z
+    TransactionDateTimestamp: 1447648914665
+    Amount: -17.8
+  - TransactionDate: 2015-11-16T04:41:54Z
+    TransactionDateTimestamp: 1447648914475
+    Amount: -72
+  - TransactionDate: 2015-11-15T04:13:52Z
+    TransactionDateTimestamp: 1447560832440
+    Amount: -75
+  - TransactionDate: 2015-11-14T21:47:36Z
+    TransactionDateTimestamp: 1447537656746
+    Amount: -60
+  - TransactionDate: 2015-11-14T08:42:14Z
+    TransactionDateTimestamp: 1447490534140
+    Amount: -308.85
+  - TransactionDate: 2015-11-14T04:10:16Z
+    TransactionDateTimestamp: 1447474216609
+    Amount: -22
+  - TransactionDate: 2015-11-13T07:06:59Z
+    TransactionDateTimestamp: 1447398419741
+    Amount: -10
+  - TransactionDate: 2015-11-13T06:59:01Z
+    TransactionDateTimestamp: 1447397941724
+    Amount: -43
+  - TransactionDate: 2015-11-13T05:03:08Z
+    TransactionDateTimestamp: 1447390988097
+    Amount: 100
+  - TransactionDate: 2015-11-13T04:00:34Z
+    TransactionDateTimestamp: 1447387234815
+    Amount: -78
+  - TransactionDate: 2015-11-12T18:58:34Z
+    TransactionDateTimestamp: 1447354714942
+    Amount: -1210
+  - TransactionDate: 2015-11-12T11:43:08Z
+    TransactionDateTimestamp: 1447328588352
+    Amount: 60
+  - TransactionDate: 2015-11-12T04:00:17Z
+    TransactionDateTimestamp: 1447300817625
+    Amount: -80.95
+  - TransactionDate: 2015-11-11T07:38:44Z
+    TransactionDateTimestamp: 1447227524921
+    Amount: -18.45
+  - TransactionDate: 2015-11-11T05:20:20Z
+    TransactionDateTimestamp: 1447219220689
+    Amount: -6.5
+  - TransactionDate: 2015-11-11T04:48:28Z
+    TransactionDateTimestamp: 1447217308861
+    Amount: -13.95
+  - TransactionDate: 2015-11-10T14:37:57Z
+    TransactionDateTimestamp: 1447166277060
+    Amount: -400
+  - TransactionDate: 2015-11-10T07:45:25Z
+    TransactionDateTimestamp: 1447141525204
+    Amount: -96
+  - TransactionDate: 2015-11-10T05:03:47Z
+    TransactionDateTimestamp: 1447131827460
+    Amount: -100
+  - TransactionDate: 2015-11-10T05:01:56Z
+    TransactionDateTimestamp: 1447131716450
+    Amount: -20
+  - TransactionDate: 2015-11-10T02:08:39Z
+    TransactionDateTimestamp: 1447121319591
+    Amount: -144
+  - TransactionDate: 2015-11-09T19:57:53Z
+    TransactionDateTimestamp: 1447099073342
+    Amount: 400
+  - TransactionDate: 2015-11-09T14:20:16Z
+    TransactionDateTimestamp: 1447078816000
+    Amount: 100
+  - TransactionDate: 2015-11-09T13:49:39Z
+    TransactionDateTimestamp: 1447076979738
+    Amount: -1240
+  - TransactionDate: 2015-11-08T18:35:38Z
+    TransactionDateTimestamp: 1447007738806
+    Amount: 369
+  - TransactionDate: 2015-11-08T14:56:11Z
+    TransactionDateTimestamp: 1446994571768
+    Amount: 75
+  - TransactionDate: 2015-11-08T12:54:32Z
+    TransactionDateTimestamp: 1446987272739
+    Amount: 488
+  - TransactionDate: 2015-11-08T12:30:49Z
+    TransactionDateTimestamp: 1446985849606
+    Amount: 10
+  - TransactionDate: 2015-11-07T17:02:08Z
+    TransactionDateTimestamp: 1446915728878
+    Amount: 200
+  - TransactionDate: 2015-11-07T16:57:57Z
+    TransactionDateTimestamp: 1446915477563
+    Amount: -350
+  - TransactionDate: 2015-11-07T12:48:09Z
+    TransactionDateTimestamp: 1446900489894
+    Amount: 100
+  - TransactionDate: 2015-11-07T09:54:45Z
+    TransactionDateTimestamp: 1446890085948
+    Amount: 330
+  - TransactionDate: 2015-11-07T08:18:49Z
+    TransactionDateTimestamp: 1446884329288
+    Amount: -107.5
+  - TransactionDate: 2015-11-07T04:26:40Z
+    TransactionDateTimestamp: 1446870400099
+    Amount: -55
+  - TransactionDate: 2015-11-07T04:10:19Z
+    TransactionDateTimestamp: 1446869419151
+    Amount: -32
+  - TransactionDate: 2015-11-07T01:06:01Z
+    TransactionDateTimestamp: 1446858361445
+    Amount: -40
+  - TransactionDate: 2015-11-07T00:48:26Z
+    TransactionDateTimestamp: 1446857306357
+    Amount: -600
+  - TransactionDate: 2015-11-06T10:47:01Z
+    TransactionDateTimestamp: 1446806821130
+    Amount: 34
+  - TransactionDate: 2015-11-06T06:47:44Z
+    TransactionDateTimestamp: 1446792464670
+    Amount: -10
+  - TransactionDate: 2015-11-06T04:42:29Z
+    TransactionDateTimestamp: 1446784949406
+    Amount: -47.65
+  - TransactionDate: 2015-11-05T09:06:52Z
+    TransactionDateTimestamp: 1446714412361
+    Amount: -179
+  - TransactionDate: 2015-11-05T07:57:33Z
+    TransactionDateTimestamp: 1446710253840
+    Amount: -46.05
+  - TransactionDate: 2015-11-05T07:20:28Z
+    TransactionDateTimestamp: 1446708028613
+    Amount: -1499
+  - TransactionDate: 2015-11-05T05:11:03Z
+    TransactionDateTimestamp: 1446700263347
+    Amount: -6
+  - TransactionDate: 2015-11-05T02:05:56Z
+    TransactionDateTimestamp: 1446689156195
+    Amount: -100
+  - TransactionDate: 2015-11-04T14:14:53Z
+    TransactionDateTimestamp: 1446646493607
+    Amount: 145.98
+  - TransactionDate: 2015-11-04T13:33:39Z
+    TransactionDateTimestamp: 1446644019282
+    Amount: 25
+  - TransactionDate: 2015-11-04T08:32:51Z
+    TransactionDateTimestamp: 1446625971224
+    Amount: -148
+  - TransactionDate: 2015-11-04T06:20:59Z
+    TransactionDateTimestamp: 1446618059292
+    Amount: -9
+  - TransactionDate: 2015-11-03T16:33:28Z
+    TransactionDateTimestamp: 1446568408764
+    Amount: 69
+  - TransactionDate: 2015-11-03T11:06:13Z
+    TransactionDateTimestamp: 1446548773711
+    Amount: 10
+  - TransactionDate: 2015-11-03T08:57:17Z
+    TransactionDateTimestamp: 1446541037817
+    Amount: -750
+  - TransactionDate: 2015-11-03T06:01:43Z
+    TransactionDateTimestamp: 1446530503251
+    Amount: -354.06
+  - TransactionDate: 2015-11-03T06:01:42Z
+    TransactionDateTimestamp: 1446530502465
+    Amount: -367.46
+  - TransactionDate: 2015-11-03T06:01:38Z
+    TransactionDateTimestamp: 1446530498911
+    Amount: -50
+  - TransactionDate: 2015-11-02T09:44:41Z
+    TransactionDateTimestamp: 1446457481093
+    Amount: 22
+  - TransactionDate: 2015-11-02T04:06:12Z
+    TransactionDateTimestamp: 1446437172969
+    Amount: -100.07
+  - TransactionDate: 2015-11-02T02:43:40Z
+    TransactionDateTimestamp: 1446432220726
+    Amount: -4569.62
+  - TransactionDate: 2015-11-02T02:41:05Z
+    TransactionDateTimestamp: 1446432065989
+    Amount: -191
+  - TransactionDate: 2015-11-02T02:37:45Z
+    TransactionDateTimestamp: 1446431865695
+    Amount: -209.33
+  - TransactionDate: 2015-11-02T02:31:56Z
+    TransactionDateTimestamp: 1446431516481
+    Amount: -5368.54
+  - TransactionDate: 2015-11-02T02:28:32Z
+    TransactionDateTimestamp: 1446431312168
+    Amount: -50
+  - TransactionDate: 2015-11-02T02:28:32Z
+    TransactionDateTimestamp: 1446431312059
+    Amount: -373
+  - TransactionDate: 2015-11-02T02:27:42Z
+    TransactionDateTimestamp: 1446431262346
+    Amount: -476.83
+  - TransactionDate: 2015-11-02T02:26:30Z
+    TransactionDateTimestamp: 1446431190357
+    Amount: -248
+  - TransactionDate: 2015-11-02T02:24:22Z
+    TransactionDateTimestamp: 1446431062741
+    Amount: -200
+  - TransactionDate: 2015-11-02T02:23:22Z
+    TransactionDateTimestamp: 1446431002254
+    Amount: -192
+  - TransactionDate: 2015-11-02T02:21:54Z
+    TransactionDateTimestamp: 1446430914695
+    Amount: -1178.8
+  - TransactionDate: 2015-11-02T02:14:50Z
+    TransactionDateTimestamp: 1446430490672
+    Amount: -407.75
+  - TransactionDate: 2015-11-02T02:13:18Z
+    TransactionDateTimestamp: 1446430398778
+    Amount: -7575.15
+  - TransactionDate: 2015-11-02T02:11:20Z
+    TransactionDateTimestamp: 1446430280933
+    Amount: -446
+  - TransactionDate: 2015-11-02T02:09:41Z
+    TransactionDateTimestamp: 1446430181617
+    Amount: -2444.3
+  - TransactionDate: 2015-11-02T02:06:54Z
+    TransactionDateTimestamp: 1446430014380
+    Amount: -325.12
+  - TransactionDate: 2015-11-01T21:50:12Z
+    TransactionDateTimestamp: 1446414612606
+    Amount: -29
+  - TransactionDate: 2015-11-01T06:45:12Z
+    TransactionDateTimestamp: 1446360312438
+    Amount: -234.68
+  - TransactionDate: 2015-11-01T05:02:27Z
+    TransactionDateTimestamp: 1446354147722
+    Amount: -193.95
+  - TransactionDate: 2015-10-31T23:06:13Z
+    TransactionDateTimestamp: 1446332773054
+    Amount: 75
+  - TransactionDate: 2015-10-31T12:07:08Z
+    TransactionDateTimestamp: 1446293228669
+    Amount: -599.95
+  - TransactionDate: 2015-10-31T11:19:00Z
+    TransactionDateTimestamp: 1446290340884
+    Amount: 20
+  - TransactionDate: 2015-10-31T08:06:31Z
+    TransactionDateTimestamp: 1446278791990
+    Amount: -171.4
+  - TransactionDate: 2015-10-31T08:06:29Z
+    TransactionDateTimestamp: 1446278789915
+    Amount: -5
+  - TransactionDate: 2015-10-31T07:18:41Z
+    TransactionDateTimestamp: 1446275921913
+    Amount: 20
+  - TransactionDate: 2015-10-30T17:42:20Z
+    TransactionDateTimestamp: 1446226940099
+    Amount: 75
+  - TransactionDate: 2015-10-30T14:46:14Z
+    TransactionDateTimestamp: 1446216374519
+    Amount: 45
+  - TransactionDate: 2015-10-30T07:27:28Z
+    TransactionDateTimestamp: 1446190048003
+    Amount: -25
+  - TransactionDate: 2015-10-30T06:32:11Z
+    TransactionDateTimestamp: 1446186731750
+    Amount: 100
+  - TransactionDate: 2015-10-30T02:18:10Z
+    TransactionDateTimestamp: 1446171490604
+    Amount: -941.55
+  - TransactionDate: 2015-10-30T02:15:39Z
+    TransactionDateTimestamp: 1446171339636
+    Amount: -193.75
+  - TransactionDate: 2015-10-29T16:14:34Z
+    TransactionDateTimestamp: 1446135274034
+    Amount: 375
+  - TransactionDate: 2015-10-29T12:34:45Z
+    TransactionDateTimestamp: 1446122085298
+    Amount: 200
+  - TransactionDate: 2015-10-29T05:45:31Z
+    TransactionDateTimestamp: 1446097531286
+    Amount: -15
+  - TransactionDate: 2015-10-29T05:40:51Z
+    TransactionDateTimestamp: 1446097251655
+    Amount: -78
+  - TransactionDate: 2015-10-29T05:34:44Z
+    TransactionDateTimestamp: 1446096884421
+    Amount: -60.1
+  - TransactionDate: 2015-10-29T04:02:04Z
+    TransactionDateTimestamp: 1446091324175
+    Amount: -176.9
+  - TransactionDate: 2015-10-28T16:03:33Z
+    TransactionDateTimestamp: 1446048213912
+    Amount: 20
+  - TransactionDate: 2015-10-28T06:29:46Z
+    TransactionDateTimestamp: 1446013786340
+    Amount: -180.15
+  - TransactionDate: 2015-10-28T04:38:09Z
+    TransactionDateTimestamp: 1446007089985
+    Amount: -10
+  - TransactionDate: 2015-10-27T12:07:18Z
+    TransactionDateTimestamp: 1445947638345
+    Amount: 32
+  - TransactionDate: 2015-10-26T16:51:27Z
+    TransactionDateTimestamp: 1445878287251
+    Amount: -250
+  - TransactionDate: 2015-10-25T18:36:31Z
+    TransactionDateTimestamp: 1445798191706
+    Amount: 75
+  - TransactionDate: 2015-10-25T13:13:32Z
+    TransactionDateTimestamp: 1445778812517
+    Amount: -72
+  - TransactionDate: 2015-10-24T16:31:17Z
+    TransactionDateTimestamp: 1445704277769
+    Amount: -100
+  - TransactionDate: 2015-10-24T12:40:19Z
+    TransactionDateTimestamp: 1445690419436
+    Amount: -100
+  - TransactionDate: 2015-10-23T10:32:59Z
+    TransactionDateTimestamp: 1445596379350
+    Amount: -50
+  - TransactionDate: 2015-10-22T05:34:12Z
+    TransactionDateTimestamp: 1445492052540
+    Amount: -129.25
+  - TransactionDate: 2015-10-21T19:37:55Z
+    TransactionDateTimestamp: 1445456275348
+    Amount: 200
+  - TransactionDate: 2015-10-21T07:15:59Z
+    TransactionDateTimestamp: 1445411759212
+    Amount: -157.95
+  - TransactionDate: 2015-10-20T16:55:20Z
+    TransactionDateTimestamp: 1445360120283
+    Amount: -50
+  - TransactionDate: 2015-10-20T06:58:49Z
+    TransactionDateTimestamp: 1445324329443
+    Amount: -649
+  - TransactionDate: 2015-10-19T16:53:40Z
+    TransactionDateTimestamp: 1445273620111
+    Amount: 117.5
+  - TransactionDate: 2015-10-19T04:32:19Z
+    TransactionDateTimestamp: 1445229139434
+    Amount: -34.2
+  - TransactionDate: 2015-10-18T13:14:43Z
+    TransactionDateTimestamp: 1445174083725
+    Amount: -10
+  - TransactionDate: 2015-10-18T12:08:04Z
+    TransactionDateTimestamp: 1445170084937
+    Amount: -100
+  - TransactionDate: 2015-10-17T13:09:31Z
+    TransactionDateTimestamp: 1445087371549
+    Amount: 0.01
+  - TransactionDate: 2015-10-17T10:29:14Z
+    TransactionDateTimestamp: 1445077754071
+    Amount: 54.5
+  - TransactionDate: 2015-10-16T06:28:31Z
+    TransactionDateTimestamp: 1444976911985
+    Amount: 70
+  - TransactionDate: 2015-10-15T12:38:33Z
+    TransactionDateTimestamp: 1444912713518
+    Amount: -300
+  - TransactionDate: 2015-10-15T06:15:23Z
+    TransactionDateTimestamp: 1444889723308
+    Amount: -50
+  - TransactionDate: 2015-10-15T05:29:20Z
+    TransactionDateTimestamp: 1444886960658
+    Amount: -190.55
+  - TransactionDate: 2015-10-15T01:08:50Z
+    TransactionDateTimestamp: 1444871330761
+    Amount: -4229.28
+  - TransactionDate: 2015-10-14T06:52:11Z
+    TransactionDateTimestamp: 1444805531927
+    Amount: -130
+  - TransactionDate: 2015-10-14T05:47:05Z
+    TransactionDateTimestamp: 1444801625044
+    Amount: -97.4
+  - TransactionDate: 2015-10-14T04:46:10Z
+    TransactionDateTimestamp: 1444797970873
+    Amount: -54.95
+  - TransactionDate: 2015-10-13T13:32:29Z
+    TransactionDateTimestamp: 1444743149817
+    Amount: -100
+  - TransactionDate: 2015-10-12T12:43:20Z
+    TransactionDateTimestamp: 1444653800951
+    Amount: -5000
+  - TransactionDate: 2015-10-12T01:10:16Z
+    TransactionDateTimestamp: 1444612216680
+    Amount: -1310
+  - TransactionDate: 2015-10-12T01:09:45Z
+    TransactionDateTimestamp: 1444612185476
+    Amount: -1716
+  - TransactionDate: 2015-10-12T01:07:50Z
+    TransactionDateTimestamp: 1444612070460
+    Amount: -913.55
+  - TransactionDate: 2015-10-11T13:32:49Z
+    TransactionDateTimestamp: 1444570369710
+    Amount: -3000
+  - TransactionDate: 2015-10-11T08:14:53Z
+    TransactionDateTimestamp: 1444551293688
+    Amount: -275
+  - TransactionDate: 2015-10-10T18:31:29Z
+    TransactionDateTimestamp: 1444501889669
+    Amount: -140
+  - TransactionDate: 2015-10-10T09:43:03Z
+    TransactionDateTimestamp: 1444470183358
+    Amount: -98
+  - TransactionDate: 2015-10-10T07:59:18Z
+    TransactionDateTimestamp: 1444463958470
+    Amount: -74
+  - TransactionDate: 2015-10-10T05:42:07Z
+    TransactionDateTimestamp: 1444455727237
+    Amount: -1049
+  - TransactionDate: 2015-10-09T13:34:23Z
+    TransactionDateTimestamp: 1444397663068
+    Amount: 75
+  - TransactionDate: 2015-10-09T02:52:50Z
+    TransactionDateTimestamp: 1444359170047
+    Amount: 36
+  - TransactionDate: 2015-10-08T15:48:42Z
+    TransactionDateTimestamp: 1444319322204
+    Amount: -30
+  - TransactionDate: 2015-10-08T12:50:40Z
+    TransactionDateTimestamp: 1444308640855
+    Amount: 250
+  - TransactionDate: 2015-10-07T13:31:27Z
+    TransactionDateTimestamp: 1444224687828
+    Amount: -400
+  - TransactionDate: 2015-10-07T06:38:22Z
+    TransactionDateTimestamp: 1444199902239
+    Amount: -100
+  - TransactionDate: 2015-10-07T05:44:19Z
+    TransactionDateTimestamp: 1444196659591
+    Amount: -210.45
+  - TransactionDate: 2015-10-07T04:18:00Z
+    TransactionDateTimestamp: 1444191480652
+    Amount: -31.95
+  - TransactionDate: 2015-10-07T04:08:01Z
+    TransactionDateTimestamp: 1444190881277
+    Amount: -600
+  - TransactionDate: 2015-10-07T01:06:17Z
+    TransactionDateTimestamp: 1444179977058
+    Amount: -279.71
+  - TransactionDate: 2015-10-06T11:34:54Z
+    TransactionDateTimestamp: 1444131294505
+    Amount: -30
+  - TransactionDate: 2015-10-06T09:38:03Z
+    TransactionDateTimestamp: 1444124283724
+    Amount: -88
+  - TransactionDate: 2015-10-06T09:38:03Z
+    TransactionDateTimestamp: 1444124283450
+    Amount: -65
+  - TransactionDate: 2015-10-06T08:07:50Z
+    TransactionDateTimestamp: 1444118870767
+    Amount: -12
+  - TransactionDate: 2015-10-06T01:27:59Z
+    TransactionDateTimestamp: 1444094879215
+    Amount: -410
+  - TransactionDate: 2015-10-06T01:23:39Z
+    TransactionDateTimestamp: 1444094619719
+    Amount: -822
+  - TransactionDate: 2015-10-06T01:23:34Z
+    TransactionDateTimestamp: 1444094614564
+    Amount: -597
+  - TransactionDate: 2015-10-05T11:52:55Z
+    TransactionDateTimestamp: 1444045975557
+    Amount: 345
+  - TransactionDate: 2015-10-05T01:16:37Z
+    TransactionDateTimestamp: 1444007797447
+    Amount: -32003.54
+  - TransactionDate: 2015-10-05T01:10:17Z
+    TransactionDateTimestamp: 1444007417640
+    Amount: -786
+  - TransactionDate: 2015-10-05T01:10:04Z
+    TransactionDateTimestamp: 1444007404105
+    Amount: -99
+  - TransactionDate: 2015-10-04T15:21:02Z
+    TransactionDateTimestamp: 1443972062507
+    Amount: 126
+  - TransactionDate: 2015-10-04T08:36:07Z
+    TransactionDateTimestamp: 1443947767821
+    Amount: -167.8
+  - TransactionDate: 2015-10-04T07:13:35Z
+    TransactionDateTimestamp: 1443942815827
+    Amount: -82.24
+  - TransactionDate: 2015-10-04T01:05:31Z
+    TransactionDateTimestamp: 1443920731571
+    Amount: 50
+  - TransactionDate: 2015-10-03T09:46:21Z
+    TransactionDateTimestamp: 1443865581090
+    Amount: -599.88
+  - TransactionDate: 2015-10-02T13:19:35Z
+    TransactionDateTimestamp: 1443791975031
+    Amount: 104
+  - TransactionDate: 2015-10-02T10:43:04Z
+    TransactionDateTimestamp: 1443782584961
+    Amount: -310
+  - TransactionDate: 2015-10-02T08:58:57Z
+    TransactionDateTimestamp: 1443776337263
+    Amount: -135
+  - TransactionDate: 2015-10-02T06:05:50Z
+    TransactionDateTimestamp: 1443765950620
+    Amount: -55
+  - TransactionDate: 2015-10-02T01:32:26Z
+    TransactionDateTimestamp: 1443749546176
+    Amount: -895.58
+  - TransactionDate: 2015-10-01T12:24:36Z
+    TransactionDateTimestamp: 1443702276124
+    Amount: -500
+  - TransactionDate: 2015-10-01T04:14:57Z
+    TransactionDateTimestamp: 1443672897147
+    Amount: -500
+  - TransactionDate: 2015-10-01T04:11:10Z
+    TransactionDateTimestamp: 1443672670521
+    Amount: -498
+  - TransactionDate: 2015-10-01T04:09:48Z
+    TransactionDateTimestamp: 1443672588932
+    Amount: -2814
+  - TransactionDate: 2015-10-01T04:04:40Z
+    TransactionDateTimestamp: 1443672280387
+    Amount: -250
+  - TransactionDate: 2015-10-01T04:02:45Z
+    TransactionDateTimestamp: 1443672165734
+    Amount: -333.77
+  - TransactionDate: 2015-10-01T04:02:08Z
+    TransactionDateTimestamp: 1443672128226
+    Amount: -248
+  - TransactionDate: 2015-10-01T04:01:00Z
+    TransactionDateTimestamp: 1443672060664
+    Amount: -1097.25
+  - TransactionDate: 2015-10-01T04:00:35Z
+    TransactionDateTimestamp: 1443672035605
+    Amount: -2475
+  - TransactionDate: 2015-10-01T03:49:53Z
+    TransactionDateTimestamp: 1443671393398
+    Amount: -1043
+  - TransactionDate: 2015-10-01T03:45:02Z
+    TransactionDateTimestamp: 1443671102793
+    Amount: -1290
+  - TransactionDate: 2015-10-01T03:44:05Z
+    TransactionDateTimestamp: 1443671045141
+    Amount: -850
+  - TransactionDate: 2015-10-01T03:36:37Z
+    TransactionDateTimestamp: 1443670597900
+    Amount: -2659.19
+  - TransactionDate: 2015-10-01T03:35:47Z
+    TransactionDateTimestamp: 1443670547092
+    Amount: -4026.48
+  - TransactionDate: 2015-10-01T03:34:20Z
+    TransactionDateTimestamp: 1443670460922
+    Amount: -220
+  - TransactionDate: 2015-10-01T03:24:41Z
+    TransactionDateTimestamp: 1443669881577
+    Amount: -12279.51
+  - TransactionDate: 2015-10-01T03:24:11Z
+    TransactionDateTimestamp: 1443669851149
+    Amount: -5990
+  - TransactionDate: 2015-10-01T03:24:11Z
+    TransactionDateTimestamp: 1443669851061
+    Amount: -515
+  - TransactionDate: 2015-10-01T03:24:01Z
+    TransactionDateTimestamp: 1443669841853
+    Amount: -209.33
+  - TransactionDate: 2015-10-01T03:16:14Z
+    TransactionDateTimestamp: 1443669374751
+    Amount: -362.25
+  - TransactionDate: 2015-10-01T03:11:05Z
+    TransactionDateTimestamp: 1443669065761
+    Amount: -399
+  - TransactionDate: 2015-09-30T08:17:21Z
+    TransactionDateTimestamp: 1443601041983
+    Amount: -837
+  - TransactionDate: 2015-09-30T07:17:17Z
+    TransactionDateTimestamp: 1443597437690
+    Amount: -99
+  - TransactionDate: 2015-09-30T06:54:30Z
+    TransactionDateTimestamp: 1443596070521
+    Amount: -127.85
+  - TransactionDate: 2015-09-30T03:52:43Z
+    TransactionDateTimestamp: 1443585163694
+    Amount: -20
+  - TransactionDate: 2015-09-30T03:43:25Z
+    TransactionDateTimestamp: 1443584605562
+    Amount: -70
+  - TransactionDate: 2015-09-30T01:58:58Z
+    TransactionDateTimestamp: 1443578338049
+    Amount: -5718.34
+  - TransactionDate: 2015-09-30T01:54:49Z
+    TransactionDateTimestamp: 1443578089613
+    Amount: -1155.75
+  - TransactionDate: 2015-09-29T22:41:10Z
+    TransactionDateTimestamp: 1443566470498
+    Amount: -91
+  - TransactionDate: 2015-09-27T19:26:45Z
+    TransactionDateTimestamp: 1443382005547
+    Amount: 798
+  - TransactionDate: 2015-09-27T15:07:33Z
+    TransactionDateTimestamp: 1443366453509
+    Amount: -7
+  - TransactionDate: 2015-09-27T13:45:32Z
+    TransactionDateTimestamp: 1443361532424
+    Amount: 20
+  - TransactionDate: 2015-09-27T03:36:00Z
+    TransactionDateTimestamp: 1443324960299
+    Amount: -15
+  - TransactionDate: 2015-09-26T13:23:37Z
+    TransactionDateTimestamp: 1443273817638
+    Amount: -80
+  - TransactionDate: 2015-09-26T07:19:22Z
+    TransactionDateTimestamp: 1443251962757
+    Amount: -1599
+  - TransactionDate: 2015-09-26T06:59:04Z
+    TransactionDateTimestamp: 1443250744183
+    Amount: -27.7
+  - TransactionDate: 2015-09-25T20:16:19Z
+    TransactionDateTimestamp: 1443212179225
+    Amount: 45
+  - TransactionDate: 2015-09-25T04:03:31Z
+    TransactionDateTimestamp: 1443153811459
+    Amount: -22
+  - TransactionDate: 2015-09-24T06:08:58Z
+    TransactionDateTimestamp: 1443074938585
+    Amount: -141
+  - TransactionDate: 2015-09-24T04:50:10Z
+    TransactionDateTimestamp: 1443070210726
+    Amount: -67.5
+  - TransactionDate: 2015-09-23T19:33:47Z
+    TransactionDateTimestamp: 1443036827194
+    Amount: -30
+  - TransactionDate: 2015-09-23T12:16:32Z
+    TransactionDateTimestamp: 1443010592874
+    Amount: -1500
+  - TransactionDate: 2015-09-23T05:58:22Z
+    TransactionDateTimestamp: 1442987902600
+    Amount: -162.6
+  - TransactionDate: 2015-09-22T19:30:50Z
+    TransactionDateTimestamp: 1442950250165
+    Amount: -175
+  - TransactionDate: 2015-09-22T15:48:52Z
+    TransactionDateTimestamp: 1442936932296
+    Amount: -260
+  - TransactionDate: 2015-09-22T12:10:11Z
+    TransactionDateTimestamp: 1442923811035
+    Amount: -9.33
+  - TransactionDate: 2015-09-21T12:36:47Z
+    TransactionDateTimestamp: 1442839007032
+    Amount: -349
+  - TransactionDate: 2015-09-21T04:13:51Z
+    TransactionDateTimestamp: 1442808831316
+    Amount: -150
+  - TransactionDate: 2015-09-21T03:18:03Z
+    TransactionDateTimestamp: 1442805483706
+    Amount: -71.5
+  - TransactionDate: 2015-09-21T03:17:53Z
+    TransactionDateTimestamp: 1442805473526
+    Amount: -51.7
+  - TransactionDate: 2015-09-20T03:56:31Z
+    TransactionDateTimestamp: 1442721391551
+    Amount: -58.95
+  - TransactionDate: 2015-09-19T15:34:13Z
+    TransactionDateTimestamp: 1442676853962
+    Amount: -47
+  - TransactionDate: 2015-09-19T08:52:41Z
+    TransactionDateTimestamp: 1442652761580
+    Amount: -20
+  - TransactionDate: 2015-09-19T05:56:19Z
+    TransactionDateTimestamp: 1442642179406
+    Amount: -190.67
+  - TransactionDate: 2015-09-19T05:56:16Z
+    TransactionDateTimestamp: 1442642176998
+    Amount: -45.5
+  - TransactionDate: 2015-09-19T05:21:34Z
+    TransactionDateTimestamp: 1442640094476
+    Amount: -201.2
+  - TransactionDate: 2015-09-19T04:54:12Z
+    TransactionDateTimestamp: 1442638452018
+    Amount: -19.95
+  - TransactionDate: 2015-09-18T19:56:26Z
+    TransactionDateTimestamp: 1442606186330
+    Amount: -48
+  - TransactionDate: 2015-09-18T07:06:15Z
+    TransactionDateTimestamp: 1442559975230
+    Amount: -230.91
+  - TransactionDate: 2015-09-17T13:39:06Z
+    TransactionDateTimestamp: 1442497146989
+    Amount: -200
+  - TransactionDate: 2015-09-16T22:43:04Z
+    TransactionDateTimestamp: 1442443384837
+    Amount: -60
+  - TransactionDate: 2015-09-16T06:17:39Z
+    TransactionDateTimestamp: 1442384259794
+    Amount: 74.75
+  - TransactionDate: 2015-09-15T18:59:00Z
+    TransactionDateTimestamp: 1442343540629
+    Amount: 100
+  - TransactionDate: 2015-09-15T12:16:54Z
+    TransactionDateTimestamp: 1442319414185
+    Amount: 125
+  - TransactionDate: 2015-09-15T09:12:11Z
+    TransactionDateTimestamp: 1442308331734
+    Amount: 34
+  - TransactionDate: 2015-09-14T07:16:42Z
+    TransactionDateTimestamp: 1442215002165
+    Amount: 370
+  - TransactionDate: 2015-09-13T03:20:38Z
+    TransactionDateTimestamp: 1442114438309
+    Amount: -447
+  - TransactionDate: 2015-09-12T13:46:44Z
+    TransactionDateTimestamp: 1442065604007
+    Amount: -100
+  - TransactionDate: 2015-09-12T05:00:09Z
+    TransactionDateTimestamp: 1442034009670
+    Amount: -159
+  - TransactionDate: 2015-09-11T12:48:31Z
+    TransactionDateTimestamp: 1441975711722
+    Amount: 3.99
+  - TransactionDate: 2015-09-10T05:11:37Z
+    TransactionDateTimestamp: 1441861897616
+    Amount: -100
+  - TransactionDate: 2015-09-10T03:40:47Z
+    TransactionDateTimestamp: 1441856447836
+    Amount: -147.8
+  - TransactionDate: 2015-09-10T01:14:45Z
+    TransactionDateTimestamp: 1441847685199
+    Amount: -1173.18
+  - TransactionDate: 2015-09-09T22:12:32Z
+    TransactionDateTimestamp: 1441836752767
+    Amount: 54
+  - TransactionDate: 2015-09-08T07:39:13Z
+    TransactionDateTimestamp: 1441697953470
+    Amount: -40.9
+  - TransactionDate: 2015-09-08T06:55:57Z
+    TransactionDateTimestamp: 1441695357401
+    Amount: -78
+  - TransactionDate: 2015-09-08T06:52:20Z
+    TransactionDateTimestamp: 1441695140539
+    Amount: -341.66
+  - TransactionDate: 2015-09-08T05:11:03Z
+    TransactionDateTimestamp: 1441689063493
+    Amount: -30
+  - TransactionDate: 2015-09-08T04:24:10Z
+    TransactionDateTimestamp: 1441686250495
+    Amount: -32
+  - TransactionDate: 2015-09-07T13:35:06Z
+    TransactionDateTimestamp: 1441632906605
+    Amount: 50
+  - TransactionDate: 2015-09-07T10:37:08Z
+    TransactionDateTimestamp: 1441622228284
+    Amount: 20
+  - TransactionDate: 2015-09-07T01:14:43Z
+    TransactionDateTimestamp: 1441588483034
+    Amount: -6501.67
+  - TransactionDate: 2015-09-07T01:10:41Z
+    TransactionDateTimestamp: 1441588241730
+    Amount: -2948.67
+  - TransactionDate: 2015-09-06T05:23:41Z
+    TransactionDateTimestamp: 1441517021322
+    Amount: -143.25
+  - TransactionDate: 2015-09-06T05:21:37Z
+    TransactionDateTimestamp: 1441516897128
+    Amount: -38.95
+  - TransactionDate: 2015-09-05T20:45:32Z
+    TransactionDateTimestamp: 1441485932674
+    Amount: 65
+  - TransactionDate: 2015-09-05T20:43:08Z
+    TransactionDateTimestamp: 1441485788910
+    Amount: 240
+  - TransactionDate: 2015-09-05T04:52:06Z
+    TransactionDateTimestamp: 1441428726204
+    Amount: -250
+  - TransactionDate: 2015-09-04T10:10:08Z
+    TransactionDateTimestamp: 1441361408807
+    Amount: -50
+  - TransactionDate: 2015-09-04T00:35:33Z
+    TransactionDateTimestamp: 1441326933001
+    Amount: -600
+  - TransactionDate: 2015-09-03T04:52:10Z
+    TransactionDateTimestamp: 1441255930845
+    Amount: -45
+  - TransactionDate: 2015-09-02T21:31:56Z
+    TransactionDateTimestamp: 1441229516645
+    Amount: -288
+  - TransactionDate: 2015-09-02T13:54:25Z
+    TransactionDateTimestamp: 1441202065616
+    Amount: -800
+  - TransactionDate: 2015-09-02T11:42:20Z
+    TransactionDateTimestamp: 1441194140077
+    Amount: -40.3
+  - TransactionDate: 2015-09-02T05:01:03Z
+    TransactionDateTimestamp: 1441170063809
+    Amount: -159
+  - TransactionDate: 2015-09-02T01:11:34Z
+    TransactionDateTimestamp: 1441156294376
+    Amount: -2219.59
+  - TransactionDate: 2015-09-02T01:09:57Z
+    TransactionDateTimestamp: 1441156197217
+    Amount: -79.4
+  - TransactionDate: 2015-09-01T18:56:06Z
+    TransactionDateTimestamp: 1441133766656
+    Amount: 70
+  - TransactionDate: 2015-09-01T16:42:02Z
+    TransactionDateTimestamp: 1441125722139
+    Amount: -55
+  - TransactionDate: 2015-09-01T13:09:21Z
+    TransactionDateTimestamp: 1441112961760
+    Amount: -35.63
+  - TransactionDate: 2015-09-01T10:32:20Z
+    TransactionDateTimestamp: 1441103540324
+    Amount: -100.95
+  - TransactionDate: 2015-09-01T03:31:46Z
+    TransactionDateTimestamp: 1441078306340
+    Amount: -235
+  - TransactionDate: 2015-09-01T03:28:48Z
+    TransactionDateTimestamp: 1441078128718
+    Amount: -2379
+  - TransactionDate: 2015-09-01T03:25:11Z
+    TransactionDateTimestamp: 1441077911211
+    Amount: -1905.84
+  - TransactionDate: 2015-09-01T03:22:27Z
+    TransactionDateTimestamp: 1441077747501
+    Amount: -897
+  - TransactionDate: 2015-09-01T03:20:23Z
+    TransactionDateTimestamp: 1441077623672
+    Amount: -100
+  - TransactionDate: 2015-09-01T03:14:46Z
+    TransactionDateTimestamp: 1441077286903
+    Amount: -2153
+  - TransactionDate: 2015-09-01T03:13:47Z
+    TransactionDateTimestamp: 1441077227558
+    Amount: -1000
+  - TransactionDate: 2015-09-01T03:11:23Z
+    TransactionDateTimestamp: 1441077083121
+    Amount: -2256
+  - TransactionDate: 2015-09-01T03:11:07Z
+    TransactionDateTimestamp: 1441077067131
+    Amount: -248
+  - TransactionDate: 2015-09-01T03:10:20Z
+    TransactionDateTimestamp: 1441077020337
+    Amount: 11720.74
+  - TransactionDate: 2015-09-01T03:06:49Z
+    TransactionDateTimestamp: 1441076809795
+    Amount: -8275.19
+  - TransactionDate: 2015-09-01T03:05:57Z
+    TransactionDateTimestamp: 1441076757994
+    Amount: -4783
+  - TransactionDate: 2015-09-01T03:00:57Z
+    TransactionDateTimestamp: 1441076457872
+    Amount: -975.04
+  - TransactionDate: 2015-09-01T02:55:24Z
+    TransactionDateTimestamp: 1441076124175
+    Amount: -254.25
+  - TransactionDate: 2015-09-01T02:55:03Z
+    TransactionDateTimestamp: 1441076103210
+    Amount: -5267
+  - TransactionDate: 2015-09-01T02:53:27Z
+    TransactionDateTimestamp: 1441076007113
+    Amount: -2458.52
+  - TransactionDate: 2015-08-31T13:58:09Z
+    TransactionDateTimestamp: 1441029489691
+    Amount: -150
+  - TransactionDate: 2015-08-30T15:37:30Z
+    TransactionDateTimestamp: 1440949050666
+    Amount: -650
+  - TransactionDate: 2015-08-30T08:52:22Z
+    TransactionDateTimestamp: 1440924742381
+    Amount: 55
+  - TransactionDate: 2015-08-30T06:28:03Z
+    TransactionDateTimestamp: 1440916083912
+    Amount: -118.22
+  - TransactionDate: 2015-08-30T06:23:04Z
+    TransactionDateTimestamp: 1440915784502
+    Amount: -50
+  - TransactionDate: 2015-08-30T05:50:30Z
+    TransactionDateTimestamp: 1440913830940
+    Amount: -44
+  - TransactionDate: 2015-08-30T04:04:27Z
+    TransactionDateTimestamp: 1440907467424
+    Amount: -161
+  - TransactionDate: 2015-08-30T03:53:18Z
+    TransactionDateTimestamp: 1440906798316
+    Amount: -399.2
+  - TransactionDate: 2015-08-30T03:53:18Z
+    TransactionDateTimestamp: 1440906798125
+    Amount: -200
+  - TransactionDate: 2015-08-30T03:45:01Z
+    TransactionDateTimestamp: 1440906301946
+    Amount: -150.94
+  - TransactionDate: 2015-08-30T03:45:01Z
+    TransactionDateTimestamp: 1440906301608
+    Amount: -64
+  - TransactionDate: 2015-08-29T14:24:34Z
+    TransactionDateTimestamp: 1440858274279
+    Amount: 337
+  - TransactionDate: 2015-08-29T10:11:20Z
+    TransactionDateTimestamp: 1440843080217
+    Amount: 200
+  - TransactionDate: 2015-08-29T07:58:08Z
+    TransactionDateTimestamp: 1440835088344
+    Amount: -75
+  - TransactionDate: 2015-08-29T07:39:28Z
+    TransactionDateTimestamp: 1440833968096
+    Amount: -76
+  - TransactionDate: 2015-08-29T07:02:57Z
+    TransactionDateTimestamp: 1440831777168
+    Amount: -60.95
+  - TransactionDate: 2015-08-28T09:36:12Z
+    TransactionDateTimestamp: 1440754572130
+    Amount: 30
+  - TransactionDate: 2015-08-28T06:48:39Z
+    TransactionDateTimestamp: 1440744519127
+    Amount: -10225.76
+  - TransactionDate: 2015-08-28T01:18:59Z
+    TransactionDateTimestamp: 1440724739058
+    Amount: -4294.38
+  - TransactionDate: 2015-08-27T06:06:29Z
+    TransactionDateTimestamp: 1440655589799
+    Amount: -55
+  - TransactionDate: 2015-08-27T03:57:04Z
+    TransactionDateTimestamp: 1440647824569
+    Amount: -30
+  - TransactionDate: 2015-08-26T05:21:15Z
+    TransactionDateTimestamp: 1440566475547
+    Amount: -100
+  - TransactionDate: 2015-08-25T04:06:56Z
+    TransactionDateTimestamp: 1440475616182
+    Amount: -20
+  - TransactionDate: 2015-08-23T13:04:01Z
+    TransactionDateTimestamp: 1440335041914
+    Amount: -509
+  - TransactionDate: 2015-08-23T11:50:54Z
+    TransactionDateTimestamp: 1440330654946
+    Amount: -170
+  - TransactionDate: 2015-08-23T04:39:28Z
+    TransactionDateTimestamp: 1440304768374
+    Amount: -25
+  - TransactionDate: 2015-08-21T12:46:44Z
+    TransactionDateTimestamp: 1440161204121
+    Amount: -100
+  - TransactionDate: 2015-08-21T06:12:52Z
+    TransactionDateTimestamp: 1440137572610
+    Amount: -99.95
+  - TransactionDate: 2015-08-20T19:40:52Z
+    TransactionDateTimestamp: 1440099652933
+    Amount: -100
+  - TransactionDate: 2015-08-20T06:31:19Z
+    TransactionDateTimestamp: 1440052279607
+    Amount: -122
+  - TransactionDate: 2015-08-20T01:03:25Z
+    TransactionDateTimestamp: 1440032605386
+    Amount: -6470.24
+  - TransactionDate: 2015-08-19T05:06:54Z
+    TransactionDateTimestamp: 1439960814590
+    Amount: -100
+  - TransactionDate: 2015-08-19T03:44:48Z
+    TransactionDateTimestamp: 1439955888431
+    Amount: -105
+  - TransactionDate: 2015-08-18T03:59:42Z
+    TransactionDateTimestamp: 1439870382068
+    Amount: -225
+  - TransactionDate: 2015-08-18T03:58:32Z
+    TransactionDateTimestamp: 1439870312249
+    Amount: -160
+  - TransactionDate: 2015-08-17T08:31:41Z
+    TransactionDateTimestamp: 1439800301485
+    Amount: 300
+  - TransactionDate: 2015-08-17T06:38:52Z
+    TransactionDateTimestamp: 1439793532478
+    Amount: -300
+  - TransactionDate: 2015-08-16T03:53:25Z
+    TransactionDateTimestamp: 1439697205590
+    Amount: -43
+  - TransactionDate: 2015-08-15T07:19:28Z
+    TransactionDateTimestamp: 1439623168602
+    Amount: -32.45
+  - TransactionDate: 2015-08-15T05:56:21Z
+    TransactionDateTimestamp: 1439618181530
+    Amount: -389.46
+  - TransactionDate: 2015-08-15T03:57:32Z
+    TransactionDateTimestamp: 1439611052874
+    Amount: -16.85
+  - TransactionDate: 2015-08-14T11:30:37Z
+    TransactionDateTimestamp: 1439551837280
+    Amount: 208
+  - TransactionDate: 2015-08-14T08:17:07Z
+    TransactionDateTimestamp: 1439540227264
+    Amount: 50
+  - TransactionDate: 2015-08-14T07:45:02Z
+    TransactionDateTimestamp: 1439538302287
+    Amount: 25
+  - TransactionDate: 2015-08-14T06:22:01Z
+    TransactionDateTimestamp: 1439533321523
+    Amount: -31.15
+  - TransactionDate: 2015-08-14T05:34:36Z
+    TransactionDateTimestamp: 1439530476833
+    Amount: -151.9
+  - TransactionDate: 2015-08-14T04:30:52Z
+    TransactionDateTimestamp: 1439526652528
+    Amount: -300
+  - TransactionDate: 2015-08-14T01:12:20Z
+    TransactionDateTimestamp: 1439514740471
+    Amount: -100
+  - TransactionDate: 2015-08-13T18:02:00Z
+    TransactionDateTimestamp: 1439488920424
+    Amount: 190
+  - TransactionDate: 2015-08-13T15:59:12Z
+    TransactionDateTimestamp: 1439481552684
+    Amount: -150
+  - TransactionDate: 2015-08-13T07:49:04Z
+    TransactionDateTimestamp: 1439452144217
+    Amount: 25
+  - TransactionDate: 2015-08-13T07:47:59Z
+    TransactionDateTimestamp: 1439452079371
+    Amount: 25
+  - TransactionDate: 2015-08-12T05:49:57Z
+    TransactionDateTimestamp: 1439358597738
+    Amount: -120.4
+  - TransactionDate: 2015-08-12T05:31:34Z
+    TransactionDateTimestamp: 1439357494415
+    Amount: -46.65
+  - TransactionDate: 2015-08-11T12:49:13Z
+    TransactionDateTimestamp: 1439297353133
+    Amount: -100
+  - TransactionDate: 2015-08-11T06:51:44Z
+    TransactionDateTimestamp: 1439275904015
+    Amount: -82.95
+  - TransactionDate: 2015-08-11T01:02:41Z
+    TransactionDateTimestamp: 1439254961352
+    Amount: -1320
+  - TransactionDate: 2015-08-10T19:03:09Z
+    TransactionDateTimestamp: 1439233389232
+    Amount: -750
+  - TransactionDate: 2015-08-10T15:21:34Z
+    TransactionDateTimestamp: 1439220094959
+    Amount: 675
+  - TransactionDate: 2015-08-10T04:35:48Z
+    TransactionDateTimestamp: 1439181348706
+    Amount: -198
+  - TransactionDate: 2015-08-10T03:38:01Z
+    TransactionDateTimestamp: 1439177881087
+    Amount: -58.5
+  - TransactionDate: 2015-08-10T01:04:51Z
+    TransactionDateTimestamp: 1439168691024
+    Amount: -45
+  - TransactionDate: 2015-08-10T01:02:55Z
+    TransactionDateTimestamp: 1439168575003
+    Amount: -1000.01
+  - TransactionDate: 2015-08-09T05:56:27Z
+    TransactionDateTimestamp: 1439099787617
+    Amount: -100
+  - TransactionDate: 2015-08-08T07:36:17Z
+    TransactionDateTimestamp: 1439019377759
+    Amount: -100
+  - TransactionDate: 2015-08-08T06:37:27Z
+    TransactionDateTimestamp: 1439015847920
+    Amount: -27.65
+  - TransactionDate: 2015-08-08T04:44:26Z
+    TransactionDateTimestamp: 1439009066857
+    Amount: -69.95
+  - TransactionDate: 2015-08-08T04:18:33Z
+    TransactionDateTimestamp: 1439007513690
+    Amount: -31
+  - TransactionDate: 2015-08-08T04:18:33Z
+    TransactionDateTimestamp: 1439007513276
+    Amount: -837.1
+  - TransactionDate: 2015-08-07T21:30:26Z
+    TransactionDateTimestamp: 1438983026433
+    Amount: -130
+  - TransactionDate: 2015-08-07T06:45:06Z
+    TransactionDateTimestamp: 1438929906464
+    Amount: -37.68
+  - TransactionDate: 2015-08-07T05:50:01Z
+    TransactionDateTimestamp: 1438926601613
+    Amount: -78
+  - TransactionDate: 2015-08-07T04:34:01Z
+    TransactionDateTimestamp: 1438922041164
+    Amount: -69.58
+  - TransactionDate: 2015-08-06T17:31:46Z
+    TransactionDateTimestamp: 1438882306856
+    Amount: 300
+  - TransactionDate: 2015-08-06T06:27:26Z
+    TransactionDateTimestamp: 1438842446231
+    Amount: -67.9
+  - TransactionDate: 2015-08-06T06:11:04Z
+    TransactionDateTimestamp: 1438841464305
+    Amount: -59
+  - TransactionDate: 2015-08-05T13:40:09Z
+    TransactionDateTimestamp: 1438782009959
+    Amount: -100
+  - TransactionDate: 2015-08-05T13:35:13Z
+    TransactionDateTimestamp: 1438781713255
+    Amount: -900
+  - TransactionDate: 2015-08-05T08:12:48Z
+    TransactionDateTimestamp: 1438762368087
+    Amount: 25
+  - TransactionDate: 2015-08-05T07:53:03Z
+    TransactionDateTimestamp: 1438761183419
+    Amount: -45.9
+  - TransactionDate: 2015-08-05T07:14:49Z
+    TransactionDateTimestamp: 1438758889629
+    Amount: 1500
+  - TransactionDate: 2015-08-05T01:10:29Z
+    TransactionDateTimestamp: 1438737029630
+    Amount: -192
+  - TransactionDate: 2015-08-05T01:08:46Z
+    TransactionDateTimestamp: 1438736926473
+    Amount: -975
+  - TransactionDate: 2015-08-05T01:08:24Z
+    TransactionDateTimestamp: 1438736904055
+    Amount: -837.75
+  - TransactionDate: 2015-08-05T01:03:22Z
+    TransactionDateTimestamp: 1438736602277
+    Amount: -1535
+  - TransactionDate: 2015-08-05T01:03:04Z
+    TransactionDateTimestamp: 1438736584844
+    Amount: -995
+  - TransactionDate: 2015-08-04T16:11:31Z
+    TransactionDateTimestamp: 1438704691647
+    Amount: -50
+  - TransactionDate: 2015-08-04T09:13:10Z
+    TransactionDateTimestamp: 1438679590062
+    Amount: -83
+  - TransactionDate: 2015-08-04T08:48:25Z
+    TransactionDateTimestamp: 1438678105324
+    Amount: -498.95
+  - TransactionDate: 2015-08-04T04:57:44Z
+    TransactionDateTimestamp: 1438664264702
+    Amount: -199
+  - TransactionDate: 2015-08-04T04:53:41Z
+    TransactionDateTimestamp: 1438664021875
+    Amount: -108
+  - TransactionDate: 2015-08-04T01:01:38Z
+    TransactionDateTimestamp: 1438650098999
+    Amount: -242.18
+  - TransactionDate: 2015-08-03T06:06:53Z
+    TransactionDateTimestamp: 1438582013915
+    Amount: -30.9
+  - TransactionDate: 2015-08-03T01:36:46Z
+    TransactionDateTimestamp: 1438565806570
+    Amount: -208.75
+  - TransactionDate: 2015-08-03T01:35:23Z
+    TransactionDateTimestamp: 1438565723686
+    Amount: -1436.25
+  - TransactionDate: 2015-08-03T01:35:23Z
+    TransactionDateTimestamp: 1438565723658
+    Amount: -609
+  - TransactionDate: 2015-08-03T01:30:16Z
+    TransactionDateTimestamp: 1438565416064
+    Amount: -500
+  - TransactionDate: 2015-08-03T01:25:18Z
+    TransactionDateTimestamp: 1438565118440
+    Amount: -389.96
+  - TransactionDate: 2015-08-03T01:24:54Z
+    TransactionDateTimestamp: 1438565094907
+    Amount: -1579.58
+  - TransactionDate: 2015-08-03T01:23:31Z
+    TransactionDateTimestamp: 1438565011635
+    Amount: -191.75
+  - TransactionDate: 2015-08-03T01:23:01Z
+    TransactionDateTimestamp: 1438564981638
+    Amount: -387.16
+  - TransactionDate: 2015-08-03T01:22:41Z
+    TransactionDateTimestamp: 1438564961803
+    Amount: -1298.91
+  - TransactionDate: 2015-08-03T01:20:33Z
+    TransactionDateTimestamp: 1438564833052
+    Amount: -225
+  - TransactionDate: 2015-08-03T01:12:29Z
+    TransactionDateTimestamp: 1438564349811
+    Amount: -1091.04
+  - TransactionDate: 2015-08-03T01:12:29Z
+    TransactionDateTimestamp: 1438564349694
+    Amount: -138.18
+  - TransactionDate: 2015-08-03T01:10:45Z
+    TransactionDateTimestamp: 1438564245160
+    Amount: -5990
+  - TransactionDate: 2015-08-03T01:06:51Z
+    TransactionDateTimestamp: 1438564011629
+    Amount: -1490.87
+  - TransactionDate: 2015-08-02T19:26:41Z
+    TransactionDateTimestamp: 1438543601993
+    Amount: 75
+  - TransactionDate: 2015-08-02T07:30:14Z
+    TransactionDateTimestamp: 1438500614637
+    Amount: -59.45
+  - TransactionDate: 2015-08-01T22:28:05Z
+    TransactionDateTimestamp: 1438468085334
+    Amount: -150
+  - TransactionDate: 2015-08-01T18:23:07Z
+    TransactionDateTimestamp: 1438453387466
+    Amount: 1800
+  - TransactionDate: 2015-08-01T16:14:38Z
+    TransactionDateTimestamp: 1438445678768
+    Amount: 832
+  - TransactionDate: 2015-08-01T07:43:55Z
+    TransactionDateTimestamp: 1438415035474
+    Amount: -385.15
+  - TransactionDate: 2015-08-01T01:35:43Z
+    TransactionDateTimestamp: 1438392943875
+    Amount: 430
+  - TransactionDate: 2015-07-31T16:00:37Z
+    TransactionDateTimestamp: 1438358437164
+    Amount: -55
+  - TransactionDate: 2015-07-31T13:43:47Z
+    TransactionDateTimestamp: 1438350227955
+    Amount: 21
+  - TransactionDate: 2015-07-31T11:08:24Z
+    TransactionDateTimestamp: 1438340904977
+    Amount: 165
+  - TransactionDate: 2015-07-31T05:17:03Z
+    TransactionDateTimestamp: 1438319823759
+    Amount: -138.24
+  - TransactionDate: 2015-07-30T05:44:52Z
+    TransactionDateTimestamp: 1438235092404
+    Amount: -57.9
+  - TransactionDate: 2015-07-29T18:24:01Z
+    TransactionDateTimestamp: 1438194241551
+    Amount: 85
+  - TransactionDate: 2015-07-29T04:10:14Z
+    TransactionDateTimestamp: 1438143014198
+    Amount: -43
+  - TransactionDate: 2015-07-28T06:03:55Z
+    TransactionDateTimestamp: 1438063435252
+    Amount: -88
+  - TransactionDate: 2015-07-28T05:29:09Z
+    TransactionDateTimestamp: 1438061349629
+    Amount: -289.5
+  - TransactionDate: 2015-07-26T06:03:13Z
+    TransactionDateTimestamp: 1437890593039
+    Amount: -697.5
+  - TransactionDate: 2015-07-25T20:40:08Z
+    TransactionDateTimestamp: 1437856808666
+    Amount: 500
+  - TransactionDate: 2015-07-24T05:32:39Z
+    TransactionDateTimestamp: 1437715959881
+    Amount: -155.62
+  - TransactionDate: 2015-07-23T05:54:48Z
+    TransactionDateTimestamp: 1437630888744
+    Amount: -899
+  - TransactionDate: 2015-07-22T15:40:08Z
+    TransactionDateTimestamp: 1437579608191
+    Amount: -62
+  - TransactionDate: 2015-07-22T06:33:36Z
+    TransactionDateTimestamp: 1437546816857
+    Amount: -180.25
+  - TransactionDate: 2015-07-22T06:33:36Z
+    TransactionDateTimestamp: 1437546816396
+    Amount: -193.05
+  - TransactionDate: 2015-07-22T05:41:17Z
+    TransactionDateTimestamp: 1437543677942
+    Amount: -68.9
+  - TransactionDate: 2015-07-21T15:47:56Z
+    TransactionDateTimestamp: 1437493676076
+    Amount: -415
+  - TransactionDate: 2015-07-21T15:35:55Z
+    TransactionDateTimestamp: 1437492955727
+    Amount: 50
+  - TransactionDate: 2015-07-21T08:54:14Z
+    TransactionDateTimestamp: 1437468854441
+    Amount: -158
+  - TransactionDate: 2015-07-21T04:45:31Z
+    TransactionDateTimestamp: 1437453931818
+    Amount: -28.8
+  - TransactionDate: 2015-07-20T18:58:06Z
+    TransactionDateTimestamp: 1437418686699
+    Amount: 90
+  - TransactionDate: 2015-07-20T08:33:37Z
+    TransactionDateTimestamp: 1437381217861
+    Amount: 25
+  - TransactionDate: 2015-07-20T01:03:12Z
+    TransactionDateTimestamp: 1437354192744
+    Amount: -8690
+  - TransactionDate: 2015-07-19T06:40:02Z
+    TransactionDateTimestamp: 1437288002192
+    Amount: -44.2
+  - TransactionDate: 2015-07-19T03:35:44Z
+    TransactionDateTimestamp: 1437276944667
+    Amount: -49.95
+  - TransactionDate: 2015-07-18T07:30:48Z
+    TransactionDateTimestamp: 1437204648899
+    Amount: -68
+  - TransactionDate: 2015-07-18T04:41:36Z
+    TransactionDateTimestamp: 1437194496832
+    Amount: -28
+  - TransactionDate: 2015-07-16T06:37:57Z
+    TransactionDateTimestamp: 1437028677403
+    Amount: -240
+  - TransactionDate: 2015-07-16T05:38:14Z
+    TransactionDateTimestamp: 1437025094014
+    Amount: -39
+  - TransactionDate: 2015-07-15T06:05:15Z
+    TransactionDateTimestamp: 1436940315457
+    Amount: -7
+  - TransactionDate: 2015-07-14T16:05:11Z
+    TransactionDateTimestamp: 1436889911468
+    Amount: 250
+  - TransactionDate: 2015-07-13T20:57:33Z
+    TransactionDateTimestamp: 1436821053985
+    Amount: 150
+  - TransactionDate: 2015-07-13T04:02:18Z
+    TransactionDateTimestamp: 1436760138509
+    Amount: -20
+  - TransactionDate: 2015-07-12T18:07:51Z
+    TransactionDateTimestamp: 1436724471016
+    Amount: 60
+  - TransactionDate: 2015-07-11T17:08:30Z
+    TransactionDateTimestamp: 1436634510595
+    Amount: 20
+  - TransactionDate: 2015-07-11T15:23:26Z
+    TransactionDateTimestamp: 1436628206686
+    Amount: -175
+  - TransactionDate: 2015-07-11T06:06:17Z
+    TransactionDateTimestamp: 1436594777392
+    Amount: -84.45
+  - TransactionDate: 2015-07-10T12:35:27Z
+    TransactionDateTimestamp: 1436531727188
+    Amount: -50
+  - TransactionDate: 2015-07-10T05:51:34Z
+    TransactionDateTimestamp: 1436507494212
+    Amount: 80
+  - TransactionDate: 2015-07-10T01:16:25Z
+    TransactionDateTimestamp: 1436490985244
+    Amount: -205
+  - TransactionDate: 2015-07-10T01:14:18Z
+    TransactionDateTimestamp: 1436490858118
+    Amount: -900.75
+  - TransactionDate: 2015-07-10T01:13:45Z
+    TransactionDateTimestamp: 1436490825984
+    Amount: -205
+  - TransactionDate: 2015-07-09T05:56:36Z
+    TransactionDateTimestamp: 1436421396434
+    Amount: -28.85
+  - TransactionDate: 2015-07-08T04:39:24Z
+    TransactionDateTimestamp: 1436330364809
+    Amount: -40
+  - TransactionDate: 2015-07-07T05:12:12Z
+    TransactionDateTimestamp: 1436245932511
+    Amount: -45
+  - TransactionDate: 2015-07-07T01:12:51Z
+    TransactionDateTimestamp: 1436231571325
+    Amount: -266.75
+  - TransactionDate: 2015-07-07T01:10:48Z
+    TransactionDateTimestamp: 1436231448567
+    Amount: -120.3
+  - TransactionDate: 2015-07-06T20:55:53Z
+    TransactionDateTimestamp: 1436216153950
+    Amount: -40
+  - TransactionDate: 2015-07-06T19:44:02Z
+    TransactionDateTimestamp: 1436211842738
+    Amount: 310
+  - TransactionDate: 2015-07-06T12:46:34Z
+    TransactionDateTimestamp: 1436186794829
+    Amount: -1350
+  - TransactionDate: 2015-07-06T10:47:43Z
+    TransactionDateTimestamp: 1436179663959
+    Amount: 500
+  - TransactionDate: 2015-07-06T01:14:11Z
+    TransactionDateTimestamp: 1436145251062
+    Amount: -345
+  - TransactionDate: 2015-07-06T01:14:08Z
+    TransactionDateTimestamp: 1436145248099
+    Amount: -975
+  - TransactionDate: 2015-07-06T01:13:37Z
+    TransactionDateTimestamp: 1436145217169
+    Amount: -10001.5
+  - TransactionDate: 2015-07-06T01:10:05Z
+    TransactionDateTimestamp: 1436145005957
+    Amount: -680
+  - TransactionDate: 2015-07-05T12:03:53Z
+    TransactionDateTimestamp: 1436097833695
+    Amount: 24
+  - TransactionDate: 2015-07-05T11:46:18Z
+    TransactionDateTimestamp: 1436096778252
+    Amount: -87.5
+  - TransactionDate: 2015-07-05T05:11:44Z
+    TransactionDateTimestamp: 1436073104126
+    Amount: -800
+  - TransactionDate: 2015-07-05T05:10:17Z
+    TransactionDateTimestamp: 1436073017629
+    Amount: -15
+  - TransactionDate: 2015-07-05T04:38:33Z
+    TransactionDateTimestamp: 1436071113185
+    Amount: -300
+  - TransactionDate: 2015-07-04T15:36:16Z
+    TransactionDateTimestamp: 1436024176623
+    Amount: -2000
+  - TransactionDate: 2015-07-04T08:31:36Z
+    TransactionDateTimestamp: 1435998696160
+    Amount: -149.9
+  - TransactionDate: 2015-07-03T18:52:31Z
+    TransactionDateTimestamp: 1435949551632
+    Amount: 300
+  - TransactionDate: 2015-07-03T01:09:55Z
+    TransactionDateTimestamp: 1435885795629
+    Amount: -269.29
+  - TransactionDate: 2015-07-02T17:03:13Z
+    TransactionDateTimestamp: 1435856593306
+    Amount: -50
+  - TransactionDate: 2015-07-02T17:02:02Z
+    TransactionDateTimestamp: 1435856522002
+    Amount: 390
+  - TransactionDate: 2015-07-02T08:26:07Z
+    TransactionDateTimestamp: 1435825567281
+    Amount: -62
+  - TransactionDate: 2015-07-02T05:39:05Z
+    TransactionDateTimestamp: 1435815545779
+    Amount: -32.7
+  - TransactionDate: 2015-07-02T02:14:18Z
+    TransactionDateTimestamp: 1435803258914
+    Amount: -661.49
+  - TransactionDate: 2015-07-02T02:11:47Z
+    TransactionDateTimestamp: 1435803107537
+    Amount: -997.79
+  - TransactionDate: 2015-07-01T15:04:51Z
+    TransactionDateTimestamp: 1435763091480
+    Amount: -210
+  - TransactionDate: 2015-07-01T05:51:18Z
+    TransactionDateTimestamp: 1435729878275
+    Amount: -837.86
+  - TransactionDate: 2015-07-01T05:46:31Z
+    TransactionDateTimestamp: 1435729591275
+    Amount: -2379
+  - TransactionDate: 2015-07-01T05:38:00Z
+    TransactionDateTimestamp: 1435729080082
+    Amount: -500
+  - TransactionDate: 2015-07-01T05:28:33Z
+    TransactionDateTimestamp: 1435728513410
+    Amount: -2153
+  - TransactionDate: 2015-07-01T05:26:16Z
+    TransactionDateTimestamp: 1435728376375
+    Amount: -744.19
+  - TransactionDate: 2015-07-01T05:26:07Z
+    TransactionDateTimestamp: 1435728367850
+    Amount: -1860
+  - TransactionDate: 2015-07-01T05:24:57Z
+    TransactionDateTimestamp: 1435728297321
+    Amount: -1579.58
+  - TransactionDate: 2015-07-01T05:23:15Z
+    TransactionDateTimestamp: 1435728195865
+    Amount: -1394.09
+  - TransactionDate: 2015-07-01T05:23:14Z
+    TransactionDateTimestamp: 1435728194733
+    Amount: -88
+  - TransactionDate: 2015-07-01T05:21:43Z
+    TransactionDateTimestamp: 1435728103155
+    Amount: -340.05
+  - TransactionDate: 2015-07-01T05:15:32Z
+    TransactionDateTimestamp: 1435727732313
+    Amount: -308.75
+  - TransactionDate: 2015-07-01T05:05:42Z
+    TransactionDateTimestamp: 1435727142778
+    Amount: -1890.46
+  - TransactionDate: 2015-07-01T05:05:42Z
+    TransactionDateTimestamp: 1435727142720
+    Amount: -198
+  - TransactionDate: 2015-07-01T05:02:45Z
+    TransactionDateTimestamp: 1435726965300
+    Amount: -1398.85
+  - TransactionDate: 2015-07-01T05:02:41Z
+    TransactionDateTimestamp: 1435726961057
+    Amount: -529.32
+  - TransactionDate: 2015-07-01T05:00:55Z
+    TransactionDateTimestamp: 1435726855032
+    Amount: -169
+  - TransactionDate: 2015-07-01T04:58:28Z
+    TransactionDateTimestamp: 1435726708910
+    Amount: -405.42
+  - TransactionDate: 2015-07-01T04:56:56Z
+    TransactionDateTimestamp: 1435726616048
+    Amount: -1230
+  - TransactionDate: 2015-07-01T04:55:25Z
+    TransactionDateTimestamp: 1435726525383
+    Amount: -198
+  - TransactionDate: 2015-07-01T04:54:53Z
+    TransactionDateTimestamp: 1435726493179
+    Amount: -1230
+  - TransactionDate: 2015-06-30T01:18:28Z
+    TransactionDateTimestamp: 1435627108360
+    Amount: -7840.47
+  - TransactionDate: 2015-06-30T01:18:01Z
+    TransactionDateTimestamp: 1435627081370
+    Amount: -3844.22
+  - TransactionDate: 2015-06-30T01:17:22Z
+    TransactionDateTimestamp: 1435627042214
+    Amount: -2578.71
+  - TransactionDate: 2015-06-30T01:16:25Z
+    TransactionDateTimestamp: 1435626985118
+    Amount: -20437.73
+  - TransactionDate: 2015-06-29T17:00:18Z
+    TransactionDateTimestamp: 1435597218726
+    Amount: -100
+  - TransactionDate: 2015-06-28T16:03:07Z
+    TransactionDateTimestamp: 1435507387249
+    Amount: 30
+  - TransactionDate: 2015-06-28T05:55:34Z
+    TransactionDateTimestamp: 1435470934916
+    Amount: -102
+  - TransactionDate: 2015-06-27T19:56:07Z
+    TransactionDateTimestamp: 1435434967876
+    Amount: 10
+  - TransactionDate: 2015-06-27T06:06:48Z
+    TransactionDateTimestamp: 1435385208691
+    Amount: -44
+  - TransactionDate: 2015-06-27T04:59:46Z
+    TransactionDateTimestamp: 1435381186769
+    Amount: -55.8
+  - TransactionDate: 2015-06-27T04:22:13Z
+    TransactionDateTimestamp: 1435378933804
+    Amount: -25
+  - TransactionDate: 2015-06-26T12:43:31Z
+    TransactionDateTimestamp: 1435322611425
+    Amount: -114
+  - TransactionDate: 2015-06-26T05:04:37Z
+    TransactionDateTimestamp: 1435295077708
+    Amount: -30.95
+  - TransactionDate: 2015-06-25T20:26:32Z
+    TransactionDateTimestamp: 1435263992772
+    Amount: 95
+  - TransactionDate: 2015-06-25T12:53:29Z
+    TransactionDateTimestamp: 1435236809625
+    Amount: -125
+  - TransactionDate: 2015-06-24T06:06:52Z
+    TransactionDateTimestamp: 1435126012795
+    Amount: -85.91
+  - TransactionDate: 2015-06-24T05:40:10Z
+    TransactionDateTimestamp: 1435124410687
+    Amount: 75
+  - TransactionDate: 2015-06-23T17:56:41Z
+    TransactionDateTimestamp: 1435082201659
+    Amount: 282
+  - TransactionDate: 2015-06-23T17:33:36Z
+    TransactionDateTimestamp: 1435080816480
+    Amount: 200
+  - TransactionDate: 2015-06-23T13:34:37Z
+    TransactionDateTimestamp: 1435066477723
+    Amount: -1250
+  - TransactionDate: 2015-06-23T04:53:20Z
+    TransactionDateTimestamp: 1435035200233
+    Amount: -225
+  - TransactionDate: 2015-06-22T16:31:29Z
+    TransactionDateTimestamp: 1434990689562
+    Amount: 10
+  - TransactionDate: 2015-06-22T04:44:25Z
+    TransactionDateTimestamp: 1434948265980
+    Amount: -25
+  - TransactionDate: 2015-06-21T17:31:53Z
+    TransactionDateTimestamp: 1434907913589
+    Amount: -700
+  - TransactionDate: 2015-06-21T04:00:37Z
+    TransactionDateTimestamp: 1434859237460
+    Amount: -129
+  - TransactionDate: 2015-06-20T18:46:10Z
+    TransactionDateTimestamp: 1434825970562
+    Amount: 45
+  - TransactionDate: 2015-06-20T12:41:40Z
+    TransactionDateTimestamp: 1434804100525
+    Amount: -310
+  - TransactionDate: 2015-06-20T06:49:11Z
+    TransactionDateTimestamp: 1434782951590
+    Amount: -140
+  - TransactionDate: 2015-06-19T16:28:24Z
+    TransactionDateTimestamp: 1434731304843
+    Amount: 150
+  - TransactionDate: 2015-06-17T09:45:32Z
+    TransactionDateTimestamp: 1434534332535
+    Amount: 30
+  - TransactionDate: 2015-06-17T05:27:49Z
+    TransactionDateTimestamp: 1434518869848
+    Amount: -37
+  - TransactionDate: 2015-06-16T19:21:35Z
+    TransactionDateTimestamp: 1434482495905
+    Amount: -100
+  - TransactionDate: 2015-06-16T07:24:35Z
+    TransactionDateTimestamp: 1434439475113
+    Amount: -26.9
+  - TransactionDate: 2015-06-16T04:57:36Z
+    TransactionDateTimestamp: 1434430656901
+    Amount: -360
+  - TransactionDate: 2015-06-16T04:48:31Z
+    TransactionDateTimestamp: 1434430111125
+    Amount: -20
+  - TransactionDate: 2015-06-15T21:09:27Z
+    TransactionDateTimestamp: 1434402567507
+    Amount: -1000
+  - TransactionDate: 2015-06-14T14:37:41Z
+    TransactionDateTimestamp: 1434292661708
+    Amount: 89
+  - TransactionDate: 2015-06-14T06:24:13Z
+    TransactionDateTimestamp: 1434263053039
+    Amount: -10
+  - TransactionDate: 2015-06-13T06:33:34Z
+    TransactionDateTimestamp: 1434177214130
+    Amount: -35
+  - TransactionDate: 2015-06-13T05:26:03Z
+    TransactionDateTimestamp: 1434173163328
+    Amount: -162.45
+  - TransactionDate: 2015-06-12T10:45:27Z
+    TransactionDateTimestamp: 1434105927984
+    Amount: 172181.25
+  - TransactionDate: 2015-06-12T06:07:44Z
+    TransactionDateTimestamp: 1434089264440
+    Amount: -33
+  - TransactionDate: 2015-06-12T06:07:44Z
+    TransactionDateTimestamp: 1434089264121
+    Amount: -40.95
+  - TransactionDate: 2015-06-11T05:15:10Z
+    TransactionDateTimestamp: 1433999710075
+    Amount: -169.95
+  - TransactionDate: 2015-06-11T01:04:02Z
+    TransactionDateTimestamp: 1433984642910
+    Amount: -230.75
+  - TransactionDate: 2015-06-10T01:08:30Z
+    TransactionDateTimestamp: 1433898510373
+    Amount: -3681
+  - TransactionDate: 2015-06-09T06:44:11Z
+    TransactionDateTimestamp: 1433832251785
+    Amount: -2000
+  - TransactionDate: 2015-06-08T01:12:16Z
+    TransactionDateTimestamp: 1433725936286
+    Amount: -45
+  - TransactionDate: 2015-06-08T01:10:37Z
+    TransactionDateTimestamp: 1433725837173
+    Amount: -8444.72
+  - TransactionDate: 2015-06-07T11:49:22Z
+    TransactionDateTimestamp: 1433677762326
+    Amount: -20
+  - TransactionDate: 2015-06-07T04:34:58Z
+    TransactionDateTimestamp: 1433651698825
+    Amount: -43
+  - TransactionDate: 2015-06-06T22:42:06Z
+    TransactionDateTimestamp: 1433630526077
+    Amount: 100
+  - TransactionDate: 2015-06-06T14:07:00Z
+    TransactionDateTimestamp: 1433599620052
+    Amount: 100
+  - TransactionDate: 2015-06-05T11:09:54Z
+    TransactionDateTimestamp: 1433502594924
+    Amount: 35
+  - TransactionDate: 2015-06-05T06:02:47Z
+    TransactionDateTimestamp: 1433484167148
+    Amount: -314.45
+  - TransactionDate: 2015-06-05T06:02:46Z
+    TransactionDateTimestamp: 1433484166948
+    Amount: -43
+  - TransactionDate: 2015-06-04T12:46:31Z
+    TransactionDateTimestamp: 1433421991446
+    Amount: 55
+  - TransactionDate: 2015-06-03T06:59:26Z
+    TransactionDateTimestamp: 1433314766027
+    Amount: 500
+  - TransactionDate: 2015-06-03T04:55:08Z
+    TransactionDateTimestamp: 1433307308326
+    Amount: -58.5
+  - TransactionDate: 2015-06-03T04:44:10Z
+    TransactionDateTimestamp: 1433306650496
+    Amount: -9.95
+  - TransactionDate: 2015-06-03T04:36:57Z
+    TransactionDateTimestamp: 1433306217561
+    Amount: -124.9
+  - TransactionDate: 2015-06-02T16:43:59Z
+    TransactionDateTimestamp: 1433263439223
+    Amount: 100
+  - TransactionDate: 2015-06-02T08:48:02Z
+    TransactionDateTimestamp: 1433234882463
+    Amount: -100
+  - TransactionDate: 2015-06-02T08:19:24Z
+    TransactionDateTimestamp: 1433233164226
+    Amount: -55
+  - TransactionDate: 2015-06-02T01:06:31Z
+    TransactionDateTimestamp: 1433207191592
+    Amount: -1536.72
+  - TransactionDate: 2015-06-02T01:05:14Z
+    TransactionDateTimestamp: 1433207114488
+    Amount: -475.53
+  - TransactionDate: 2015-06-01T05:18:06Z
+    TransactionDateTimestamp: 1433135886022
+    Amount: -200
+  - TransactionDate: 2015-06-01T04:28:13Z
+    TransactionDateTimestamp: 1433132893097
+    Amount: -114.5
+  - TransactionDate: 2015-06-01T02:22:48Z
+    TransactionDateTimestamp: 1433125368773
+    Amount: -199
+  - TransactionDate: 2015-06-01T02:22:36Z
+    TransactionDateTimestamp: 1433125356399
+    Amount: -109
+  - TransactionDate: 2015-06-01T02:18:33Z
+    TransactionDateTimestamp: 1433125113733
+    Amount: -784.5
+  - TransactionDate: 2015-06-01T02:18:33Z
+    TransactionDateTimestamp: 1433125113716
+    Amount: -298
+  - TransactionDate: 2015-06-01T02:17:20Z
+    TransactionDateTimestamp: 1433125040251
+    Amount: -445
+  - TransactionDate: 2015-06-01T02:16:01Z
+    TransactionDateTimestamp: 1433124961265
+    Amount: -500
+  - TransactionDate: 2015-06-01T02:15:18Z
+    TransactionDateTimestamp: 1433124918014
+    Amount: -647.75
+  - TransactionDate: 2015-06-01T02:14:49Z
+    TransactionDateTimestamp: 1433124889606
+    Amount: -247
+  - TransactionDate: 2015-06-01T02:13:34Z
+    TransactionDateTimestamp: 1433124814018
+    Amount: -1467
+  - TransactionDate: 2015-06-01T02:12:19Z
+    TransactionDateTimestamp: 1433124739848
+    Amount: -988.89
+  - TransactionDate: 2015-06-01T02:11:16Z
+    TransactionDateTimestamp: 1433124676395
+    Amount: -1463.5
+  - TransactionDate: 2015-06-01T02:10:19Z
+    TransactionDateTimestamp: 1433124619614
+    Amount: -1607.21
+  - TransactionDate: 2015-06-01T02:09:41Z
+    TransactionDateTimestamp: 1433124581777
+    Amount: -4120
+  - TransactionDate: 2015-06-01T02:09:40Z
+    TransactionDateTimestamp: 1433124580292
+    Amount: -209.33
+  - TransactionDate: 2015-06-01T02:09:33Z
+    TransactionDateTimestamp: 1433124573140
+    Amount: -891
+  - TransactionDate: 2015-06-01T02:09:33Z
+    TransactionDateTimestamp: 1433124573129
+    Amount: -248
+  - TransactionDate: 2015-06-01T02:09:31Z
+    TransactionDateTimestamp: 1433124571098
+    Amount: -243.37
+  - TransactionDate: 2015-06-01T02:05:06Z
+    TransactionDateTimestamp: 1433124306808
+    Amount: -225
+  - TransactionDate: 2015-06-01T02:02:48Z
+    TransactionDateTimestamp: 1433124168122
+    Amount: -2256
+  - TransactionDate: 2015-06-01T01:57:19Z
+    TransactionDateTimestamp: 1433123839992
+    Amount: -108.75
+  - TransactionDate: 2015-06-01T01:56:26Z
+    TransactionDateTimestamp: 1433123786831
+    Amount: -1608
+  - TransactionDate: 2015-06-01T01:55:36Z
+    TransactionDateTimestamp: 1433123736541
+    Amount: -80
+  - TransactionDate: 2015-06-01T01:54:58Z
+    TransactionDateTimestamp: 1433123698388
+    Amount: -2794.47
+  - TransactionDate: 2015-06-01T01:53:51Z
+    TransactionDateTimestamp: 1433123631691
+    Amount: -204.5
+  - TransactionDate: 2015-05-31T06:56:16Z
+    TransactionDateTimestamp: 1433055376695
+    Amount: -111.83
+  - TransactionDate: 2015-05-31T05:35:47Z
+    TransactionDateTimestamp: 1433050547071
+    Amount: -58.95
+  - TransactionDate: 2015-05-31T05:26:15Z
+    TransactionDateTimestamp: 1433049975901
+    Amount: -16
+  - TransactionDate: 2015-05-31T04:08:00Z
+    TransactionDateTimestamp: 1433045280376
+    Amount: -247.35
+  - TransactionDate: 2015-05-31T03:26:14Z
+    TransactionDateTimestamp: 1433042774406
+    Amount: -452.8
+  - TransactionDate: 2015-05-30T17:36:36Z
+    TransactionDateTimestamp: 1433007396471
+    Amount: 22.5
+  - TransactionDate: 2015-05-30T16:37:00Z
+    TransactionDateTimestamp: 1433003820192
+    Amount: 100
+  - TransactionDate: 2015-05-30T16:25:41Z
+    TransactionDateTimestamp: 1433003141815
+    Amount: 800
+  - TransactionDate: 2015-05-30T13:14:42Z
+    TransactionDateTimestamp: 1432991682268
+    Amount: -10
+  - TransactionDate: 2015-05-30T07:41:27Z
+    TransactionDateTimestamp: 1432971687421
+    Amount: -200
+  - TransactionDate: 2015-05-29T20:14:41Z
+    TransactionDateTimestamp: 1432930481260
+    Amount: -595
+  - TransactionDate: 2015-05-29T13:55:34Z
+    TransactionDateTimestamp: 1432907734726
+    Amount: -100
+  - TransactionDate: 2015-05-29T12:52:14Z
+    TransactionDateTimestamp: 1432903934425
+    Amount: 910
+  - TransactionDate: 2015-05-29T07:15:29Z
+    TransactionDateTimestamp: 1432883729656
+    Amount: -227.38
+  - TransactionDate: 2015-05-29T06:01:04Z
+    TransactionDateTimestamp: 1432879264977
+    Amount: -19.95
+  - TransactionDate: 2015-05-29T01:19:44Z
+    TransactionDateTimestamp: 1432862384813
+    Amount: -5718.31
+  - TransactionDate: 2015-05-28T09:46:01Z
+    TransactionDateTimestamp: 1432806361046
+    Amount: 78
+  - TransactionDate: 2015-05-28T05:00:47Z
+    TransactionDateTimestamp: 1432789247242
+    Amount: -234.99
+  - TransactionDate: 2015-05-28T04:03:32Z
+    TransactionDateTimestamp: 1432785812309
+    Amount: -30
+  - TransactionDate: 2015-05-28T00:58:39Z
+    TransactionDateTimestamp: 1432774719246
+    Amount: -2605.17
+  - TransactionDate: 2015-05-27T12:23:21Z
+    TransactionDateTimestamp: 1432729401374
+    Amount: 100
+  - TransactionDate: 2015-05-27T08:30:15Z
+    TransactionDateTimestamp: 1432715415208
+    Amount: 105437.5
+  - TransactionDate: 2015-05-27T06:25:37Z
+    TransactionDateTimestamp: 1432707937512
+    Amount: -401.05
+  - TransactionDate: 2015-05-27T05:20:28Z
+    TransactionDateTimestamp: 1432704028621
+    Amount: -17.38
+  - TransactionDate: 2015-05-27T05:10:44Z
+    TransactionDateTimestamp: 1432703444351
+    Amount: -11
+  - TransactionDate: 2015-05-27T05:01:12Z
+    TransactionDateTimestamp: 1432702872656
+    Amount: -38
+  - TransactionDate: 2015-05-27T04:32:13Z
+    TransactionDateTimestamp: 1432701133225
+    Amount: -73
+  - TransactionDate: 2015-05-26T12:41:54Z
+    TransactionDateTimestamp: 1432644114750
+    Amount: -262
+  - TransactionDate: 2015-05-26T05:24:21Z
+    TransactionDateTimestamp: 1432617861203
+    Amount: -87
+  - TransactionDate: 2015-05-24T03:37:59Z
+    TransactionDateTimestamp: 1432438679702
+    Amount: -60.5
+  - TransactionDate: 2015-05-24T03:37:37Z
+    TransactionDateTimestamp: 1432438657767
+    Amount: -71.95
+  - TransactionDate: 2015-05-23T16:29:22Z
+    TransactionDateTimestamp: 1432398562988
+    Amount: -90
+  - TransactionDate: 2015-05-23T07:53:37Z
+    TransactionDateTimestamp: 1432367617636
+    Amount: 400
+  - TransactionDate: 2015-05-23T07:00:58Z
+    TransactionDateTimestamp: 1432364458755
+    Amount: -37.66
+  - TransactionDate: 2015-05-23T06:43:53Z
+    TransactionDateTimestamp: 1432363433834
+    Amount: -216
+  - TransactionDate: 2015-05-23T06:43:53Z
+    TransactionDateTimestamp: 1432363433603
+    Amount: -200.5
+  - TransactionDate: 2015-05-23T06:08:19Z
+    TransactionDateTimestamp: 1432361299009
+    Amount: -159.9
+  - TransactionDate: 2015-05-22T20:50:29Z
+    TransactionDateTimestamp: 1432327829777
+    Amount: 50
+  - TransactionDate: 2015-05-22T14:36:02Z
+    TransactionDateTimestamp: 1432305362424
+    Amount: 200
+  - TransactionDate: 2015-05-22T14:01:03Z
+    TransactionDateTimestamp: 1432303263919
+    Amount: -830
+  - TransactionDate: 2015-05-21T09:41:45Z
+    TransactionDateTimestamp: 1432201305368
+    Amount: 40
+  - TransactionDate: 2015-05-21T06:54:50Z
+    TransactionDateTimestamp: 1432191290386
+    Amount: -17.08
+  - TransactionDate: 2015-05-21T05:59:48Z
+    TransactionDateTimestamp: 1432187988912
+    Amount: 85
+  - TransactionDate: 2015-05-21T04:41:32Z
+    TransactionDateTimestamp: 1432183292215
+    Amount: -101.6
+  - TransactionDate: 2015-05-20T05:42:42Z
+    TransactionDateTimestamp: 1432100562712
+    Amount: -20
+  - TransactionDate: 2015-05-20T05:42:42Z
+    TransactionDateTimestamp: 1432100562220
+    Amount: -118
+  - TransactionDate: 2015-05-20T04:34:33Z
+    TransactionDateTimestamp: 1432096473856
+    Amount: -57.5
+  - TransactionDate: 2015-05-20T03:56:57Z
+    TransactionDateTimestamp: 1432094217804
+    Amount: -40
+  - TransactionDate: 2015-05-20T03:15:35Z
+    TransactionDateTimestamp: 1432091735450
+    Amount: -55
+  - TransactionDate: 2015-05-19T11:13:25Z
+    TransactionDateTimestamp: 1432034005795
+    Amount: 285
+  - TransactionDate: 2015-05-19T06:16:35Z
+    TransactionDateTimestamp: 1432016195817
+    Amount: -10
+  - TransactionDate: 2015-05-18T19:53:49Z
+    TransactionDateTimestamp: 1431978829921
+    Amount: 130
+  - TransactionDate: 2015-05-18T19:24:15Z
+    TransactionDateTimestamp: 1431977055862
+    Amount: -110
+  - TransactionDate: 2015-05-17T11:32:57Z
+    TransactionDateTimestamp: 1431862377645
+    Amount: -150
+  - TransactionDate: 2015-05-17T11:32:57Z
+    TransactionDateTimestamp: 1431862377611
+    Amount: -100
+  - TransactionDate: 2015-05-17T05:37:13Z
+    TransactionDateTimestamp: 1431841033022
+    Amount: -1589.2
+  - TransactionDate: 2015-05-17T05:37:11Z
+    TransactionDateTimestamp: 1431841031791
+    Amount: -684.84
+  - TransactionDate: 2015-05-17T05:35:26Z
+    TransactionDateTimestamp: 1431840926089
+    Amount: -269
+  - TransactionDate: 2015-05-17T05:35:25Z
+    TransactionDateTimestamp: 1431840925750
+    Amount: -59
+  - TransactionDate: 2015-05-17T05:31:58Z
+    TransactionDateTimestamp: 1431840718640
+    Amount: -94.1
+  - TransactionDate: 2015-05-17T04:59:36Z
+    TransactionDateTimestamp: 1431838776966
+    Amount: -141.8
+  - TransactionDate: 2015-05-17T04:39:40Z
+    TransactionDateTimestamp: 1431837580078
+    Amount: -59
+  - TransactionDate: 2015-05-17T04:01:59Z
+    TransactionDateTimestamp: 1431835319479
+    Amount: -48
+  - TransactionDate: 2015-05-16T15:50:12Z
+    TransactionDateTimestamp: 1431791412815
+    Amount: 470
+  - TransactionDate: 2015-05-16T15:21:46Z
+    TransactionDateTimestamp: 1431789706681
+    Amount: -500
+  - TransactionDate: 2015-05-16T06:58:23Z
+    TransactionDateTimestamp: 1431759503277
+    Amount: -138
+  - TransactionDate: 2015-05-16T06:07:42Z
+    TransactionDateTimestamp: 1431756462204
+    Amount: -53.7
+  - TransactionDate: 2015-05-16T04:42:39Z
+    TransactionDateTimestamp: 1431751359510
+    Amount: -30
+  - TransactionDate: 2015-05-15T19:30:19Z
+    TransactionDateTimestamp: 1431718219694
+    Amount: -5
+  - TransactionDate: 2015-05-15T08:08:49Z
+    TransactionDateTimestamp: 1431677329951
+    Amount: 100
+  - TransactionDate: 2015-05-15T04:26:30Z
+    TransactionDateTimestamp: 1431663990531
+    Amount: -52
+  - TransactionDate: 2015-05-15T04:23:58Z
+    TransactionDateTimestamp: 1431663838835
+    Amount: -76
+  - TransactionDate: 2015-05-14T16:52:17Z
+    TransactionDateTimestamp: 1431622337883
+    Amount: 1286
+  - TransactionDate: 2015-05-14T14:15:01Z
+    TransactionDateTimestamp: 1431612901966
+    Amount: 275
+  - TransactionDate: 2015-05-14T07:33:01Z
+    TransactionDateTimestamp: 1431588781409
+    Amount: -100
+  - TransactionDate: 2015-05-14T03:33:41Z
+    TransactionDateTimestamp: 1431574421336
+    Amount: -592.88
+  - TransactionDate: 2015-05-13T19:50:52Z
+    TransactionDateTimestamp: 1431546652178
+    Amount: -100
+  - TransactionDate: 2015-05-13T13:54:40Z
+    TransactionDateTimestamp: 1431525280884
+    Amount: 30
+  - TransactionDate: 2015-05-13T07:17:38Z
+    TransactionDateTimestamp: 1431501458583
+    Amount: -7.49
+  - TransactionDate: 2015-05-13T06:26:29Z
+    TransactionDateTimestamp: 1431498389979
+    Amount: -22
+  - TransactionDate: 2015-05-12T18:14:40Z
+    TransactionDateTimestamp: 1431454480729
+    Amount: 10
+  - TransactionDate: 2015-05-12T13:31:00Z
+    TransactionDateTimestamp: 1431437460518
+    Amount: 55
+  - TransactionDate: 2015-05-12T06:48:18Z
+    TransactionDateTimestamp: 1431413298341
+    Amount: -44
+  - TransactionDate: 2015-05-12T05:42:42Z
+    TransactionDateTimestamp: 1431409362599
+    Amount: -158
+  - TransactionDate: 2015-05-12T05:23:14Z
+    TransactionDateTimestamp: 1431408194854
+    Amount: -78
+  - TransactionDate: 2015-05-12T05:10:13Z
+    TransactionDateTimestamp: 1431407413724
+    Amount: -120
+  - TransactionDate: 2015-05-12T04:58:06Z
+    TransactionDateTimestamp: 1431406686331
+    Amount: -32
+  - TransactionDate: 2015-05-11T18:54:05Z
+    TransactionDateTimestamp: 1431370445415
+    Amount: 25
+  - TransactionDate: 2015-05-11T12:57:18Z
+    TransactionDateTimestamp: 1431349038490
+    Amount: -25
+  - TransactionDate: 2015-05-11T04:02:50Z
+    TransactionDateTimestamp: 1431316970819
+    Amount: -49.95
+  - TransactionDate: 2015-05-11T03:50:21Z
+    TransactionDateTimestamp: 1431316221749
+    Amount: -240
+  - TransactionDate: 2015-05-11T03:49:13Z
+    TransactionDateTimestamp: 1431316153579
+    Amount: -200.1
+  - TransactionDate: 2015-05-11T01:06:48Z
+    TransactionDateTimestamp: 1431306408981
+    Amount: -769.01
+  - TransactionDate: 2015-05-10T05:30:38Z
+    TransactionDateTimestamp: 1431235838667
+    Amount: -27
+  - TransactionDate: 2015-05-09T19:22:36Z
+    TransactionDateTimestamp: 1431199356660
+    Amount: -70
+  - TransactionDate: 2015-05-09T19:00:19Z
+    TransactionDateTimestamp: 1431198019848
+    Amount: 39
+  - TransactionDate: 2015-05-09T13:40:16Z
+    TransactionDateTimestamp: 1431178816203
+    Amount: -20
+  - TransactionDate: 2015-05-09T12:36:57Z
+    TransactionDateTimestamp: 1431175017076
+    Amount: 115.5
+  - TransactionDate: 2015-05-09T08:17:42Z
+    TransactionDateTimestamp: 1431159462499
+    Amount: -70.04
+  - TransactionDate: 2015-05-09T06:59:39Z
+    TransactionDateTimestamp: 1431154779488
+    Amount: -190.3
+  - TransactionDate: 2015-05-08T22:44:53Z
+    TransactionDateTimestamp: 1431125093324
+    Amount: -20
+  - TransactionDate: 2015-05-08T21:17:41Z
+    TransactionDateTimestamp: 1431119861221
+    Amount: -40
+  - TransactionDate: 2015-05-08T07:33:59Z
+    TransactionDateTimestamp: 1431070439242
+    Amount: -83.47
+  - TransactionDate: 2015-05-08T07:33:58Z
+    TransactionDateTimestamp: 1431070438943
+    Amount: -748
+  - TransactionDate: 2015-05-08T07:29:03Z
+    TransactionDateTimestamp: 1431070143028
+    Amount: -1932.7
+  - TransactionDate: 2015-05-08T06:26:07Z
+    TransactionDateTimestamp: 1431066367201
+    Amount: -80
+  - TransactionDate: 2015-05-08T04:53:01Z
+    TransactionDateTimestamp: 1431060781974
+    Amount: -66
+  - TransactionDate: 2015-05-08T01:28:01Z
+    TransactionDateTimestamp: 1431048481985
+    Amount: -961.33
+  - TransactionDate: 2015-05-07T08:48:43Z
+    TransactionDateTimestamp: 1430988523428
+    Amount: 134
+  - TransactionDate: 2015-05-07T05:24:03Z
+    TransactionDateTimestamp: 1430976243703
+    Amount: -200
+  - TransactionDate: 2015-05-07T04:23:47Z
+    TransactionDateTimestamp: 1430972627915
+    Amount: -83.95
+  - TransactionDate: 2015-05-07T01:07:38Z
+    TransactionDateTimestamp: 1430960858046
+    Amount: -859
+  - TransactionDate: 2015-05-06T04:18:19Z
+    TransactionDateTimestamp: 1430885899980
+    Amount: -37.9
+  - TransactionDate: 2015-05-06T01:07:07Z
+    TransactionDateTimestamp: 1430874427104
+    Amount: -157.5
+  - TransactionDate: 2015-05-05T20:25:23Z
+    TransactionDateTimestamp: 1430857523199
+    Amount: -50
+  - TransactionDate: 2015-05-05T16:47:32Z
+    TransactionDateTimestamp: 1430844452351
+    Amount: -500
+  - TransactionDate: 2015-05-05T08:20:02Z
+    TransactionDateTimestamp: 1430814002152
+    Amount: -83.38
+  - TransactionDate: 2015-05-05T08:09:17Z
+    TransactionDateTimestamp: 1430813357843
+    Amount: -186.15
+  - TransactionDate: 2015-05-05T07:19:37Z
+    TransactionDateTimestamp: 1430810377625
+    Amount: 100
+  - TransactionDate: 2015-05-05T06:26:57Z
+    TransactionDateTimestamp: 1430807217362
+    Amount: -85
+  - TransactionDate: 2015-05-05T01:14:41Z
+    TransactionDateTimestamp: 1430788481362
+    Amount: -1169.75
+  - TransactionDate: 2015-05-05T01:13:24Z
+    TransactionDateTimestamp: 1430788404984
+    Amount: -819
+  - TransactionDate: 2015-05-05T01:10:25Z
+    TransactionDateTimestamp: 1430788225334
+    Amount: -1004
+  - TransactionDate: 2015-05-05T01:09:55Z
+    TransactionDateTimestamp: 1430788195426
+    Amount: -442.78
+  - TransactionDate: 2015-05-05T01:09:00Z
+    TransactionDateTimestamp: 1430788140154
+    Amount: -10252.9
+  - TransactionDate: 2015-05-05T01:09:00Z
+    TransactionDateTimestamp: 1430788140033
+    Amount: -687.5
+  - TransactionDate: 2015-05-05T01:08:34Z
+    TransactionDateTimestamp: 1430788114644
+    Amount: -100
+  - TransactionDate: 2015-05-05T01:08:27Z
+    TransactionDateTimestamp: 1430788107136
+    Amount: -1535
+  - TransactionDate: 2015-05-05T01:07:33Z
+    TransactionDateTimestamp: 1430788053786
+    Amount: -815.99
+  - TransactionDate: 2015-05-04T19:19:17Z
+    TransactionDateTimestamp: 1430767157372
+    Amount: -255
+  - TransactionDate: 2015-05-04T16:01:25Z
+    TransactionDateTimestamp: 1430755285392
+    Amount: -260
+  - TransactionDate: 2015-05-04T12:21:56Z
+    TransactionDateTimestamp: 1430742116574
+    Amount: 110
+  - TransactionDate: 2015-05-04T03:20:44Z
+    TransactionDateTimestamp: 1430709644234
+    Amount: -204.35
+  - TransactionDate: 2015-05-04T01:48:09Z
+    TransactionDateTimestamp: 1430704089249
+    Amount: -109
+  - TransactionDate: 2015-05-04T01:47:26Z
+    TransactionDateTimestamp: 1430704046384
+    Amount: -660.29
+  - TransactionDate: 2015-05-04T01:43:25Z
+    TransactionDateTimestamp: 1430703805548
+    Amount: -278.75
+  - TransactionDate: 2015-05-04T01:43:19Z
+    TransactionDateTimestamp: 1430703799302
+    Amount: -1230
+  - TransactionDate: 2015-05-04T01:42:20Z
+    TransactionDateTimestamp: 1430703740623
+    Amount: -1060.15
+  - TransactionDate: 2015-05-04T01:41:19Z
+    TransactionDateTimestamp: 1430703679483
+    Amount: -15906.52
+  - TransactionDate: 2015-05-04T01:39:55Z
+    TransactionDateTimestamp: 1430703595412
+    Amount: -1576
+  - TransactionDate: 2015-05-04T01:38:58Z
+    TransactionDateTimestamp: 1430703538882
+    Amount: -447.91
+  - TransactionDate: 2015-05-04T01:33:50Z
+    TransactionDateTimestamp: 1430703230107
+    Amount: -250
+  - TransactionDate: 2015-05-04T01:33:23Z
+    TransactionDateTimestamp: 1430703203081
+    Amount: -891
+  - TransactionDate: 2015-05-04T01:31:29Z
+    TransactionDateTimestamp: 1430703089964
+    Amount: -400
+  - TransactionDate: 2015-05-04T01:31:02Z
+    TransactionDateTimestamp: 1430703062428
+    Amount: -199.25
+  - TransactionDate: 2015-05-04T01:30:43Z
+    TransactionDateTimestamp: 1430703043191
+    Amount: -84.75
+  - TransactionDate: 2015-05-04T01:30:06Z
+    TransactionDateTimestamp: 1430703006332
+    Amount: -1800
+  - TransactionDate: 2015-05-04T01:28:16Z
+    TransactionDateTimestamp: 1430702896844
+    Amount: -150
+  - TransactionDate: 2015-05-04T01:28:13Z
+    TransactionDateTimestamp: 1430702893477
+    Amount: -1090
+  - TransactionDate: 2015-05-04T01:22:53Z
+    TransactionDateTimestamp: 1430702573963
+    Amount: -59.1
+  - TransactionDate: 2015-05-04T01:21:46Z
+    TransactionDateTimestamp: 1430702506566
+    Amount: -13450
+  - TransactionDate: 2015-05-04T01:21:46Z
+    TransactionDateTimestamp: 1430702506542
+    Amount: -1743.15
+  - TransactionDate: 2015-05-04T01:19:26Z
+    TransactionDateTimestamp: 1430702366167
+    Amount: -746.05
+  - TransactionDate: 2015-05-04T01:18:37Z
+    TransactionDateTimestamp: 1430702317264
+    Amount: -50
+  - TransactionDate: 2015-05-04T01:18:24Z
+    TransactionDateTimestamp: 1430702304194
+    Amount: -102.05
+  - TransactionDate: 2015-05-04T01:17:57Z
+    TransactionDateTimestamp: 1430702277062
+    Amount: -1023.27
+  - TransactionDate: 2015-05-04T01:17:35Z
+    TransactionDateTimestamp: 1430702255504
+    Amount: -1206.5
+  - TransactionDate: 2015-05-04T01:17:09Z
+    TransactionDateTimestamp: 1430702229096
+    Amount: -1770.35
+  - TransactionDate: 2015-05-04T01:16:56Z
+    TransactionDateTimestamp: 1430702216173
+    Amount: -169
+  - TransactionDate: 2015-05-04T01:16:27Z
+    TransactionDateTimestamp: 1430702187141
+    Amount: -986
+  - TransactionDate: 2015-05-04T01:15:50Z
+    TransactionDateTimestamp: 1430702150200
+    Amount: -3156.51
+  - TransactionDate: 2015-05-04T01:14:21Z
+    TransactionDateTimestamp: 1430702061956
+    Amount: -382.25
+  - TransactionDate: 2015-05-04T01:12:48Z
+    TransactionDateTimestamp: 1430701968494
+    Amount: -1418
+  - TransactionDate: 2015-05-04T01:12:38Z
+    TransactionDateTimestamp: 1430701958632
+    Amount: -783.08
+  - TransactionDate: 2015-05-04T01:12:38Z
+    TransactionDateTimestamp: 1430701958616
+    Amount: -298.85
+  - TransactionDate: 2015-05-04T01:12:38Z
+    TransactionDateTimestamp: 1430701958568
+    Amount: -136.69
+  - TransactionDate: 2015-05-04T01:12:29Z
+    TransactionDateTimestamp: 1430701949932
+    Amount: -2757.37
+  - TransactionDate: 2015-05-03T19:25:14Z
+    TransactionDateTimestamp: 1430681114382
+    Amount: -200
+  - TransactionDate: 2015-05-03T17:44:28Z
+    TransactionDateTimestamp: 1430675068328
+    Amount: -7
+  - TransactionDate: 2015-05-03T15:06:24Z
+    TransactionDateTimestamp: 1430665584397
+    Amount: -500
+  - TransactionDate: 2015-05-03T06:33:53Z
+    TransactionDateTimestamp: 1430634833630
+    Amount: -75.53
+  - TransactionDate: 2015-05-03T05:47:24Z
+    TransactionDateTimestamp: 1430632044535
+    Amount: -165
+  - TransactionDate: 2015-05-03T05:18:45Z
+    TransactionDateTimestamp: 1430630325467
+    Amount: -400
+  - TransactionDate: 2015-05-03T04:39:32Z
+    TransactionDateTimestamp: 1430627972120
+    Amount: -38.5
+  - TransactionDate: 2015-05-03T04:18:48Z
+    TransactionDateTimestamp: 1430626728483
+    Amount: -101.2
+  - TransactionDate: 2015-05-03T04:11:50Z
+    TransactionDateTimestamp: 1430626310878
+    Amount: -186.3
+  - TransactionDate: 2015-05-02T17:27:58Z
+    TransactionDateTimestamp: 1430587678116
+    Amount: -16
+  - TransactionDate: 2015-05-02T14:31:50Z
+    TransactionDateTimestamp: 1430577110304
+    Amount: -60
+  - TransactionDate: 2015-05-02T05:45:05Z
+    TransactionDateTimestamp: 1430545505437
+    Amount: -32
+  - TransactionDate: 2015-05-02T05:45:05Z
+    TransactionDateTimestamp: 1430545505244
+    Amount: -160.8
+  - TransactionDate: 2015-05-01T20:26:14Z
+    TransactionDateTimestamp: 1430511974392
+    Amount: 60
+  - TransactionDate: 2015-05-01T10:21:09Z
+    TransactionDateTimestamp: 1430475669266
+    Amount: -299.95
+  - TransactionDate: 2015-05-01T08:23:16Z
+    TransactionDateTimestamp: 1430468596061
+    Amount: -38
+  - TransactionDate: 2015-05-01T08:06:39Z
+    TransactionDateTimestamp: 1430467599980
+    Amount: -400
+  - TransactionDate: 2015-05-01T07:25:16Z
+    TransactionDateTimestamp: 1430465116610
+    Amount: 70
+  - TransactionDate: 2015-05-01T07:17:16Z
+    TransactionDateTimestamp: 1430464636871
+    Amount: -286.65
+  - TransactionDate: 2015-04-30T22:56:57Z
+    TransactionDateTimestamp: 1430434617664
+    Amount: -1
+  - TransactionDate: 2015-04-30T21:13:19Z
+    TransactionDateTimestamp: 1430428399334
+    Amount: -40
+  - TransactionDate: 2015-04-30T07:49:08Z
+    TransactionDateTimestamp: 1430380148325
+    Amount: -273.95
+  - TransactionDate: 2015-04-30T06:31:29Z
+    TransactionDateTimestamp: 1430375489415
+    Amount: -84.45
+  - TransactionDate: 2015-04-29T18:45:43Z
+    TransactionDateTimestamp: 1430333143164
+    Amount: 30
+  - TransactionDate: 2015-04-29T16:01:58Z
+    TransactionDateTimestamp: 1430323318830
+    Amount: -38
+  - TransactionDate: 2015-04-29T15:46:03Z
+    TransactionDateTimestamp: 1430322363721
+    Amount: 100
+  - TransactionDate: 2015-04-29T05:24:21Z
+    TransactionDateTimestamp: 1430285061137
+    Amount: -178.55
+  - TransactionDate: 2015-04-29T05:06:09Z
+    TransactionDateTimestamp: 1430283969670
+    Amount: -999
+  - TransactionDate: 2015-04-29T04:26:35Z
+    TransactionDateTimestamp: 1430281595877
+    Amount: -315
+  - TransactionDate: 2015-04-29T04:26:34Z
+    TransactionDateTimestamp: 1430281594759
+    Amount: -26
+  - TransactionDate: 2015-04-29T04:13:22Z
+    TransactionDateTimestamp: 1430280802865
+    Amount: -8
+  - TransactionDate: 2015-04-28T21:02:47Z
+    TransactionDateTimestamp: 1430254967328
+    Amount: -272
+  - TransactionDate: 2015-04-28T18:45:16Z
+    TransactionDateTimestamp: 1430246716031
+    Amount: 300
+  - TransactionDate: 2015-04-28T17:00:37Z
+    TransactionDateTimestamp: 1430240437581
+    Amount: -50
+  - TransactionDate: 2015-04-28T10:15:34Z
+    TransactionDateTimestamp: 1430216134585
+    Amount: 50000
+  - TransactionDate: 2015-04-28T08:35:54Z
+    TransactionDateTimestamp: 1430210154110
+    Amount: 70000
+  - TransactionDate: 2015-04-28T08:02:01Z
+    TransactionDateTimestamp: 1430208121570
+    Amount: -515.67
+  - TransactionDate: 2015-04-28T06:10:11Z
+    TransactionDateTimestamp: 1430201411996
+    Amount: -20
+  - TransactionDate: 2015-04-28T05:20:39Z
+    TransactionDateTimestamp: 1430198439745
+    Amount: -67.63
+  - TransactionDate: 2015-04-27T16:50:35Z
+    TransactionDateTimestamp: 1430153435225
+    Amount: -125
+  - TransactionDate: 2015-04-26T04:55:17Z
+    TransactionDateTimestamp: 1430024117902
+    Amount: -42
+  - TransactionDate: 2015-04-26T04:38:16Z
+    TransactionDateTimestamp: 1430023096585
+    Amount: -102.4
+  - TransactionDate: 2015-04-26T04:33:01Z
+    TransactionDateTimestamp: 1430022781728
+    Amount: -50
+  - TransactionDate: 2015-04-26T02:55:40Z
+    TransactionDateTimestamp: 1430016940420
+    Amount: -500
+  - TransactionDate: 2015-04-25T13:31:55Z
+    TransactionDateTimestamp: 1429968715559
+    Amount: -100
+  - TransactionDate: 2015-04-25T07:24:59Z
+    TransactionDateTimestamp: 1429946699777
+    Amount: -206.38
+  - TransactionDate: 2015-04-25T06:31:00Z
+    TransactionDateTimestamp: 1429943460440
+    Amount: -598
+  - TransactionDate: 2015-04-25T05:39:31Z
+    TransactionDateTimestamp: 1429940371224
+    Amount: -8
+  - TransactionDate: 2015-04-25T04:57:17Z
+    TransactionDateTimestamp: 1429937837530
+    Amount: -232.5
+  - TransactionDate: 2015-04-25T04:46:44Z
+    TransactionDateTimestamp: 1429937204055
+    Amount: -92
+  - TransactionDate: 2015-04-25T04:17:28Z
+    TransactionDateTimestamp: 1429935448346
+    Amount: -49.5
+  - TransactionDate: 2015-04-24T07:44:54Z
+    TransactionDateTimestamp: 1429861494194
+    Amount: 44
+  - TransactionDate: 2015-04-24T07:03:51Z
+    TransactionDateTimestamp: 1429859031202
+    Amount: -1279.1
+  - TransactionDate: 2015-04-24T06:08:16Z
+    TransactionDateTimestamp: 1429855696491
+    Amount: -52.95
+  - TransactionDate: 2015-04-24T05:19:42Z
+    TransactionDateTimestamp: 1429852782376
+    Amount: -736
+  - TransactionDate: 2015-04-24T04:20:38Z
+    TransactionDateTimestamp: 1429849238858
+    Amount: -64
+  - TransactionDate: 2015-04-24T04:15:23Z
+    TransactionDateTimestamp: 1429848923777
+    Amount: -20
+  - TransactionDate: 2015-04-24T03:54:32Z
+    TransactionDateTimestamp: 1429847672386
+    Amount: -137.32
+  - TransactionDate: 2015-04-23T05:36:31Z
+    TransactionDateTimestamp: 1429767391686
+    Amount: -38.5
+  - TransactionDate: 2015-04-22T16:49:52Z
+    TransactionDateTimestamp: 1429721392001
+    Amount: -1683
+  - TransactionDate: 2015-04-22T10:00:56Z
+    TransactionDateTimestamp: 1429696856546
+    Amount: 55
+  - TransactionDate: 2015-04-22T06:25:17Z
+    TransactionDateTimestamp: 1429683917045
+    Amount: -125
+  - TransactionDate: 2015-04-22T04:14:11Z
+    TransactionDateTimestamp: 1429676051390
+    Amount: -344.65
+  - TransactionDate: 2015-04-21T15:42:44Z
+    TransactionDateTimestamp: 1429630964153
+    Amount: -25
+  - TransactionDate: 2015-04-21T12:52:37Z
+    TransactionDateTimestamp: 1429620757379
+    Amount: -1237
+  - TransactionDate: 2015-04-21T10:43:42Z
+    TransactionDateTimestamp: 1429613022864
+    Amount: -228.95
+  - TransactionDate: 2015-04-21T08:37:25Z
+    TransactionDateTimestamp: 1429605445567
+    Amount: -126
+  - TransactionDate: 2015-04-21T07:28:41Z
+    TransactionDateTimestamp: 1429601321273
+    Amount: -999
+  - TransactionDate: 2015-04-21T07:01:54Z
+    TransactionDateTimestamp: 1429599714122
+    Amount: -211.78
+  - TransactionDate: 2015-04-21T06:27:31Z
+    TransactionDateTimestamp: 1429597651961
+    Amount: -116
+  - TransactionDate: 2015-04-20T19:29:15Z
+    TransactionDateTimestamp: 1429558155965
+    Amount: 65
+  - TransactionDate: 2015-04-20T16:39:36Z
+    TransactionDateTimestamp: 1429547976230
+    Amount: 100
+  - TransactionDate: 2015-04-20T13:16:26Z
+    TransactionDateTimestamp: 1429535786157
+    Amount: 30
+  - TransactionDate: 2015-04-20T12:11:55Z
+    TransactionDateTimestamp: 1429531915829
+    Amount: 1429
+  - TransactionDate: 2015-04-20T11:56:59Z
+    TransactionDateTimestamp: 1429531019445
+    Amount: 15775
+  - TransactionDate: 2015-04-20T04:29:22Z
+    TransactionDateTimestamp: 1429504162378
+    Amount: -127.5
+  - TransactionDate: 2015-04-20T04:26:31Z
+    TransactionDateTimestamp: 1429503991330
+    Amount: -154.77
+  - TransactionDate: 2015-04-20T03:24:37Z
+    TransactionDateTimestamp: 1429500277308
+    Amount: -301.56
+  - TransactionDate: 2015-04-19T15:36:05Z
+    TransactionDateTimestamp: 1429457765909
+    Amount: -85
+  - TransactionDate: 2015-04-19T15:36:04Z
+    TransactionDateTimestamp: 1429457764368
+    Amount: -100
+  - TransactionDate: 2015-04-19T14:06:18Z
+    TransactionDateTimestamp: 1429452378406
+    Amount: 47
+  - TransactionDate: 2015-04-18T16:14:57Z
+    TransactionDateTimestamp: 1429373697547
+    Amount: 47
+  - TransactionDate: 2015-04-18T15:26:01Z
+    TransactionDateTimestamp: 1429370761554
+    Amount: -500
+  - TransactionDate: 2015-04-18T08:04:34Z
+    TransactionDateTimestamp: 1429344274600
+    Amount: -45
+  - TransactionDate: 2015-04-18T05:48:01Z
+    TransactionDateTimestamp: 1429336081464
+    Amount: -36.9
+  - TransactionDate: 2015-04-18T05:29:27Z
+    TransactionDateTimestamp: 1429334967566
+    Amount: -99
+  - TransactionDate: 2015-04-17T10:13:22Z
+    TransactionDateTimestamp: 1429265602703
+    Amount: 20
+  - TransactionDate: 2015-04-17T05:08:50Z
+    TransactionDateTimestamp: 1429247330820
+    Amount: -16
+  - TransactionDate: 2015-04-17T04:34:41Z
+    TransactionDateTimestamp: 1429245281229
+    Amount: -30
+  - TransactionDate: 2015-04-17T04:34:39Z
+    TransactionDateTimestamp: 1429245279808
+    Amount: -222.65
+  - TransactionDate: 2015-04-17T04:34:38Z
+    TransactionDateTimestamp: 1429245278883
+    Amount: -471.4
+  - TransactionDate: 2015-04-17T04:24:28Z
+    TransactionDateTimestamp: 1429244668006
+    Amount: -50
+  - TransactionDate: 2015-04-17T04:00:15Z
+    TransactionDateTimestamp: 1429243215295
+    Amount: -89.06
+  - TransactionDate: 2015-04-16T05:56:38Z
+    TransactionDateTimestamp: 1429163798053
+    Amount: -44.3
+  - TransactionDate: 2015-04-16T04:29:32Z
+    TransactionDateTimestamp: 1429158572549
+    Amount: -155.35
+  - TransactionDate: 2015-04-15T12:11:56Z
+    TransactionDateTimestamp: 1429099916789
+    Amount: -90
+  - TransactionDate: 2015-04-15T10:45:32Z
+    TransactionDateTimestamp: 1429094732936
+    Amount: 600
+  - TransactionDate: 2015-04-15T10:41:50Z
+    TransactionDateTimestamp: 1429094510679
+    Amount: -10
+  - TransactionDate: 2015-04-15T09:30:59Z
+    TransactionDateTimestamp: 1429090259995
+    Amount: -22.95
+  - TransactionDate: 2015-04-15T09:21:38Z
+    TransactionDateTimestamp: 1429089698177
+    Amount: 150
+  - TransactionDate: 2015-04-15T08:47:37Z
+    TransactionDateTimestamp: 1429087657958
+    Amount: 50
+  - TransactionDate: 2015-04-15T06:37:31Z
+    TransactionDateTimestamp: 1429079851225
+    Amount: -35
+  - TransactionDate: 2015-04-15T06:37:30Z
+    TransactionDateTimestamp: 1429079850651
+    Amount: -14.49
+  - TransactionDate: 2015-04-15T06:37:30Z
+    TransactionDateTimestamp: 1429079850450
+    Amount: -34
+  - TransactionDate: 2015-04-15T05:46:07Z
+    TransactionDateTimestamp: 1429076767927
+    Amount: -43.42
+  - TransactionDate: 2015-04-15T05:04:27Z
+    TransactionDateTimestamp: 1429074267708
+    Amount: -46.5
+  - TransactionDate: 2015-04-15T05:02:59Z
+    TransactionDateTimestamp: 1429074179805
+    Amount: -91.55
+  - TransactionDate: 2015-04-15T04:53:43Z
+    TransactionDateTimestamp: 1429073623296
+    Amount: -0.5
+  - TransactionDate: 2015-04-14T13:10:04Z
+    TransactionDateTimestamp: 1429017004594
+    Amount: -50
+  - TransactionDate: 2015-04-14T13:03:23Z
+    TransactionDateTimestamp: 1429016603240
+    Amount: -1117
+  - TransactionDate: 2015-04-14T06:42:05Z
+    TransactionDateTimestamp: 1428993725379
+    Amount: -7.49
+  - TransactionDate: 2015-04-14T06:01:19Z
+    TransactionDateTimestamp: 1428991279880
+    Amount: -49.95
+  - TransactionDate: 2015-04-14T01:08:06Z
+    TransactionDateTimestamp: 1428973686692
+    Amount: -50452.49
+  - TransactionDate: 2015-04-13T12:31:38Z
+    TransactionDateTimestamp: 1428928298708
+    Amount: -100
+  - TransactionDate: 2015-04-13T03:37:01Z
+    TransactionDateTimestamp: 1428896221343
+    Amount: -80.4
+  - TransactionDate: 2015-04-13T00:59:37Z
+    TransactionDateTimestamp: 1428886777273
+    Amount: -32.54
+  - TransactionDate: 2015-04-12T12:35:11Z
+    TransactionDateTimestamp: 1428842111185
+    Amount: -485
+  - TransactionDate: 2015-04-12T03:40:43Z
+    TransactionDateTimestamp: 1428810043909
+    Amount: -29.95
+  - TransactionDate: 2015-04-11T13:31:48Z
+    TransactionDateTimestamp: 1428759108220
+    Amount: -1600
+  - TransactionDate: 2015-04-11T11:16:45Z
+    TransactionDateTimestamp: 1428751005654
+    Amount: 261
+  - TransactionDate: 2015-04-11T09:08:33Z
+    TransactionDateTimestamp: 1428743313594
+    Amount: -215.23
+  - TransactionDate: 2015-04-11T08:12:16Z
+    TransactionDateTimestamp: 1428739936207
+    Amount: -28
+  - TransactionDate: 2015-04-11T08:04:00Z
+    TransactionDateTimestamp: 1428739440230
+    Amount: -43.42
+  - TransactionDate: 2015-04-11T07:44:51Z
+    TransactionDateTimestamp: 1428738291054
+    Amount: -100
+  - TransactionDate: 2015-04-11T05:21:44Z
+    TransactionDateTimestamp: 1428729704342
+    Amount: -2
+  - TransactionDate: 2015-04-10T05:44:16Z
+    TransactionDateTimestamp: 1428644656083
+    Amount: -109.8
+  - TransactionDate: 2015-04-10T01:08:43Z
+    TransactionDateTimestamp: 1428628123582
+    Amount: -1640
+  - TransactionDate: 2015-04-10T01:08:33Z
+    TransactionDateTimestamp: 1428628113898
+    Amount: -2870
+  - TransactionDate: 2015-04-09T06:03:31Z
+    TransactionDateTimestamp: 1428559411314
+    Amount: -140
+  - TransactionDate: 2015-04-09T04:34:44Z
+    TransactionDateTimestamp: 1428554084662
+    Amount: -29
+  - TransactionDate: 2015-04-09T03:45:21Z
+    TransactionDateTimestamp: 1428551121036
+    Amount: -124.37
+  - TransactionDate: 2015-04-09T03:45:20Z
+    TransactionDateTimestamp: 1428551120808
+    Amount: -192
+  - TransactionDate: 2015-04-08T15:54:31Z
+    TransactionDateTimestamp: 1428508471347
+    Amount: 700
+  - TransactionDate: 2015-04-08T15:39:37Z
+    TransactionDateTimestamp: 1428507577680
+    Amount: -250
+  - TransactionDate: 2015-04-08T06:52:54Z
+    TransactionDateTimestamp: 1428475974078
+    Amount: -205
+  - TransactionDate: 2015-04-08T01:17:27Z
+    TransactionDateTimestamp: 1428455847107
+    Amount: -42064.79
+  - TransactionDate: 2015-04-08T00:09:59Z
+    TransactionDateTimestamp: 1428451799385
+    Amount: 7535.45
+  - TransactionDate: 2015-04-07T17:06:49Z
+    TransactionDateTimestamp: 1428426409573
+    Amount: 100
+  - TransactionDate: 2015-04-07T17:05:16Z
+    TransactionDateTimestamp: 1428426316988
+    Amount: 800
+  - TransactionDate: 2015-04-07T01:35:51Z
+    TransactionDateTimestamp: 1428370551878
+    Amount: -8040
+  - TransactionDate: 2015-04-07T01:35:51Z
+    TransactionDateTimestamp: 1428370551805
+    Amount: -297
+  - TransactionDate: 2015-04-07T01:30:11Z
+    TransactionDateTimestamp: 1428370211363
+    Amount: -931
+  - TransactionDate: 2015-04-07T01:30:11Z
+    TransactionDateTimestamp: 1428370211330
+    Amount: -74.53
+  - TransactionDate: 2015-04-07T01:29:55Z
+    TransactionDateTimestamp: 1428370195071
+    Amount: -975
+  - TransactionDate: 2015-04-07T01:29:55Z
+    TransactionDateTimestamp: 1428370195033
+    Amount: -922
+  - TransactionDate: 2015-04-07T01:29:52Z
+    TransactionDateTimestamp: 1428370192190
+    Amount: -931
+  - TransactionDate: 2015-04-07T01:27:44Z
+    TransactionDateTimestamp: 1428370064158
+    Amount: -1031.53
+  - TransactionDate: 2015-04-07T01:27:09Z
+    TransactionDateTimestamp: 1428370029417
+    Amount: -2980
+  - TransactionDate: 2015-04-07T01:26:36Z
+    TransactionDateTimestamp: 1428369996743
+    Amount: -903.38
+  - TransactionDate: 2015-04-07T01:26:26Z
+    TransactionDateTimestamp: 1428369986981
+    Amount: -2667
+  - TransactionDate: 2015-04-07T01:26:01Z
+    TransactionDateTimestamp: 1428369961748
+    Amount: -1507.33
+  - TransactionDate: 2015-04-07T01:23:46Z
+    TransactionDateTimestamp: 1428369826643
+    Amount: -1805.93
+  - TransactionDate: 2015-04-07T01:22:58Z
+    TransactionDateTimestamp: 1428369778778
+    Amount: -454.35
+  - TransactionDate: 2015-04-07T01:21:08Z
+    TransactionDateTimestamp: 1428369668752
+    Amount: -20276.31
+  - TransactionDate: 2015-04-07T01:20:54Z
+    TransactionDateTimestamp: 1428369654157
+    Amount: -4848.59
+  - TransactionDate: 2015-04-07T01:19:54Z
+    TransactionDateTimestamp: 1428369594396
+    Amount: -310
+  - TransactionDate: 2015-04-07T01:19:03Z
+    TransactionDateTimestamp: 1428369543697
+    Amount: -1035
+  - TransactionDate: 2015-04-06T20:45:52Z
+    TransactionDateTimestamp: 1428353152532
+    Amount: -80
+  - TransactionDate: 2015-04-06T17:54:34Z
+    TransactionDateTimestamp: 1428342874712
+    Amount: 30
+  - TransactionDate: 2015-04-06T15:21:25Z
+    TransactionDateTimestamp: 1428333685588
+    Amount: 1500
+  - TransactionDate: 2015-04-06T14:50:01Z
+    TransactionDateTimestamp: 1428331801027
+    Amount: -150
+  - TransactionDate: 2015-04-06T13:26:29Z
+    TransactionDateTimestamp: 1428326789839
+    Amount: 200
+  - TransactionDate: 2015-04-06T04:12:14Z
+    TransactionDateTimestamp: 1428293534229
+    Amount: -25
+  - TransactionDate: 2015-04-05T12:43:41Z
+    TransactionDateTimestamp: 1428237821010
+    Amount: -1000
+  - TransactionDate: 2015-04-05T10:58:35Z
+    TransactionDateTimestamp: 1428231515145
+    Amount: 10
+  - TransactionDate: 2015-04-05T09:46:21Z
+    TransactionDateTimestamp: 1428227181494
+    Amount: 15
+  - TransactionDate: 2015-04-05T09:05:12Z
+    TransactionDateTimestamp: 1428224712490
+    Amount: 20
+  - TransactionDate: 2015-04-05T07:54:15Z
+    TransactionDateTimestamp: 1428220455856
+    Amount: 73
+  - TransactionDate: 2015-04-04T21:23:49Z
+    TransactionDateTimestamp: 1428182629084
+    Amount: 1000
+  - TransactionDate: 2015-04-04T15:25:32Z
+    TransactionDateTimestamp: 1428161132314
+    Amount: 20
+  - TransactionDate: 2015-04-04T13:10:01Z
+    TransactionDateTimestamp: 1428153001054
+    Amount: 20
+  - TransactionDate: 2015-04-04T11:47:37Z
+    TransactionDateTimestamp: 1428148057389
+    Amount: 20
+  - TransactionDate: 2015-04-04T11:22:05Z
+    TransactionDateTimestamp: 1428146525802
+    Amount: 45
+  - TransactionDate: 2015-04-04T11:05:34Z
+    TransactionDateTimestamp: 1428145534734
+    Amount: 100
+  - TransactionDate: 2015-04-04T09:44:02Z
+    TransactionDateTimestamp: 1428140642171
+    Amount: 10
+  - TransactionDate: 2015-04-04T07:48:30Z
+    TransactionDateTimestamp: 1428133710223
+    Amount: 30
+  - TransactionDate: 2015-04-04T06:18:31Z
+    TransactionDateTimestamp: 1428128311709
+    Amount: 5
+  - TransactionDate: 2015-04-04T05:35:45Z
+    TransactionDateTimestamp: 1428125745080
+    Amount: -49
+  - TransactionDate: 2015-04-04T05:01:07Z
+    TransactionDateTimestamp: 1428123667764
+    Amount: -52
+  - TransactionDate: 2015-04-04T03:14:55Z
+    TransactionDateTimestamp: 1428117295607
+    Amount: -240
+  - TransactionDate: 2015-04-03T22:44:34Z
+    TransactionDateTimestamp: 1428101074921
+    Amount: 15
+  - TransactionDate: 2015-04-03T14:29:09Z
+    TransactionDateTimestamp: 1428071349315
+    Amount: 30
+  - TransactionDate: 2015-04-03T13:40:01Z
+    TransactionDateTimestamp: 1428068401664
+    Amount: 30
+  - TransactionDate: 2015-04-03T13:20:17Z
+    TransactionDateTimestamp: 1428067217439
+    Amount: 25
+  - TransactionDate: 2015-04-03T12:24:27Z
+    TransactionDateTimestamp: 1428063867395
+    Amount: 10
+  - TransactionDate: 2015-04-03T08:28:25Z
+    TransactionDateTimestamp: 1428049705986
+    Amount: 20
+  - TransactionDate: 2015-04-03T07:23:15Z
+    TransactionDateTimestamp: 1428045795807
+    Amount: 25
+  - TransactionDate: 2015-04-03T06:45:19Z
+    TransactionDateTimestamp: 1428043519142
+    Amount: 5
+  - TransactionDate: 2015-04-03T06:43:08Z
+    TransactionDateTimestamp: 1428043388919
+    Amount: 25
+  - TransactionDate: 2015-04-03T06:05:31Z
+    TransactionDateTimestamp: 1428041131115
+    Amount: -48.9
+  - TransactionDate: 2015-04-03T04:01:14Z
+    TransactionDateTimestamp: 1428033674302
+    Amount: -79.95
+  - TransactionDate: 2015-04-03T00:59:37Z
+    TransactionDateTimestamp: 1428022777487
+    Amount: 23
+  - TransactionDate: 2015-04-02T18:22:44Z
+    TransactionDateTimestamp: 1427998964975
+    Amount: -1
+  - TransactionDate: 2015-04-02T09:59:49Z
+    TransactionDateTimestamp: 1427968789527
+    Amount: -68
+  - TransactionDate: 2015-04-02T08:01:29Z
+    TransactionDateTimestamp: 1427961689183
+    Amount: -24
+  - TransactionDate: 2015-04-02T06:46:10Z
+    TransactionDateTimestamp: 1427957170916
+    Amount: -20
+  - TransactionDate: 2015-04-01T10:23:34Z
+    TransactionDateTimestamp: 1427883814312
+    Amount: -69.95
+  - TransactionDate: 2015-04-01T09:21:50Z
+    TransactionDateTimestamp: 1427880110142
+    Amount: -37.72
+  - TransactionDate: 2015-04-01T07:44:24Z
+    TransactionDateTimestamp: 1427874264346
+    Amount: -24
+  - TransactionDate: 2015-04-01T07:44:23Z
+    TransactionDateTimestamp: 1427874263214
+    Amount: -1014.05
+  - TransactionDate: 2015-04-01T06:07:55Z
+    TransactionDateTimestamp: 1427868475026
+    Amount: -139.95
+  - TransactionDate: 2015-04-01T03:19:30Z
+    TransactionDateTimestamp: 1427858370712
+    Amount: -2379
+  - TransactionDate: 2015-04-01T03:19:30Z
+    TransactionDateTimestamp: 1427858370437
+    Amount: -477
+  - TransactionDate: 2015-04-01T03:13:11Z
+    TransactionDateTimestamp: 1427857991781
+    Amount: -278.75
+  - TransactionDate: 2015-04-01T03:11:44Z
+    TransactionDateTimestamp: 1427857904319
+    Amount: -2770.5
+  - TransactionDate: 2015-04-01T03:09:51Z
+    TransactionDateTimestamp: 1427857791127
+    Amount: -1041.5
+  - TransactionDate: 2015-04-01T03:06:54Z
+    TransactionDateTimestamp: 1427857614400
+    Amount: -3668
+  - TransactionDate: 2015-04-01T03:06:04Z
+    TransactionDateTimestamp: 1427857564776
+    Amount: -500
+  - TransactionDate: 2015-04-01T03:01:46Z
+    TransactionDateTimestamp: 1427857306789
+    Amount: -209.41
+  - TransactionDate: 2015-04-01T03:01:17Z
+    TransactionDateTimestamp: 1427857277958
+    Amount: -373
+  - TransactionDate: 2015-04-01T02:59:58Z
+    TransactionDateTimestamp: 1427857198586
+    Amount: -1600
+  - TransactionDate: 2015-04-01T02:57:53Z
+    TransactionDateTimestamp: 1427857073211
+    Amount: -1416.08
+  - TransactionDate: 2015-04-01T02:56:23Z
+    TransactionDateTimestamp: 1427856983326
+    Amount: -2198.02
+  - TransactionDate: 2015-04-01T02:53:39Z
+    TransactionDateTimestamp: 1427856819798
+    Amount: -400
+  - TransactionDate: 2015-04-01T02:52:46Z
+    TransactionDateTimestamp: 1427856766234
+    Amount: -183.75
+  - TransactionDate: 2015-04-01T02:51:48Z
+    TransactionDateTimestamp: 1427856708816
+    Amount: -281.35
+  - TransactionDate: 2015-04-01T02:43:15Z
+    TransactionDateTimestamp: 1427856195476
+    Amount: -515.95
+  - TransactionDate: 2015-04-01T02:40:42Z
+    TransactionDateTimestamp: 1427856042407
+    Amount: 2892.8
+  - TransactionDate: 2015-04-01T02:40:33Z
+    TransactionDateTimestamp: 1427856033705
+    Amount: -2237
+  - TransactionDate: 2015-04-01T02:36:13Z
+    TransactionDateTimestamp: 1427855773680
+    Amount: -1469.12
+  - TransactionDate: 2015-04-01T02:35:44Z
+    TransactionDateTimestamp: 1427855744430
+    Amount: -269
+  - TransactionDate: 2015-04-01T02:33:19Z
+    TransactionDateTimestamp: 1427855599584
+    Amount: -897
+  - TransactionDate: 2015-04-01T02:32:39Z
+    TransactionDateTimestamp: 1427855559129
+    Amount: -2050.58
+  - TransactionDate: 2015-04-01T02:32:13Z
+    TransactionDateTimestamp: 1427855533181
+    Amount: -1358.72
+  - TransactionDate: 2015-04-01T02:30:56Z
+    TransactionDateTimestamp: 1427855456730
+    Amount: -2451.36
+  - TransactionDate: 2015-04-01T02:29:40Z
+    TransactionDateTimestamp: 1427855380033
+    Amount: -450.43
+  - TransactionDate: 2015-04-01T02:29:11Z
+    TransactionDateTimestamp: 1427855351039
+    Amount: -1467
+  - TransactionDate: 2015-04-01T02:28:03Z
+    TransactionDateTimestamp: 1427855283062
+    Amount: -220
+  - TransactionDate: 2015-04-01T02:25:03Z
+    TransactionDateTimestamp: 1427855103379
+    Amount: -539
+  - TransactionDate: 2015-04-01T02:23:26Z
+    TransactionDateTimestamp: 1427855006367
+    Amount: -1701.44
+  - TransactionDate: 2015-04-01T02:21:34Z
+    TransactionDateTimestamp: 1427854894534
+    Amount: -272.75
+  - TransactionDate: 2015-04-01T02:21:31Z
+    TransactionDateTimestamp: 1427854891696
+    Amount: -204.5
+  - TransactionDate: 2015-04-01T02:19:16Z
+    TransactionDateTimestamp: 1427854756200
+    Amount: -4866
+  - TransactionDate: 2015-03-31T14:04:02Z
+    TransactionDateTimestamp: 1427810642224
+    Amount: 500
+  - TransactionDate: 2015-03-31T01:22:40Z
+    TransactionDateTimestamp: 1427764960446
+    Amount: -4981.98
+  - TransactionDate: 2015-03-31T01:20:00Z
+    TransactionDateTimestamp: 1427764800179
+    Amount: -24132.91
+  - TransactionDate: 2015-03-31T01:19:21Z
+    TransactionDateTimestamp: 1427764761490
+    Amount: -2035.97
+  - TransactionDate: 2015-03-31T01:17:47Z
+    TransactionDateTimestamp: 1427764667705
+    Amount: -1322.65
+  - TransactionDate: 2015-03-31T01:12:56Z
+    TransactionDateTimestamp: 1427764376085
+    Amount: -1813.38
+  - TransactionDate: 2015-03-30T23:51:01Z
+    TransactionDateTimestamp: 1427759461001
+    Amount: 650
+  - TransactionDate: 2015-03-30T19:54:59Z
+    TransactionDateTimestamp: 1427745299215
+    Amount: 600
+  - TransactionDate: 2015-03-30T03:46:07Z
+    TransactionDateTimestamp: 1427687167496
+    Amount: -60
+  - TransactionDate: 2015-03-29T04:56:32Z
+    TransactionDateTimestamp: 1427604992172
+    Amount: -9.95
+  - TransactionDate: 2015-03-28T21:12:49Z
+    TransactionDateTimestamp: 1427577169888
+    Amount: 1000
+  - TransactionDate: 2015-03-28T14:11:54Z
+    TransactionDateTimestamp: 1427551914915
+    Amount: 30
+  - TransactionDate: 2015-03-28T06:21:25Z
+    TransactionDateTimestamp: 1427523685961
+    Amount: -42
+  - TransactionDate: 2015-03-28T00:53:45Z
+    TransactionDateTimestamp: 1427504025978
+    Amount: -50
+  - TransactionDate: 2015-03-27T14:31:14Z
+    TransactionDateTimestamp: 1427466674769
+    Amount: -380
+  - TransactionDate: 2015-03-27T13:27:45Z
+    TransactionDateTimestamp: 1427462865458
+    Amount: 98472.5
+  - TransactionDate: 2015-03-27T06:52:48Z
+    TransactionDateTimestamp: 1427439168204
+    Amount: -27.18
+  - TransactionDate: 2015-03-26T21:25:20Z
+    TransactionDateTimestamp: 1427405120510
+    Amount: 485
+  - TransactionDate: 2015-03-26T06:57:49Z
+    TransactionDateTimestamp: 1427353069466
+    Amount: -69.5
+  - TransactionDate: 2015-03-26T06:50:50Z
+    TransactionDateTimestamp: 1427352650966
+    Amount: -195.04
+  - TransactionDate: 2015-03-26T06:50:50Z
+    TransactionDateTimestamp: 1427352650406
+    Amount: -317.2
+  - TransactionDate: 2015-03-26T05:34:30Z
+    TransactionDateTimestamp: 1427348070184
+    Amount: -58.5
+  - TransactionDate: 2015-03-26T05:34:29Z
+    TransactionDateTimestamp: 1427348069978
+    Amount: -38
+  - TransactionDate: 2015-03-26T05:09:43Z
+    TransactionDateTimestamp: 1427346583431
+    Amount: -62.5
+  - TransactionDate: 2015-03-25T23:33:27Z
+    TransactionDateTimestamp: 1427326407074
+    Amount: -185
+  - TransactionDate: 2015-03-25T06:15:32Z
+    TransactionDateTimestamp: 1427264132778
+    Amount: -295.95
+  - TransactionDate: 2015-03-24T17:50:08Z
+    TransactionDateTimestamp: 1427219408599
+    Amount: -233
+  - TransactionDate: 2015-03-24T08:25:41Z
+    TransactionDateTimestamp: 1427185541958
+    Amount: -29
+  - TransactionDate: 2015-03-24T06:52:02Z
+    TransactionDateTimestamp: 1427179922574
+    Amount: -216.5
+  - TransactionDate: 2015-03-24T05:12:30Z
+    TransactionDateTimestamp: 1427173950762
+    Amount: -15
+  - TransactionDate: 2015-03-23T04:40:48Z
+    TransactionDateTimestamp: 1427085648303
+    Amount: -43
+  - TransactionDate: 2015-03-23T04:25:21Z
+    TransactionDateTimestamp: 1427084721121
+    Amount: -38.48
+  - TransactionDate: 2015-03-23T04:25:20Z
+    TransactionDateTimestamp: 1427084720903
+    Amount: -22
+  - TransactionDate: 2015-03-22T18:42:33Z
+    TransactionDateTimestamp: 1427049753760
+    Amount: -15
+  - TransactionDate: 2015-03-22T05:36:09Z
+    TransactionDateTimestamp: 1427002569499
+    Amount: -117.74
+  - TransactionDate: 2015-03-22T05:19:45Z
+    TransactionDateTimestamp: 1427001585074
+    Amount: -74
+  - TransactionDate: 2015-03-22T04:16:09Z
+    TransactionDateTimestamp: 1426997769172
+    Amount: -21.67
+  - TransactionDate: 2015-03-21T20:35:24Z
+    TransactionDateTimestamp: 1426970124985
+    Amount: -22.95
+  - TransactionDate: 2015-03-21T20:35:24Z
+    TransactionDateTimestamp: 1426970124426
+    Amount: -30
+  - TransactionDate: 2015-03-21T20:07:08Z
+    TransactionDateTimestamp: 1426968428622
+    Amount: -44.4
+  - TransactionDate: 2015-03-21T16:29:17Z
+    TransactionDateTimestamp: 1426955357506
+    Amount: -500
+  - TransactionDate: 2015-03-20T22:34:11Z
+    TransactionDateTimestamp: 1426890851184
+    Amount: -160.5
+  - TransactionDate: 2015-03-20T06:03:56Z
+    TransactionDateTimestamp: 1426831436144
+    Amount: -463.8
+  - TransactionDate: 2015-03-20T05:22:28Z
+    TransactionDateTimestamp: 1426828948305
+    Amount: -39.95
+  - TransactionDate: 2015-03-20T05:22:27Z
+    TransactionDateTimestamp: 1426828947553
+    Amount: -300
+  - TransactionDate: 2015-03-20T05:21:45Z
+    TransactionDateTimestamp: 1426828905765
+    Amount: -79.95
+  - TransactionDate: 2015-03-20T05:09:26Z
+    TransactionDateTimestamp: 1426828166801
+    Amount: -60
+  - TransactionDate: 2015-03-20T04:48:30Z
+    TransactionDateTimestamp: 1426826910459
+    Amount: -199.95
+  - TransactionDate: 2015-03-19T16:25:32Z
+    TransactionDateTimestamp: 1426782332387
+    Amount: 50
+  - TransactionDate: 2015-03-19T06:17:15Z
+    TransactionDateTimestamp: 1426745835554
+    Amount: -25
+  - TransactionDate: 2015-03-19T06:17:15Z
+    TransactionDateTimestamp: 1426745835295
+    Amount: -38
+  - TransactionDate: 2015-03-19T06:03:32Z
+    TransactionDateTimestamp: 1426745012875
+    Amount: -55
+  - TransactionDate: 2015-03-19T05:55:26Z
+    TransactionDateTimestamp: 1426744526681
+    Amount: -6.45
+  - TransactionDate: 2015-03-19T05:14:16Z
+    TransactionDateTimestamp: 1426742056896
+    Amount: -52
+  - TransactionDate: 2015-03-19T04:50:46Z
+    TransactionDateTimestamp: 1426740646836
+    Amount: -237.65
+  - TransactionDate: 2015-03-18T06:02:38Z
+    TransactionDateTimestamp: 1426658558375
+    Amount: -10
+  - TransactionDate: 2015-03-17T14:26:27Z
+    TransactionDateTimestamp: 1426602387776
+    Amount: -105
+  - TransactionDate: 2015-03-17T08:24:19Z
+    TransactionDateTimestamp: 1426580659377
+    Amount: -180.51
+  - TransactionDate: 2015-03-17T06:49:16Z
+    TransactionDateTimestamp: 1426574956789
+    Amount: -394.6
+  - TransactionDate: 2015-03-17T06:30:39Z
+    TransactionDateTimestamp: 1426573839221
+    Amount: -25
+  - TransactionDate: 2015-03-17T05:43:06Z
+    TransactionDateTimestamp: 1426570986538
+    Amount: -52.95
+  - TransactionDate: 2015-03-16T19:50:58Z
+    TransactionDateTimestamp: 1426535458187
+    Amount: 30
+  - TransactionDate: 2015-03-16T04:21:08Z
+    TransactionDateTimestamp: 1426479668953
+    Amount: -102.95
+  - TransactionDate: 2015-03-15T19:23:15Z
+    TransactionDateTimestamp: 1426447395169
+    Amount: -49
+  - TransactionDate: 2015-03-15T16:03:37Z
+    TransactionDateTimestamp: 1426435417926
+    Amount: -70
+  - TransactionDate: 2015-03-15T15:29:40Z
+    TransactionDateTimestamp: 1426433380286
+    Amount: 100
+  - TransactionDate: 2015-03-15T09:31:02Z
+    TransactionDateTimestamp: 1426411862763
+    Amount: 10
+  - TransactionDate: 2015-03-14T18:27:41Z
+    TransactionDateTimestamp: 1426357661292
+    Amount: -140
+  - TransactionDate: 2015-03-14T14:25:32Z
+    TransactionDateTimestamp: 1426343132648
+    Amount: -100
+  - TransactionDate: 2015-03-14T07:57:47Z
+    TransactionDateTimestamp: 1426319867943
+    Amount: -39
+  - TransactionDate: 2015-03-14T06:03:55Z
+    TransactionDateTimestamp: 1426313035100
+    Amount: -232
+  - TransactionDate: 2015-03-13T06:55:25Z
+    TransactionDateTimestamp: 1426229725436
+    Amount: -236
+  - TransactionDate: 2015-03-13T06:36:16Z
+    TransactionDateTimestamp: 1426228576376
+    Amount: -14
+  - TransactionDate: 2015-03-13T06:18:57Z
+    TransactionDateTimestamp: 1426227537828
+    Amount: -15
+  - TransactionDate: 2015-03-13T06:07:29Z
+    TransactionDateTimestamp: 1426226849117
+    Amount: -35
+  - TransactionDate: 2015-03-12T02:07:11Z
+    TransactionDateTimestamp: 1426126031463
+    Amount: -230.75
+  - TransactionDate: 2015-03-11T05:43:10Z
+    TransactionDateTimestamp: 1426052590364
+    Amount: -45
+  - TransactionDate: 2015-03-10T16:53:13Z
+    TransactionDateTimestamp: 1426006393365
+    Amount: -193
+  - TransactionDate: 2015-03-10T08:28:48Z
+    TransactionDateTimestamp: 1425976128311
+    Amount: -50
+  - TransactionDate: 2015-03-10T08:02:55Z
+    TransactionDateTimestamp: 1425974575191
+    Amount: -14
+  - TransactionDate: 2015-03-10T06:12:23Z
+    TransactionDateTimestamp: 1425967943510
+    Amount: -34.75
+  - TransactionDate: 2015-03-10T03:30:57Z
+    TransactionDateTimestamp: 1425958257594
+    Amount: -1560
+  - TransactionDate: 2015-03-09T05:13:40Z
+    TransactionDateTimestamp: 1425878020520
+    Amount: -30
+  - TransactionDate: 2015-03-09T04:54:12Z
+    TransactionDateTimestamp: 1425876852355
+    Amount: -50
+  - TransactionDate: 2015-03-09T04:54:12Z
+    TransactionDateTimestamp: 1425876852102
+    Amount: -55
+  - TransactionDate: 2015-03-09T02:07:08Z
+    TransactionDateTimestamp: 1425866828407
+    Amount: -3614.5
+  - TransactionDate: 2015-03-08T14:19:51Z
+    TransactionDateTimestamp: 1425824391753
+    Amount: 100
+  - TransactionDate: 2015-03-08T05:58:09Z
+    TransactionDateTimestamp: 1425794289165
+    Amount: -200
+  - TransactionDate: 2015-03-08T04:37:16Z
+    TransactionDateTimestamp: 1425789436997
+    Amount: -14.5
+  - TransactionDate: 2015-03-08T04:30:20Z
+    TransactionDateTimestamp: 1425789020420
+    Amount: -5
+  - TransactionDate: 2015-03-08T04:22:45Z
+    TransactionDateTimestamp: 1425788565594
+    Amount: -25
+  - TransactionDate: 2015-03-07T19:41:55Z
+    TransactionDateTimestamp: 1425757315603
+    Amount: 52
+  - TransactionDate: 2015-03-07T14:15:20Z
+    TransactionDateTimestamp: 1425737720128
+    Amount: 1000
+  - TransactionDate: 2015-03-07T04:36:54Z
+    TransactionDateTimestamp: 1425703014671
+    Amount: -89.95
+  - TransactionDate: 2015-03-06T10:34:35Z
+    TransactionDateTimestamp: 1425638075390
+    Amount: 350
+  - TransactionDate: 2015-03-06T08:24:46Z
+    TransactionDateTimestamp: 1425630286424
+    Amount: -121.5
+  - TransactionDate: 2015-03-06T07:40:02Z
+    TransactionDateTimestamp: 1425627602719
+    Amount: -26
+  - TransactionDate: 2015-03-06T07:35:11Z
+    TransactionDateTimestamp: 1425627311579
+    Amount: -92
+  - TransactionDate: 2015-03-06T06:07:11Z
+    TransactionDateTimestamp: 1425622031449
+    Amount: -62.5
+  - TransactionDate: 2015-03-06T04:39:26Z
+    TransactionDateTimestamp: 1425616766631
+    Amount: -55
+  - TransactionDate: 2015-03-06T02:14:22Z
+    TransactionDateTimestamp: 1425608062802
+    Amount: -718
+  - TransactionDate: 2015-03-05T14:01:15Z
+    TransactionDateTimestamp: 1425564075719
+    Amount: 17.5
+  - TransactionDate: 2015-03-05T08:00:33Z
+    TransactionDateTimestamp: 1425542433118
+    Amount: -264.46
+  - TransactionDate: 2015-03-05T04:54:28Z
+    TransactionDateTimestamp: 1425531268548
+    Amount: -58
+  - TransactionDate: 2015-03-05T02:12:26Z
+    TransactionDateTimestamp: 1425521546547
+    Amount: -4550.19
+  - TransactionDate: 2015-03-05T02:12:11Z
+    TransactionDateTimestamp: 1425521531278
+    Amount: -3025.47
+  - TransactionDate: 2015-03-04T15:58:36Z
+    TransactionDateTimestamp: 1425484716902
+    Amount: 40
+  - TransactionDate: 2015-03-04T10:11:24Z
+    TransactionDateTimestamp: 1425463884521
+    Amount: 50
+  - TransactionDate: 2015-03-04T07:15:32Z
+    TransactionDateTimestamp: 1425453332045
+    Amount: -48
+  - TransactionDate: 2015-03-03T14:26:13Z
+    TransactionDateTimestamp: 1425392773218
+    Amount: 140
+  - TransactionDate: 2015-03-03T12:12:30Z
+    TransactionDateTimestamp: 1425384750840
+    Amount: 30898
+  - TransactionDate: 2015-03-03T09:17:05Z
+    TransactionDateTimestamp: 1425374225994
+    Amount: -101
+  - TransactionDate: 2015-03-03T09:15:39Z
+    TransactionDateTimestamp: 1425374139651
+    Amount: -20
+  - TransactionDate: 2015-03-03T06:54:12Z
+    TransactionDateTimestamp: 1425365652459
+    Amount: -217.42
+  - TransactionDate: 2015-03-03T06:53:30Z
+    TransactionDateTimestamp: 1425365610437
+    Amount: -139
+  - TransactionDate: 2015-03-03T02:16:44Z
+    TransactionDateTimestamp: 1425349004868
+    Amount: -4012.74
+  - TransactionDate: 2015-03-03T02:09:27Z
+    TransactionDateTimestamp: 1425348567259
+    Amount: -100
+  - TransactionDate: 2015-03-02T06:46:54Z
+    TransactionDateTimestamp: 1425278814535
+    Amount: 150
+  - TransactionDate: 2015-03-02T06:39:30Z
+    TransactionDateTimestamp: 1425278370664
+    Amount: -200
+  - TransactionDate: 2015-03-02T05:16:09Z
+    TransactionDateTimestamp: 1425273369638
+    Amount: -43
+  - TransactionDate: 2015-03-02T05:16:09Z
+    TransactionDateTimestamp: 1425273369097
+    Amount: -20.75
+  - TransactionDate: 2015-03-02T02:42:58Z
+    TransactionDateTimestamp: 1425264178834
+    Amount: -109
+  - TransactionDate: 2015-03-02T02:41:56Z
+    TransactionDateTimestamp: 1425264116020
+    Amount: -204.5
+  - TransactionDate: 2015-03-02T02:39:53Z
+    TransactionDateTimestamp: 1425263993729
+    Amount: -2921.16
+  - TransactionDate: 2015-03-02T02:39:49Z
+    TransactionDateTimestamp: 1425263989094
+    Amount: -298
+  - TransactionDate: 2015-03-02T02:38:23Z
+    TransactionDateTimestamp: 1425263903932
+    Amount: -2578
+  - TransactionDate: 2015-03-02T02:36:28Z
+    TransactionDateTimestamp: 1425263788531
+    Amount: -447.95
+  - TransactionDate: 2015-03-02T02:35:59Z
+    TransactionDateTimestamp: 1425263759915
+    Amount: -1824.14
+  - TransactionDate: 2015-03-02T02:34:59Z
+    TransactionDateTimestamp: 1425263699528
+    Amount: -3583.7
+  - TransactionDate: 2015-03-02T02:34:59Z
+    TransactionDateTimestamp: 1425263699465
+    Amount: -1467
+  - TransactionDate: 2015-03-02T02:34:58Z
+    TransactionDateTimestamp: 1425263698526
+    Amount: -1368.66
+  - TransactionDate: 2015-03-02T02:32:15Z
+    TransactionDateTimestamp: 1425263535474
+    Amount: -1463.5
+  - TransactionDate: 2015-03-02T02:31:13Z
+    TransactionDateTimestamp: 1425263473861
+    Amount: -6364.51
+  - TransactionDate: 2015-03-02T02:31:11Z
+    TransactionDateTimestamp: 1425263471038
+    Amount: -218.19
+  - TransactionDate: 2015-03-02T02:31:07Z
+    TransactionDateTimestamp: 1425263467852
+    Amount: -1416.08
+  - TransactionDate: 2015-03-02T02:29:49Z
+    TransactionDateTimestamp: 1425263389469
+    Amount: -85.42
+  - TransactionDate: 2015-03-02T02:29:17Z
+    TransactionDateTimestamp: 1425263357773
+    Amount: -88
+  - TransactionDate: 2015-03-02T02:27:26Z
+    TransactionDateTimestamp: 1425263246556
+    Amount: -192
+  - TransactionDate: 2015-03-02T02:20:02Z
+    TransactionDateTimestamp: 1425262802260
+    Amount: -1374.18
+  - TransactionDate: 2015-03-02T02:14:59Z
+    TransactionDateTimestamp: 1425262499393
+    Amount: -190.1
+  - TransactionDate: 2015-03-02T02:14:40Z
+    TransactionDateTimestamp: 1425262480848
+    Amount: -471.25
+  - TransactionDate: 2015-03-02T02:14:04Z
+    TransactionDateTimestamp: 1425262444814
+    Amount: -8623
+  - TransactionDate: 2015-03-02T02:14:01Z
+    TransactionDateTimestamp: 1425262441516
+    Amount: -1434
+  - TransactionDate: 2015-03-02T02:13:43Z
+    TransactionDateTimestamp: 1425262423558
+    Amount: -1062.21
+  - TransactionDate: 2015-03-02T02:12:50Z
+    TransactionDateTimestamp: 1425262370165
+    Amount: -4226
+  - TransactionDate: 2015-03-02T02:12:06Z
+    TransactionDateTimestamp: 1425262326812
+    Amount: -1356
+  - TransactionDate: 2015-03-02T02:11:12Z
+    TransactionDateTimestamp: 1425262272957
+    Amount: -209.33
+  - TransactionDate: 2015-03-02T02:07:19Z
+    TransactionDateTimestamp: 1425262039085
+    Amount: -981.75
+  - TransactionDate: 2015-03-02T02:07:15Z
+    TransactionDateTimestamp: 1425262035291
+    Amount: -1500
+  - TransactionDate: 2015-03-01T16:36:33Z
+    TransactionDateTimestamp: 1425227793435
+    Amount: -1000
+  - TransactionDate: 2015-03-01T13:15:31Z
+    TransactionDateTimestamp: 1425215731044
+    Amount: -155
+  - TransactionDate: 2015-02-28T20:19:28Z
+    TransactionDateTimestamp: 1425154768739
+    Amount: -647
+  - TransactionDate: 2015-02-28T09:06:40Z
+    TransactionDateTimestamp: 1425114400338
+    Amount: -359
+  - TransactionDate: 2015-02-28T09:00:17Z
+    TransactionDateTimestamp: 1425114017236
+    Amount: -149
+  - TransactionDate: 2015-02-28T08:45:17Z
+    TransactionDateTimestamp: 1425113117782
+    Amount: -37
+  - TransactionDate: 2015-02-28T08:45:17Z
+    TransactionDateTimestamp: 1425113117526
+    Amount: -129.75
+  - TransactionDate: 2015-02-28T06:46:31Z
+    TransactionDateTimestamp: 1425105991985
+    Amount: -213.85
+  - TransactionDate: 2015-02-28T06:28:01Z
+    TransactionDateTimestamp: 1425104881197
+    Amount: 2000
+  - TransactionDate: 2015-02-27T19:04:31Z
+    TransactionDateTimestamp: 1425063871781
+    Amount: -25
+  - TransactionDate: 2015-02-27T13:15:30Z
+    TransactionDateTimestamp: 1425042930299
+    Amount: 349
+  - TransactionDate: 2015-02-27T04:43:14Z
+    TransactionDateTimestamp: 1425012194046
+    Amount: -74.98
+  - TransactionDate: 2015-02-26T18:53:56Z
+    TransactionDateTimestamp: 1424976836384
+    Amount: -75
+  - TransactionDate: 2015-02-26T13:19:30Z
+    TransactionDateTimestamp: 1424956770874
+    Amount: 100
+  - TransactionDate: 2015-02-26T05:50:00Z
+    TransactionDateTimestamp: 1424929800574
+    Amount: -227.2
+  - TransactionDate: 2015-02-26T05:20:27Z
+    TransactionDateTimestamp: 1424928027571
+    Amount: -200
+  - TransactionDate: 2015-02-26T04:33:09Z
+    TransactionDateTimestamp: 1424925189126
+    Amount: -115
+  - TransactionDate: 2015-02-25T10:27:14Z
+    TransactionDateTimestamp: 1424860034655
+    Amount: -255
+  - TransactionDate: 2015-02-25T09:52:51Z
+    TransactionDateTimestamp: 1424857971243
+    Amount: -35
+  - TransactionDate: 2015-02-25T08:40:31Z
+    TransactionDateTimestamp: 1424853631354
+    Amount: 378000
+  - TransactionDate: 2015-02-24T13:30:31Z
+    TransactionDateTimestamp: 1424784631303
+    Amount: -87.5
+  - TransactionDate: 2015-02-24T06:55:48Z
+    TransactionDateTimestamp: 1424760948494
+    Amount: -492.9
+  - TransactionDate: 2015-02-24T05:44:43Z
+    TransactionDateTimestamp: 1424756683064
+    Amount: -37.69
+  - TransactionDate: 2015-02-24T05:44:03Z
+    TransactionDateTimestamp: 1424756643159
+    Amount: -43
+  - TransactionDate: 2015-02-24T05:44:02Z
+    TransactionDateTimestamp: 1424756642575
+    Amount: -50
+  - TransactionDate: 2015-02-24T05:14:47Z
+    TransactionDateTimestamp: 1424754887404
+    Amount: -118
+  - TransactionDate: 2015-02-23T16:07:17Z
+    TransactionDateTimestamp: 1424707637762
+    Amount: 570
+  - TransactionDate: 2015-02-22T12:44:39Z
+    TransactionDateTimestamp: 1424609079948
+    Amount: -50
+  - TransactionDate: 2015-02-21T08:37:53Z
+    TransactionDateTimestamp: 1424507873165
+    Amount: -117.17
+  - TransactionDate: 2015-02-21T07:42:31Z
+    TransactionDateTimestamp: 1424504551427
+    Amount: -116.1
+  - TransactionDate: 2015-02-21T06:26:21Z
+    TransactionDateTimestamp: 1424499981647
+    Amount: -80
+  - TransactionDate: 2015-02-21T06:08:50Z
+    TransactionDateTimestamp: 1424498930824
+    Amount: -57.85
+  - TransactionDate: 2015-02-20T06:54:50Z
+    TransactionDateTimestamp: 1424415290304
+    Amount: -373.63
+  - TransactionDate: 2015-02-20T05:15:32Z
+    TransactionDateTimestamp: 1424409332047
+    Amount: -10
+  - TransactionDate: 2015-02-20T04:46:02Z
+    TransactionDateTimestamp: 1424407562498
+    Amount: -88
+  - TransactionDate: 2015-02-20T02:23:36Z
+    TransactionDateTimestamp: 1424399016744
+    Amount: -3517.76
+  - TransactionDate: 2015-02-20T02:22:29Z
+    TransactionDateTimestamp: 1424398949511
+    Amount: -6065.7
+  - TransactionDate: 2015-02-20T02:21:16Z
+    TransactionDateTimestamp: 1424398876136
+    Amount: -7812.15
+  - TransactionDate: 2015-02-19T23:51:41Z
+    TransactionDateTimestamp: 1424389901624
+    Amount: 19
+  - TransactionDate: 2015-02-19T16:38:50Z
+    TransactionDateTimestamp: 1424363930619
+    Amount: -18
+  - TransactionDate: 2015-02-19T07:01:05Z
+    TransactionDateTimestamp: 1424329265713
+    Amount: -2.5
+  - TransactionDate: 2015-02-18T20:54:32Z
+    TransactionDateTimestamp: 1424292872125
+    Amount: 125
+  - TransactionDate: 2015-02-18T16:20:04Z
+    TransactionDateTimestamp: 1424276404247
+    Amount: 30
+  - TransactionDate: 2015-02-18T07:10:59Z
+    TransactionDateTimestamp: 1424243459685
+    Amount: -232.73
+  - TransactionDate: 2015-02-18T06:05:28Z
+    TransactionDateTimestamp: 1424239528529
+    Amount: -28
+  - TransactionDate: 2015-02-18T05:14:34Z
+    TransactionDateTimestamp: 1424236474947
+    Amount: -139
+  - TransactionDate: 2015-02-18T05:14:34Z
+    TransactionDateTimestamp: 1424236474645
+    Amount: -28
+  - TransactionDate: 2015-02-18T00:17:55Z
+    TransactionDateTimestamp: 1424218675993
+    Amount: -250
+  - TransactionDate: 2015-02-17T13:10:56Z
+    TransactionDateTimestamp: 1424178656681
+    Amount: -300
+  - TransactionDate: 2015-02-17T07:34:44Z
+    TransactionDateTimestamp: 1424158484152
+    Amount: -298.6
+  - TransactionDate: 2015-02-17T07:13:09Z
+    TransactionDateTimestamp: 1424157189949
+    Amount: -32
+  - TransactionDate: 2015-02-17T07:13:09Z
+    TransactionDateTimestamp: 1424157189626
+    Amount: -187
+  - TransactionDate: 2015-02-17T06:39:54Z
+    TransactionDateTimestamp: 1424155194054
+    Amount: -168.9
+  - TransactionDate: 2015-02-17T05:39:08Z
+    TransactionDateTimestamp: 1424151548422
+    Amount: -550
+  - TransactionDate: 2015-02-16T05:02:44Z
+    TransactionDateTimestamp: 1424062964294
+    Amount: -69.95
+  - TransactionDate: 2015-02-16T04:46:29Z
+    TransactionDateTimestamp: 1424061989001
+    Amount: -105
+  - TransactionDate: 2015-02-16T04:19:35Z
+    TransactionDateTimestamp: 1424060375162
+    Amount: -321.9
+  - TransactionDate: 2015-02-15T17:34:59Z
+    TransactionDateTimestamp: 1424021699811
+    Amount: -200
+  - TransactionDate: 2015-02-15T06:23:01Z
+    TransactionDateTimestamp: 1423981381295
+    Amount: -137
+  - TransactionDate: 2015-02-15T05:51:42Z
+    TransactionDateTimestamp: 1423979502142
+    Amount: -32.05
+  - TransactionDate: 2015-02-15T04:25:39Z
+    TransactionDateTimestamp: 1423974339939
+    Amount: -69
+  - TransactionDate: 2015-02-15T04:22:21Z
+    TransactionDateTimestamp: 1423974141905
+    Amount: -128.8
+  - TransactionDate: 2015-02-14T21:49:37Z
+    TransactionDateTimestamp: 1423950577657
+    Amount: -5
+  - TransactionDate: 2015-02-14T21:41:10Z
+    TransactionDateTimestamp: 1423950070697
+    Amount: 182
+  - TransactionDate: 2015-02-14T20:20:49Z
+    TransactionDateTimestamp: 1423945249435
+    Amount: -540
+  - TransactionDate: 2015-02-14T16:36:54Z
+    TransactionDateTimestamp: 1423931814362
+    Amount: -300
+  - TransactionDate: 2015-02-14T14:24:14Z
+    TransactionDateTimestamp: 1423923854713
+    Amount: -50
+  - TransactionDate: 2015-02-14T07:24:34Z
+    TransactionDateTimestamp: 1423898674298
+    Amount: -66
+  - TransactionDate: 2015-02-13T11:19:09Z
+    TransactionDateTimestamp: 1423826349815
+    Amount: 1125
+  - TransactionDate: 2015-02-13T05:42:10Z
+    TransactionDateTimestamp: 1423806130926
+    Amount: -89.25
+  - TransactionDate: 2015-02-13T05:19:42Z
+    TransactionDateTimestamp: 1423804782405
+    Amount: -75.19
+  - TransactionDate: 2015-02-13T02:12:18Z
+    TransactionDateTimestamp: 1423793538120
+    Amount: -154.68
+  - TransactionDate: 2015-02-12T23:02:19Z
+    TransactionDateTimestamp: 1423782139589
+    Amount: 7.5
+  - TransactionDate: 2015-02-12T09:14:49Z
+    TransactionDateTimestamp: 1423732489404
+    Amount: 490000
+  - TransactionDate: 2015-02-12T08:30:37Z
+    TransactionDateTimestamp: 1423729837774
+    Amount: -87
+  - TransactionDate: 2015-02-12T06:39:51Z
+    TransactionDateTimestamp: 1423723191496
+    Amount: -15
+  - TransactionDate: 2015-02-12T06:05:12Z
+    TransactionDateTimestamp: 1423721112717
+    Amount: -11.95
+  - TransactionDate: 2015-02-12T05:39:20Z
+    TransactionDateTimestamp: 1423719560586
+    Amount: -75.18
+  - TransactionDate: 2015-02-11T11:42:31Z
+    TransactionDateTimestamp: 1423654951519
+    Amount: 200
+  - TransactionDate: 2015-02-11T10:11:09Z
+    TransactionDateTimestamp: 1423649469633
+    Amount: 7462.5
+  - TransactionDate: 2015-02-11T04:56:12Z
+    TransactionDateTimestamp: 1423630572805
+    Amount: -415
+  - TransactionDate: 2015-02-10T14:56:33Z
+    TransactionDateTimestamp: 1423580193890
+    Amount: 319
+  - TransactionDate: 2015-02-10T10:35:25Z
+    TransactionDateTimestamp: 1423564525825
+    Amount: -111.6
+  - TransactionDate: 2015-02-10T08:25:58Z
+    TransactionDateTimestamp: 1423556758266
+    Amount: -41
+  - TransactionDate: 2015-02-10T08:21:46Z
+    TransactionDateTimestamp: 1423556506043
+    Amount: -174.5
+  - TransactionDate: 2015-02-10T07:07:20Z
+    TransactionDateTimestamp: 1423552040538
+    Amount: -199.95
+  - TransactionDate: 2015-02-10T07:07:19Z
+    TransactionDateTimestamp: 1423552039803
+    Amount: -101.08
+  - TransactionDate: 2015-02-10T06:15:38Z
+    TransactionDateTimestamp: 1423548938386
+    Amount: -98
+  - TransactionDate: 2015-02-10T02:21:52Z
+    TransactionDateTimestamp: 1423534912054
+    Amount: -1752.5
+  - TransactionDate: 2015-02-10T02:18:24Z
+    TransactionDateTimestamp: 1423534704472
+    Amount: -539.5
+  - TransactionDate: 2015-02-10T02:15:54Z
+    TransactionDateTimestamp: 1423534554269
+    Amount: -2692.65
+  - TransactionDate: 2015-02-10T02:13:54Z
+    TransactionDateTimestamp: 1423534434731
+    Amount: -2052.06
+  - TransactionDate: 2015-02-10T02:13:46Z
+    TransactionDateTimestamp: 1423534426158
+    Amount: -2310.29
+  - TransactionDate: 2015-02-10T02:09:05Z
+    TransactionDateTimestamp: 1423534145982
+    Amount: -2870
+  - TransactionDate: 2015-02-09T11:58:14Z
+    TransactionDateTimestamp: 1423483094197
+    Amount: -94.35
+  - TransactionDate: 2015-02-09T09:25:44Z
+    TransactionDateTimestamp: 1423473944965
+    Amount: -30.5
+  - TransactionDate: 2015-02-08T21:44:58Z
+    TransactionDateTimestamp: 1423431898430
+    Amount: 750
+  - TransactionDate: 2015-02-08T10:04:54Z
+    TransactionDateTimestamp: 1423389894231
+    Amount: -319.95
+  - TransactionDate: 2015-02-08T06:08:35Z
+    TransactionDateTimestamp: 1423375715617
+    Amount: -94.5
+  - TransactionDate: 2015-02-07T18:29:59Z
+    TransactionDateTimestamp: 1423333799819
+    Amount: -35
+  - TransactionDate: 2015-02-07T13:59:07Z
+    TransactionDateTimestamp: 1423317547401
+    Amount: -40
+  - TransactionDate: 2015-02-07T07:19:48Z
+    TransactionDateTimestamp: 1423293588808
+    Amount: -129
+  - TransactionDate: 2015-02-07T06:13:15Z
+    TransactionDateTimestamp: 1423289595471
+    Amount: 85
+  - TransactionDate: 2015-02-07T00:28:23Z
+    TransactionDateTimestamp: 1423268903969
+    Amount: -1100
+  - TransactionDate: 2015-02-06T06:53:10Z
+    TransactionDateTimestamp: 1423205590842
+    Amount: -95.7
+  - TransactionDate: 2015-02-06T06:33:51Z
+    TransactionDateTimestamp: 1423204431213
+    Amount: -69.75
+  - TransactionDate: 2015-02-06T04:34:16Z
+    TransactionDateTimestamp: 1423197256651
+    Amount: -94.4
+  - TransactionDate: 2015-02-06T02:17:12Z
+    TransactionDateTimestamp: 1423189032396
+    Amount: -782.88
+  - TransactionDate: 2015-02-06T02:16:37Z
+    TransactionDateTimestamp: 1423188997000
+    Amount: 5251.75
+  - TransactionDate: 2015-02-05T21:09:03Z
+    TransactionDateTimestamp: 1423170543485
+    Amount: 100
+  - TransactionDate: 2015-02-05T14:02:57Z
+    TransactionDateTimestamp: 1423144977803
+    Amount: 27.33
+  - TransactionDate: 2015-02-05T07:16:34Z
+    TransactionDateTimestamp: 1423120594273
+    Amount: -39
+  - TransactionDate: 2015-02-05T06:46:59Z
+    TransactionDateTimestamp: 1423118819573
+    Amount: -10
+  - TransactionDate: 2015-02-05T06:38:03Z
+    TransactionDateTimestamp: 1423118283916
+    Amount: -42
+  - TransactionDate: 2015-02-05T05:31:22Z
+    TransactionDateTimestamp: 1423114282454
+    Amount: -45
+  - TransactionDate: 2015-02-05T05:31:22Z
+    TransactionDateTimestamp: 1423114282104
+    Amount: -202.77
+  - TransactionDate: 2015-02-05T02:27:05Z
+    TransactionDateTimestamp: 1423103225947
+    Amount: -5800
+  - TransactionDate: 2015-02-05T02:27:05Z
+    TransactionDateTimestamp: 1423103225438
+    Amount: -150
+  - TransactionDate: 2015-02-05T02:24:24Z
+    TransactionDateTimestamp: 1423103064711
+    Amount: -310
+  - TransactionDate: 2015-02-05T02:23:18Z
+    TransactionDateTimestamp: 1423102998486
+    Amount: -540.39
+  - TransactionDate: 2015-02-05T02:21:32Z
+    TransactionDateTimestamp: 1423102892759
+    Amount: -310
+  - TransactionDate: 2015-02-05T02:21:16Z
+    TransactionDateTimestamp: 1423102876868
+    Amount: -1035
+  - TransactionDate: 2015-02-04T16:18:57Z
+    TransactionDateTimestamp: 1423066737759
+    Amount: 150
+  - TransactionDate: 2015-02-04T06:29:46Z
+    TransactionDateTimestamp: 1423031386918
+    Amount: -14.95
+  - TransactionDate: 2015-02-03T20:06:29Z
+    TransactionDateTimestamp: 1422993989981
+    Amount: -30
+  - TransactionDate: 2015-02-03T17:27:15Z
+    TransactionDateTimestamp: 1422984435103
+    Amount: 113
+  - TransactionDate: 2015-02-03T08:48:14Z
+    TransactionDateTimestamp: 1422953294422
+    Amount: -120
+  - TransactionDate: 2015-02-03T08:31:45Z
+    TransactionDateTimestamp: 1422952305452
+    Amount: -26
+  - TransactionDate: 2015-02-03T08:00:48Z
+    TransactionDateTimestamp: 1422950448265
+    Amount: -292
+  - TransactionDate: 2015-02-03T05:55:29Z
+    TransactionDateTimestamp: 1422942929339
+    Amount: -83
+  - TransactionDate: 2015-02-03T02:14:57Z
+    TransactionDateTimestamp: 1422929697616
+    Amount: 207
+  - TransactionDate: 2015-02-03T02:14:44Z
+    TransactionDateTimestamp: 1422929684038
+    Amount: -44539.67
+  - TransactionDate: 2015-02-02T16:17:10Z
+    TransactionDateTimestamp: 1422893830713
+    Amount: 500
+  - TransactionDate: 2015-02-02T10:25:21Z
+    TransactionDateTimestamp: 1422872721358
+    Amount: 430
+  - TransactionDate: 2015-02-02T05:07:56Z
+    TransactionDateTimestamp: 1422853676824
+    Amount: -90
+  - TransactionDate: 2015-02-02T04:16:48Z
+    TransactionDateTimestamp: 1422850608707
+    Amount: -77.75
+  - TransactionDate: 2015-02-02T02:54:21Z
+    TransactionDateTimestamp: 1422845661235
+    Amount: -1271.36
+  - TransactionDate: 2015-02-02T02:48:19Z
+    TransactionDateTimestamp: 1422845299766
+    Amount: -1981.25
+  - TransactionDate: 2015-02-02T02:44:23Z
+    TransactionDateTimestamp: 1422845063177
+    Amount: -231.44
+  - TransactionDate: 2015-02-02T02:42:16Z
+    TransactionDateTimestamp: 1422844936202
+    Amount: -1205.8
+  - TransactionDate: 2015-02-02T02:41:47Z
+    TransactionDateTimestamp: 1422844907286
+    Amount: -500
+  - TransactionDate: 2015-02-02T02:39:18Z
+    TransactionDateTimestamp: 1422844758711
+    Amount: -373
+  - TransactionDate: 2015-02-02T02:39:06Z
+    TransactionDateTimestamp: 1422844746502
+    Amount: -467
+  - TransactionDate: 2015-02-02T02:35:40Z
+    TransactionDateTimestamp: 1422844540516
+    Amount: -2153
+  - TransactionDate: 2015-02-02T02:34:31Z
+    TransactionDateTimestamp: 1422844471990
+    Amount: -1000
+  - TransactionDate: 2015-02-02T02:34:10Z
+    TransactionDateTimestamp: 1422844450234
+    Amount: -1860
+  - TransactionDate: 2015-02-02T02:33:55Z
+    TransactionDateTimestamp: 1422844435905
+    Amount: -229
+  - TransactionDate: 2015-02-02T02:33:03Z
+    TransactionDateTimestamp: 1422844383927
+    Amount: -1217
+  - TransactionDate: 2015-02-02T02:32:52Z
+    TransactionDateTimestamp: 1422844372874
+    Amount: -3724.5
+  - TransactionDate: 2015-02-02T02:32:17Z
+    TransactionDateTimestamp: 1422844337010
+    Amount: -200
+  - TransactionDate: 2015-02-02T02:32:14Z
+    TransactionDateTimestamp: 1422844334020
+    Amount: -1399
+  - TransactionDate: 2015-02-02T02:32:13Z
+    TransactionDateTimestamp: 1422844333964
+    Amount: -160
+  - TransactionDate: 2015-02-02T02:32:13Z
+    TransactionDateTimestamp: 1422844333949
+    Amount: -108.25
+  - TransactionDate: 2015-02-02T02:30:08Z
+    TransactionDateTimestamp: 1422844208976
+    Amount: -103
+  - TransactionDate: 2015-02-02T02:24:11Z
+    TransactionDateTimestamp: 1422843851868
+    Amount: -2256
+  - TransactionDate: 2015-02-02T02:23:32Z
+    TransactionDateTimestamp: 1422843812544
+    Amount: 193.59
+  - TransactionDate: 2015-02-02T02:21:45Z
+    TransactionDateTimestamp: 1422843705388
+    Amount: -313
+  - TransactionDate: 2015-02-02T02:21:29Z
+    TransactionDateTimestamp: 1422843689795
+    Amount: -31.12
+  - TransactionDate: 2015-02-02T02:21:11Z
+    TransactionDateTimestamp: 1422843671344
+    Amount: -207
+  - TransactionDate: 2015-02-02T02:18:41Z
+    TransactionDateTimestamp: 1422843521829
+    Amount: -1418.93
+  - TransactionDate: 2015-02-02T02:17:43Z
+    TransactionDateTimestamp: 1422843463107
+    Amount: -6079
+  - TransactionDate: 2015-02-02T02:17:43Z
+    TransactionDateTimestamp: 1422843463016
+    Amount: -756.6
+  - TransactionDate: 2015-02-02T02:17:34Z
+    TransactionDateTimestamp: 1422843454874
+    Amount: -1670.19
+  - TransactionDate: 2015-02-02T02:17:34Z
+    TransactionDateTimestamp: 1422843454844
+    Amount: -773.48
+  - TransactionDate: 2015-02-02T02:17:34Z
+    TransactionDateTimestamp: 1422843454769
+    Amount: -343
+  - TransactionDate: 2015-02-02T02:14:28Z
+    TransactionDateTimestamp: 1422843268842
+    Amount: -1171.46
+  - TransactionDate: 2015-02-02T02:14:15Z
+    TransactionDateTimestamp: 1422843255061
+    Amount: -177.91
+  - TransactionDate: 2015-02-02T02:14:12Z
+    TransactionDateTimestamp: 1422843252028
+    Amount: -817.66
+  - TransactionDate: 2015-02-02T02:13:19Z
+    TransactionDateTimestamp: 1422843199622
+    Amount: -1597
+  - TransactionDate: 2015-02-02T02:10:13Z
+    TransactionDateTimestamp: 1422843013208
+    Amount: -298.85
+  - TransactionDate: 2015-02-01T16:36:03Z
+    TransactionDateTimestamp: 1422808563154
+    Amount: -60
+  - TransactionDate: 2015-02-01T08:43:49Z
+    TransactionDateTimestamp: 1422780229653
+    Amount: 200
+  - TransactionDate: 2015-02-01T06:57:42Z
+    TransactionDateTimestamp: 1422773862757
+    Amount: -397.45
+  - TransactionDate: 2015-02-01T06:48:44Z
+    TransactionDateTimestamp: 1422773324589
+    Amount: -25
+  - TransactionDate: 2015-02-01T06:36:49Z
+    TransactionDateTimestamp: 1422772609710
+    Amount: -70
+  - TransactionDate: 2015-02-01T06:36:49Z
+    TransactionDateTimestamp: 1422772609424
+    Amount: -50
+  - TransactionDate: 2015-01-31T14:45:01Z
+    TransactionDateTimestamp: 1422715501848
+    Amount: -100
+  - TransactionDate: 2015-01-31T10:29:44Z
+    TransactionDateTimestamp: 1422700184769
+    Amount: -52.67
+  - TransactionDate: 2015-01-31T08:41:18Z
+    TransactionDateTimestamp: 1422693678879
+    Amount: -182.14
+  - TransactionDate: 2015-01-31T07:59:28Z
+    TransactionDateTimestamp: 1422691168872
+    Amount: -60.5
+  - TransactionDate: 2015-01-31T07:09:27Z
+    TransactionDateTimestamp: 1422688167298
+    Amount: -193.4
+  - TransactionDate: 2015-01-31T06:27:27Z
+    TransactionDateTimestamp: 1422685647951
+    Amount: -62
+  - TransactionDate: 2015-01-31T06:23:38Z
+    TransactionDateTimestamp: 1422685418395
+    Amount: -73
+  - TransactionDate: 2015-01-30T05:00:13Z
+    TransactionDateTimestamp: 1422594013856
+    Amount: -29
+  - TransactionDate: 2015-01-30T04:18:51Z
+    TransactionDateTimestamp: 1422591531222
+    Amount: 1434
+  - TransactionDate: 2015-01-29T22:20:06Z
+    TransactionDateTimestamp: 1422570006695
+    Amount: 430
+  - TransactionDate: 2015-01-29T05:57:35Z
+    TransactionDateTimestamp: 1422511055062
+    Amount: -35
+  - TransactionDate: 2015-01-28T07:02:56Z
+    TransactionDateTimestamp: 1422428576011
+    Amount: -137
+  - TransactionDate: 2015-01-28T06:36:11Z
+    TransactionDateTimestamp: 1422426971128
+    Amount: -43.55
+  - TransactionDate: 2015-01-28T05:47:30Z
+    TransactionDateTimestamp: 1422424050363
+    Amount: -295
+  - TransactionDate: 2015-01-28T04:02:09Z
+    TransactionDateTimestamp: 1422417729942
+    Amount: -1500
+  - TransactionDate: 2015-01-27T06:04:14Z
+    TransactionDateTimestamp: 1422338654028
+    Amount: -11
+  - TransactionDate: 2015-01-27T05:13:01Z
+    TransactionDateTimestamp: 1422335581607
+    Amount: -80.9
+  - TransactionDate: 2015-01-26T18:43:48Z
+    TransactionDateTimestamp: 1422297828487
+    Amount: 20
+  - TransactionDate: 2015-01-26T06:30:05Z
+    TransactionDateTimestamp: 1422253805483
+    Amount: 150
+  - TransactionDate: 2015-01-25T18:16:11Z
+    TransactionDateTimestamp: 1422209771720
+    Amount: 50
+  - TransactionDate: 2015-01-25T05:25:54Z
+    TransactionDateTimestamp: 1422163554900
+    Amount: -868
+  - TransactionDate: 2015-01-25T02:28:34Z
+    TransactionDateTimestamp: 1422152914765
+    Amount: -207
+  - TransactionDate: 2015-01-24T08:20:33Z
+    TransactionDateTimestamp: 1422087633927
+    Amount: -500
+  - TransactionDate: 2015-01-24T06:08:08Z
+    TransactionDateTimestamp: 1422079688576
+    Amount: -73.5
+  - TransactionDate: 2015-01-23T05:41:36Z
+    TransactionDateTimestamp: 1421991696257
+    Amount: -80
+  - TransactionDate: 2015-01-23T05:00:22Z
+    TransactionDateTimestamp: 1421989222783
+    Amount: -12
+  - TransactionDate: 2015-01-23T04:49:22Z
+    TransactionDateTimestamp: 1421988562579
+    Amount: -92.9
+  - TransactionDate: 2015-01-22T14:33:25Z
+    TransactionDateTimestamp: 1421937205836
+    Amount: -35
+  - TransactionDate: 2015-01-22T06:50:37Z
+    TransactionDateTimestamp: 1421909437331
+    Amount: -185
+  - TransactionDate: 2015-01-22T06:48:22Z
+    TransactionDateTimestamp: 1421909302519
+    Amount: -377.2
+  - TransactionDate: 2015-01-22T06:46:13Z
+    TransactionDateTimestamp: 1421909173750
+    Amount: -29
+  - TransactionDate: 2015-01-22T05:53:24Z
+    TransactionDateTimestamp: 1421906004833
+    Amount: -375.5
+  - TransactionDate: 2015-01-22T04:51:19Z
+    TransactionDateTimestamp: 1421902279829
+    Amount: -236.87
+  - TransactionDate: 2015-01-22T04:45:45Z
+    TransactionDateTimestamp: 1421901945767
+    Amount: -105.85
+  - TransactionDate: 2015-01-21T10:38:12Z
+    TransactionDateTimestamp: 1421836692677
+    Amount: 52
+  - TransactionDate: 2015-01-21T06:36:06Z
+    TransactionDateTimestamp: 1421822166746
+    Amount: -139
+  - TransactionDate: 2015-01-21T05:14:06Z
+    TransactionDateTimestamp: 1421817246816
+    Amount: -12
+  - TransactionDate: 2015-01-21T04:26:50Z
+    TransactionDateTimestamp: 1421814410737
+    Amount: -199.95
+  - TransactionDate: 2015-01-20T07:29:02Z
+    TransactionDateTimestamp: 1421738942966
+    Amount: -1099
+  - TransactionDate: 2015-01-20T06:06:23Z
+    TransactionDateTimestamp: 1421733983326
+    Amount: -28.4
+  - TransactionDate: 2015-01-19T04:42:45Z
+    TransactionDateTimestamp: 1421642565987
+    Amount: -214.85
+  - TransactionDate: 2015-01-18T20:33:03Z
+    TransactionDateTimestamp: 1421613183015
+    Amount: 500
+  - TransactionDate: 2015-01-18T06:51:47Z
+    TransactionDateTimestamp: 1421563907840
+    Amount: -89.8
+  - TransactionDate: 2015-01-18T06:51:47Z
+    TransactionDateTimestamp: 1421563907666
+    Amount: -203.15
+  - TransactionDate: 2015-01-18T06:36:07Z
+    TransactionDateTimestamp: 1421562967185
+    Amount: -38.5
+  - TransactionDate: 2015-01-18T06:28:46Z
+    TransactionDateTimestamp: 1421562526984
+    Amount: -44
+  - TransactionDate: 2015-01-18T05:27:09Z
+    TransactionDateTimestamp: 1421558829828
+    Amount: -118
+  - TransactionDate: 2015-01-18T04:46:24Z
+    TransactionDateTimestamp: 1421556384582
+    Amount: -205.75
+  - TransactionDate: 2015-01-17T12:12:50Z
+    TransactionDateTimestamp: 1421496770949
+    Amount: 83
+  - TransactionDate: 2015-01-17T08:03:25Z
+    TransactionDateTimestamp: 1421481805349
+    Amount: -550
+  - TransactionDate: 2015-01-17T07:36:15Z
+    TransactionDateTimestamp: 1421480175584
+    Amount: -900
+  - TransactionDate: 2015-01-17T05:41:29Z
+    TransactionDateTimestamp: 1421473289789
+    Amount: -95
+  - TransactionDate: 2015-01-16T09:16:21Z
+    TransactionDateTimestamp: 1421399781487
+    Amount: 115
+  - TransactionDate: 2015-01-16T06:41:47Z
+    TransactionDateTimestamp: 1421390507585
+    Amount: -162.5
+  - TransactionDate: 2015-01-15T17:16:16Z
+    TransactionDateTimestamp: 1421342176487
+    Amount: 115
+  - TransactionDate: 2015-01-15T11:45:05Z
+    TransactionDateTimestamp: 1421322305123
+    Amount: 1
+  - TransactionDate: 2015-01-15T06:22:36Z
+    TransactionDateTimestamp: 1421302956446
+    Amount: -20
+  - TransactionDate: 2015-01-15T05:27:03Z
+    TransactionDateTimestamp: 1421299623324
+    Amount: -44
+  - TransactionDate: 2015-01-15T02:12:36Z
+    TransactionDateTimestamp: 1421287956677
+    Amount: -1832.65
+  - TransactionDate: 2015-01-15T02:12:36Z
+    TransactionDateTimestamp: 1421287956638
+    Amount: -1791.11
+  - TransactionDate: 2015-01-13T06:39:08Z
+    TransactionDateTimestamp: 1421131148749
+    Amount: -45.89
+  - TransactionDate: 2015-01-13T05:29:12Z
+    TransactionDateTimestamp: 1421126952440
+    Amount: -34.9
+  - TransactionDate: 2015-01-13T05:16:05Z
+    TransactionDateTimestamp: 1421126165947
+    Amount: -83.5
+  - TransactionDate: 2015-01-13T05:02:00Z
+    TransactionDateTimestamp: 1421125320923
+    Amount: -220.67
+  - TransactionDate: 2015-01-12T05:12:17Z
+    TransactionDateTimestamp: 1421039537003
+    Amount: -50
+  - TransactionDate: 2015-01-12T05:07:13Z
+    TransactionDateTimestamp: 1421039233659
+    Amount: -16
+  - TransactionDate: 2015-01-12T04:37:55Z
+    TransactionDateTimestamp: 1421037475330
+    Amount: -13
+  - TransactionDate: 2015-01-12T04:27:21Z
+    TransactionDateTimestamp: 1421036841089
+    Amount: -173.75
+  - TransactionDate: 2015-01-12T02:09:49Z
+    TransactionDateTimestamp: 1421028589602
+    Amount: -1380
+  - TransactionDate: 2015-01-12T02:08:37Z
+    TransactionDateTimestamp: 1421028517989
+    Amount: -5817.25
+  - TransactionDate: 2015-01-12T02:08:17Z
+    TransactionDateTimestamp: 1421028497680
+    Amount: -1560
+  - TransactionDate: 2015-01-12T02:06:40Z
+    TransactionDateTimestamp: 1421028400572
+    Amount: -105
+  - TransactionDate: 2015-01-12T02:03:52Z
+    TransactionDateTimestamp: 1421028232106
+    Amount: -450
+  - TransactionDate: 2015-01-11T05:35:58Z
+    TransactionDateTimestamp: 1420954558788
+    Amount: -127.65
+  - TransactionDate: 2015-01-11T05:07:12Z
+    TransactionDateTimestamp: 1420952832819
+    Amount: -37.9
+  - TransactionDate: 2015-01-10T17:30:41Z
+    TransactionDateTimestamp: 1420911041589
+    Amount: -400
+  - TransactionDate: 2015-01-10T17:09:22Z
+    TransactionDateTimestamp: 1420909762661
+    Amount: 41
+  - TransactionDate: 2015-01-10T16:41:24Z
+    TransactionDateTimestamp: 1420908084829
+    Amount: -150
+  - TransactionDate: 2015-01-10T06:58:26Z
+    TransactionDateTimestamp: 1420873106797
+    Amount: -100
+  - TransactionDate: 2015-01-10T05:04:58Z
+    TransactionDateTimestamp: 1420866298052
+    Amount: -70

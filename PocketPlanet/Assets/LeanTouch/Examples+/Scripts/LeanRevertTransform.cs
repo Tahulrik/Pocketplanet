@@ -2,137 +2,54 @@ using UnityEngine;
 
 namespace Lean.Touch
 {
-	// This script will record the state of the current transform, and revert it on command
+	// This script will revert the transform of the current GameObject when the target selectable isn't selected
 	public class LeanRevertTransform : MonoBehaviour
 	{
-		[Tooltip("How quickly this object moves to its original transform.")]
+		[Tooltip("Does translation require an object to be selected?")]
+		public LeanSelectable RequiredSelectable;
+
+		[Tooltip("How quickly this object moves to its original transform")]
 		public float Dampening = 10.0f;
 
-		[Tooltip("Call RecordTransform in Start?")]
-		public bool RecordOnStart = true;
-
-		public bool RevertPosition = true;
-		public bool RevertRotation = true;
-		public bool RevertScale    = true;
-
-		[Space(10.0f)]
-		public float ThresholdPosition = 0.01f;
-		public float ThresholdRotation = 0.01f;
-		public float ThresholdScale    = 0.01f;
-
-		[Space(10.0f)]
-		public Vector3    TargetPosition;
-		public Quaternion TargetRotation = Quaternion.identity;
-		public Vector3    TargetScale = Vector3.one;
+		[SerializeField]
+		[HideInInspector]
+		private Vector3 originalPosition;
 
 		[SerializeField]
 		[HideInInspector]
-		private Vector3 expectedPosition;
+		private Quaternion originalRotation;
 
 		[SerializeField]
 		[HideInInspector]
-		private Quaternion expectedRotation = Quaternion.identity;
+		private Vector3 originalScale;
 
-		[SerializeField]
-		[HideInInspector]
-		private Vector3 expectedScale = Vector3.one;
-
-		[SerializeField]
-		[HideInInspector]
-		private bool reverting;
-
-		private bool PositionChanged
+#if UNITY_EDITOR
+		protected virtual void Reset()
 		{
-			get
+			if (RequiredSelectable == null)
 			{
-				return Vector3.Distance(transform.localPosition, expectedPosition) > ThresholdPosition;
+				RequiredSelectable = GetComponent<LeanSelectable>();
 			}
 		}
+#endif
 
-		private bool RotationChanged
+		protected virtual void Awake()
 		{
-			get
-			{
-				return Quaternion.Angle(transform.localRotation, expectedRotation) > ThresholdRotation;
-			}
-		}
-
-		private bool ScaleChanged
-		{
-			get
-			{
-				return Vector3.Distance(transform.localScale, expectedScale) > ThresholdScale;
-			}
-		}
-
-		protected virtual void Start()
-		{
-			if (RecordOnStart == true)
-			{
-				RecordTransform();
-			}
-		}
-
-		[ContextMenu("Revert")]
-		public void Revert()
-		{
-			reverting        = true;
-			expectedPosition = transform.localPosition;
-			expectedRotation = transform.localRotation;
-			expectedScale    = transform.localScale;
-		}
-
-		[ContextMenu("Stop Revert")]
-		public void StopRevert()
-		{
-			reverting = false;
-		}
-
-		[ContextMenu("Record Transform")]
-		public void RecordTransform()
-		{
-			TargetPosition = transform.localPosition;
-			TargetRotation = transform.localRotation;
-			TargetScale    = transform.localScale;
+			originalPosition = transform.localPosition;
+			originalRotation = transform.localRotation;
+			originalScale    = transform.localScale;
 		}
 
 		protected virtual void Update()
 		{
-			if (reverting == true)
+			if (RequiredSelectable != null && RequiredSelectable.IsSelected == false)
 			{
-				// Transform changed externally?
-				if (RevertPosition == true && PositionChanged == true)
-				{
-					reverting = false; return;
-				}
+				// The framerate independent damping factor
+				var factor = Mathf.Exp(-Dampening * Time.deltaTime);
 
-				if (RevertRotation == true && RotationChanged == true)
-				{
-					reverting = false; return;
-				}
-
-				if (RevertScale == true && ScaleChanged == true)
-				{
-					reverting = false; return;
-				}
-
-				// Get t value
-				var factor = LeanTouch.GetDampenFactor(Dampening, Time.deltaTime);
-
-				if (RevertPosition == true)
-				{
-					transform.localPosition = expectedPosition = Vector3.Lerp(transform.localPosition, TargetPosition, factor);
-				}
-
-				if (RevertRotation == true)
-				{
-					transform.localRotation = expectedRotation = Quaternion.Slerp(transform.localRotation, TargetRotation, factor);
-				}
-
-				if (RevertScale == true)
-				{
-					transform.localScale = expectedScale = Vector3. Lerp(transform.localScale, TargetScale, factor);
-				}
+				transform.localPosition =    Vector3. Lerp(originalPosition, transform.localPosition, factor);
+				transform.localRotation = Quaternion.Slerp(originalRotation, transform.localRotation, factor);
+				transform.localScale    =    Vector3. Lerp(originalScale   , transform.localScale   , factor);
 			}
 		}
 	}

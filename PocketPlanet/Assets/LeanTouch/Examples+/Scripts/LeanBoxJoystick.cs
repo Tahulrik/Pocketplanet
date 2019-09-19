@@ -6,13 +6,13 @@ namespace Lean.Touch
 {
 	// This component turns the current UI element into a joystick bound to a box
 	[RequireComponent(typeof(RectTransform))]
-	public class LeanBoxJoystick : LeanCanvasDraggable
+	public class LeanBoxJoystick : LeanDraggableUI
 	{
 		[Tooltip("The size limits of the joystick")]
 		public Vector2 Size = new Vector2(25.0f, 25.0f);
 
 		[Tooltip("How quickly the joystick returns to the center when not being dragged")]
-		public float Dampening = 5.0f;
+		public float Sharpness = 5.0f;
 
 		[Tooltip("The -1..1 x/y position of the joystick relative to the Size")]
 		public Vector2 ScaledValue;
@@ -41,12 +41,12 @@ namespace Lean.Touch
 				// Get the current anchored position
 				var anchoredPosition = TargetTransform.anchoredPosition;
 
-				// Get t value
-				var factor = LeanTouch.GetDampenFactor(Dampening, Time.deltaTime);
-
+				// The framerate independent damping factor
+				var factor = Mathf.Exp(- Sharpness * Time.deltaTime);
+			
 				// Dampen the current position toward the target
-				anchoredPosition = Vector2.Lerp(anchoredPosition, Vector2.zero, factor);
-
+				anchoredPosition = Vector2.Lerp(Vector2.zero, anchoredPosition, factor);
+				
 				// Write updated anchored position
 				TargetTransform.anchoredPosition = anchoredPosition;
 
