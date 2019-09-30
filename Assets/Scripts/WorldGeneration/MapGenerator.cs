@@ -35,7 +35,9 @@ public class MapGenerator : MonoBehaviour
     public int Seed;
     public Vector2 Offset;
 
-
+    [Range(1,20)]
+    public int LandDepth;
+    int _calculatedLandDepth;
     [Range(1,8)]
     public int Continents = 3;
     [Range(40, 95)]
@@ -43,6 +45,10 @@ public class MapGenerator : MonoBehaviour
     public int _worldCircumference;
     int _waterBetweenContinents;
     public List<int> _continentsCoverageData;
+
+    public int totalLandCoveragePixels;
+    public int totalWaterCoveragePixels;
+    public int totalPixels;
 
     public bool ThresholdMap = false;
     public bool AutoUpdate = false;
@@ -146,7 +152,7 @@ public class MapGenerator : MonoBehaviour
 
     float[,] DrawContinentsOnMap(float[,] mapData)
     {
-        var angle = 0f;
+        float angle = 0f;
 
         int currentDrawPixelAmount = _continentsCoverageData.First();
         int continentProgress = 0;
@@ -154,7 +160,7 @@ public class MapGenerator : MonoBehaviour
         bool DrawingContinent = true;
         bool HasSelectedDrawType = true;
         float pixelDrawVal = 0;
-        for (int i = 0; i < _worldCircumference; ++i)
+        for (int i = 0; i <= _worldCircumference; ++i)
         {
             if (currentDrawPixelAmount <= continentPixelProgress)
             {
@@ -180,17 +186,19 @@ public class MapGenerator : MonoBehaviour
                 HasSelectedDrawType = true;
             }
 
-            for (int depth = -40; depth <= 30; depth++)
+            for (int depth = -_calculatedLandDepth; depth <= _calculatedLandDepth; depth++)
             {
                 var currentDist = Radius-(depth*0.015f);
                 var pixelLocationOnWorldEdge = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle))
                     * (PixelPerDistance * currentDist);
 
-                pixelDrawVal = (DrawingContinent) ? 1 : 0;
+                pixelDrawVal = (!DrawingContinent) ? 1 : 0;
                 SetValueInDataMap(mapData, pixelDrawVal, pixelLocationOnWorldEdge);
+
+
             }
-            float percentageAngle = (i / 100f) * _worldCircumference;
-            angle = Mathf.Deg2Rad*((i/100f)*360);
+
+            angle = (i/(float)(Radius*PixelPerDistance));
             continentPixelProgress++;
         }
 
@@ -199,24 +207,36 @@ public class MapGenerator : MonoBehaviour
 
     void OnValidate()
     {
-        _worldCircumference = (int)((2 * Radius) * Mathf.PI)*PixelPerDistance;
+        _worldCircumference = (int)((2 * (Radius * PixelPerDistance)) * Mathf.PI);
         _continentsCoverageData = new List<int>(Continents);
-        int totalPossibleCoveragePixels = (int)((_worldCircumference / 100f)*LandCoveragePercentage);
-        int remainingCoverage = totalPossibleCoveragePixels;
-        _waterBetweenContinents = (int)(((_worldCircumference / 100f) * (100 - LandCoveragePercentage))/Continents);
+        int totalPossibleLandCoverage = (int)((_worldCircumference / 100f)*LandCoveragePercentage);
+        int totalPossibleWaterCoverage = _worldCircumference - totalPossibleLandCoverage;
+        int remainingLandCoverage = totalPossibleLandCoverage;
+
+        _waterBetweenContinents = totalPossibleWaterCoverage / (Continents+1);
+        totalWaterCoveragePixels = _waterBetweenContinents * (Continents + 1);
+        totalLandCoveragePixels = 0;
 
         for (int i = 0; i < Continents; i++)
         {
             int newContinentSize = 0;
 
-            newContinentSize = (int)remainingCoverage / 2;
-            remainingCoverage -= newContinentSize;
+            newContinentSize = (int)remainingLandCoverage / 2;
+            remainingLandCoverage -= newContinentSize;
             _continentsCoverageData.Add(newContinentSize);
+
+           
+            totalLandCoveragePixels += newContinentSize;
+
         }
 
         _totalPixelsOnDiameter = (int)(Radius * 2) * PixelPerDistance;
         _pixelSize = (Radius)/(PixelPerDistance* _totalPixelsOnDiameter);
+        _calculatedLandDepth = LandDepth * (int)Radius;
+
+        totalPixels = totalWaterCoveragePixels + totalLandCoveragePixels;
     }
+    
 
     private Mesh GenerateCircleMesh(int segments, float radius)
     {
