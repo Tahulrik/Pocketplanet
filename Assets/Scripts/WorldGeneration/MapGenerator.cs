@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -14,8 +15,8 @@ public class MapGenerator : MonoBehaviour
     [Range(1f, 100f)]
     public int LandmassBlockSize = 1;
 
-    [Range(5f, 50f)]
-    public float NoiseScale = 25f;
+    [Range(50f, 100f)]
+    public float NoiseScale = 50f;
 
     [Range(1, 12)]
     public int Octaves = 4;
@@ -26,11 +27,23 @@ public class MapGenerator : MonoBehaviour
 
     [Range(1f, 100f)]
     public float Radius = 3;
-    [Range(0, 1000)]
-    public int PixelDensity = 100;
+    [Range(1, 300)]
+    public int PixelPerDistance = 100;
+    int _totalPixelsOnDiameter;
+    public float _pixelSize;
 
     public int Seed;
     public Vector2 Offset;
+
+
+    [Range(1,8)]
+    public int Continents = 3;
+    [Range(40, 95)]
+    public int LandCoveragePercentage = 80;
+    public int _worldCircumference;
+    int _waterBetweenContinents;
+    public List<int> _continentsCoverageData;
+
     public bool ThresholdMap = false;
     public bool AutoUpdate = false;
     public bool SquarizeWorld = false;
@@ -65,15 +78,19 @@ public class MapGenerator : MonoBehaviour
 
     public void Generate()
     {
-        var mapData = NoiseGenerator.GenerateNoiseMap((int)Radius * PixelDensity, (int)Radius * PixelDensity, Seed, NoiseScale, Octaves, Persistance, Lacunarity, Offset);
-        if(SquarizeWorld)
+        var pixelAmount = PixelPerDistance*(Radius*2);
+        var mapData = new float[(int)pixelAmount, (int)pixelAmount];
+        mapData = NoiseGenerator.GenerateNoiseMap((int)pixelAmount, (int)pixelAmount, Seed, NoiseScale, Octaves, Persistance, Lacunarity, Offset);
+        mapData = DrawContinentsOnMap(mapData);
+
+        if (SquarizeWorld)
             mapData = SquarizeWorldData(mapData, LandmassBlockSize);
 
         MapDisplay display = FindObjectOfType<MapDisplay>();
 
         
         var mesh = display.gameObject.GetComponentInChildren<MeshFilter>();
-        if(mesh.sharedMesh == null)
+        //if(mesh.sharedMesh == null)
             mesh.sharedMesh = GenerateCircleMesh(CircleSegmentCount, Radius);
 
         display.DrawNoiseMap(mapData, ThresholdMap);
@@ -90,40 +107,115 @@ public class MapGenerator : MonoBehaviour
         {
             for (int x = 0; x < mapX; x += (kernelSize*2)+1)
             {
-                squarizedMap = ApplySquareKernel(squarizedMap, x, y, kernelSize);
+                squarizedMap = WorldKernel.ApplySquareKernel(squarizedMap, x, y, kernelSize);
             }
         }
 
         return squarizedMap;
     }
 
-    private float[,] ApplySquareKernel(float[,] inputMap, int x, int y, int kernelSize)
+    float[,] SetValueInDataMap(float[,] mapData, float newValue, Vector2 position)
     {
-        float[,] outputMap = (float[,])inputMap.Clone();
-        int mapX = outputMap.GetLength(0);
-        int mapY = outputMap.GetLength(1);
+        var maxX = mapData.GetLength(0)-1;
+        var maxY = mapData.GetLength(1)-1;
 
-        int kernelCenterX = x;
-        int kernelCenterY = y;
-        float resultval = inputMap[kernelCenterX, kernelCenterY] < 0.5f ? 0f : 1f;
-        for (int kernelY = -kernelSize; kernelY <= kernelSize * 2; kernelY++)
+        var xInMap = Mathf.RoundToInt((((maxX+1)/2f) + position.x) - 0.5f);
+        var yInMap = Mathf.RoundToInt((((maxY+1)/2f) + position.y) - 0.5f);
+
+        if (xInMap < 0)
         {
-            int kernelPosY = kernelCenterY + kernelY;
-            if (kernelPosY < 0 || kernelPosY >= mapY)
-                continue;
-
-            for (int kernelX = -kernelSize; kernelX <= kernelSize * 2; kernelX++)
-            {
-                int kernelPosX = kernelCenterX + kernelX;
-
-                if (kernelPosX < 0 || kernelPosX >= mapX)
-                    continue;
-
-                outputMap[kernelPosX, kernelPosY] = resultval;
-            }
+            xInMap = 0;
+        }
+        if (xInMap > maxX)
+        {
+            xInMap = maxX;
+        }
+        if (yInMap < 0)
+        {
+            yInMap = 0;
+        }
+        if (yInMap > maxY)
+        {
+            yInMap = maxY;
         }
 
-        return outputMap;
+        mapData[xInMap, yInMap] = newValue;
+
+        return mapData;
+    }
+
+    float[,] DrawContinentsOnMap(float[,] mapData)
+    {
+        var angle = 0f;
+
+        int currentDrawPixelAmount = _continentsCoverageData.First();
+        int continentProgress = 0;
+        int continentPixelProgress = 0;
+        bool DrawingContinent = true;
+        bool HasSelectedDrawType = true;
+        float pixelDrawVal = 0;
+        for (int i = 0; i < _worldCircumference; ++i)
+        {
+            if (currentDrawPixelAmount <= continentPixelProgress)
+            {
+                HasSelectedDrawType = false;
+            }
+
+            if (!HasSelectedDrawType)
+            {
+                if (DrawingContinent)
+                {
+                    DrawingContinent = false;
+                    currentDrawPixelAmount = _waterBetweenContinents;
+                }
+                else
+                {
+                    DrawingContinent = true;
+                    continentProgress++;
+                    if(continentProgress < _continentsCoverageData.Count)
+                        currentDrawPixelAmount = _continentsCoverageData[continentProgress];
+                }
+
+                continentPixelProgress = 0;
+                HasSelectedDrawType = true;
+            }
+
+            for (int depth = -40; depth <= 30; depth++)
+            {
+                var currentDist = Radius-(depth*0.015f);
+                var pixelLocationOnWorldEdge = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle))
+                    * (PixelPerDistance * currentDist);
+
+                pixelDrawVal = (DrawingContinent) ? 1 : 0;
+                SetValueInDataMap(mapData, pixelDrawVal, pixelLocationOnWorldEdge);
+            }
+            float percentageAngle = (i / 100f) * _worldCircumference;
+            angle = Mathf.Deg2Rad*((i/100f)*360);
+            continentPixelProgress++;
+        }
+
+        return mapData;
+    }
+
+    void OnValidate()
+    {
+        _worldCircumference = (int)((2 * Radius) * Mathf.PI)*PixelPerDistance;
+        _continentsCoverageData = new List<int>(Continents);
+        int totalPossibleCoveragePixels = (int)((_worldCircumference / 100f)*LandCoveragePercentage);
+        int remainingCoverage = totalPossibleCoveragePixels;
+        _waterBetweenContinents = (int)(((_worldCircumference / 100f) * (100 - LandCoveragePercentage))/Continents);
+
+        for (int i = 0; i < Continents; i++)
+        {
+            int newContinentSize = 0;
+
+            newContinentSize = (int)remainingCoverage / 2;
+            remainingCoverage -= newContinentSize;
+            _continentsCoverageData.Add(newContinentSize);
+        }
+
+        _totalPixelsOnDiameter = (int)(Radius * 2) * PixelPerDistance;
+        _pixelSize = (Radius)/(PixelPerDistance* _totalPixelsOnDiameter);
     }
 
     private Mesh GenerateCircleMesh(int segments, float radius)
