@@ -4,13 +4,14 @@ using System.Linq;
 using UnityEngine;
 
 
-
 public class MapGenerator : MonoBehaviour
 {
     public int CircleSegmentCount = 64;
 
     MeshFilter filter;
     Renderer rend;
+
+    public DrawType MapDrawType = DrawType.Full;
 
     [Range(1f, 100f)]
     public int LandmassBlockSize = 1;
@@ -35,7 +36,7 @@ public class MapGenerator : MonoBehaviour
     public int Seed;
     public Vector2 Offset;
 
-    [Range(1,20)]
+    [Range(1,40)]
     public int LandDepth;
     int _calculatedLandDepth;
     [Range(1,8)]
@@ -43,16 +44,12 @@ public class MapGenerator : MonoBehaviour
     [Range(40, 95)]
     public int LandCoveragePercentage = 80;
     public int _worldCircumference;
-    int _waterBetweenContinents;
     public List<int> _continentsCoverageData;
 
-    public int totalLandCoveragePixels;
-    public int totalWaterCoveragePixels;
-    public int totalPixels;
-
-    public bool ThresholdMap = false;
+    public int ContinentsOffset = 200;
     public bool AutoUpdate = false;
     public bool SquarizeWorld = false;
+
 
     public void Start()
     {
@@ -84,9 +81,17 @@ public class MapGenerator : MonoBehaviour
 
     public void Generate()
     {
-        var pixelAmount = PixelPerDistance*(Radius*2);
-        var mapData = new float[(int)pixelAmount, (int)pixelAmount];
-        mapData = NoiseGenerator.GenerateNoiseMap((int)pixelAmount, (int)pixelAmount, Seed, NoiseScale, Octaves, Persistance, Lacunarity, Offset);
+        int pixelAmount = Mathf.RoundToInt(PixelPerDistance*(Radius*2)+1); //Calculate the total amount of pixels used to generate the map. +1 to centre create a centre for the circle
+        var mapData = new float[pixelAmount, pixelAmount];
+
+        for(int y = 0; y < pixelAmount; y ++)
+        {
+            for (int x = 0; x < pixelAmount; x++)
+            {
+                mapData[x, y] = 0f;
+            }
+        }
+        mapData = NoiseGenerator.GenerateNoiseMap(pixelAmount, pixelAmount, Seed, NoiseScale, Octaves, Persistance, Lacunarity, Offset);
         mapData = DrawContinentsOnMap(mapData);
 
         if (SquarizeWorld)
@@ -99,7 +104,7 @@ public class MapGenerator : MonoBehaviour
         //if(mesh.sharedMesh == null)
             mesh.sharedMesh = GenerateCircleMesh(CircleSegmentCount, Radius);
 
-        display.DrawNoiseMap(mapData, ThresholdMap);
+        display.DrawNoiseMap(mapData, MapDrawType);
     }
 
     private float[,] SquarizeWorldData(float[,] mapData, int kernelSize)
@@ -107,7 +112,6 @@ public class MapGenerator : MonoBehaviour
         float[,] squarizedMap = (float[,])mapData.Clone();
         int mapX = mapData.GetLength(0);
         int mapY = mapData.GetLength(1);
-
 
         for (int y = 0; y < mapY; y += (kernelSize*2)+1)
         {
@@ -160,7 +164,8 @@ public class MapGenerator : MonoBehaviour
         bool DrawingContinent = true;
         bool HasSelectedDrawType = true;
         float pixelDrawVal = 0;
-        for (int i = 0; i <= _worldCircumference; ++i)
+
+        for (int i = 0 + ContinentsOffset; i <= _worldCircumference + ContinentsOffset; ++i)
         {
             if (currentDrawPixelAmount <= continentPixelProgress)
             {
@@ -172,33 +177,30 @@ public class MapGenerator : MonoBehaviour
                 if (DrawingContinent)
                 {
                     DrawingContinent = false;
-                    currentDrawPixelAmount = _waterBetweenContinents;
                 }
                 else
                 {
                     DrawingContinent = true;
-                    continentProgress++;
-                    if(continentProgress < _continentsCoverageData.Count)
-                        currentDrawPixelAmount = _continentsCoverageData[continentProgress];
                 }
 
+                continentProgress++;
+                if(continentProgress < _continentsCoverageData.Count)
+                    currentDrawPixelAmount = _continentsCoverageData[continentProgress];
                 continentPixelProgress = 0;
                 HasSelectedDrawType = true;
             }
 
             for (int depth = -_calculatedLandDepth; depth <= _calculatedLandDepth; depth++)
             {
-                var currentDist = Radius-(depth*0.015f);
+                var currentDist = Radius-(depth*_pixelSize);
                 var pixelLocationOnWorldEdge = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle))
                     * (PixelPerDistance * currentDist);
 
-                pixelDrawVal = (!DrawingContinent) ? 1 : 0;
+                pixelDrawVal = (DrawingContinent) ? 1 : 0;
                 SetValueInDataMap(mapData, pixelDrawVal, pixelLocationOnWorldEdge);
-
-
             }
 
-            angle = (i/(float)(Radius*PixelPerDistance));
+            angle = (i/(Radius*PixelPerDistance));
             continentPixelProgress++;
         }
 
@@ -207,34 +209,49 @@ public class MapGenerator : MonoBehaviour
 
     void OnValidate()
     {
+
+
         _worldCircumference = (int)((2 * (Radius * PixelPerDistance)) * Mathf.PI);
         _continentsCoverageData = new List<int>(Continents);
         int totalPossibleLandCoverage = (int)((_worldCircumference / 100f)*LandCoveragePercentage);
         int totalPossibleWaterCoverage = _worldCircumference - totalPossibleLandCoverage;
         int remainingLandCoverage = totalPossibleLandCoverage;
+        int remainingWaterCoverage = totalPossibleWaterCoverage;
 
-        _waterBetweenContinents = totalPossibleWaterCoverage / (Continents+1);
-        totalWaterCoveragePixels = _waterBetweenContinents * (Continents + 1);
-        totalLandCoveragePixels = 0;
-
+        int minimumViableOcean = (LandmassBlockSize * 2)*6;
         for (int i = 0; i < Continents; i++)
         {
-            int newContinentSize = 0;
+            if (i == Continents - 1)
+            {
+                if (remainingWaterCoverage < minimumViableOcean)
+                {
+                    int missingAmount =  minimumViableOcean-remainingWaterCoverage;
 
-            newContinentSize = (int)remainingLandCoverage / 2;
+                    remainingLandCoverage -= missingAmount;
+                    remainingWaterCoverage += missingAmount;
+                }
+                _continentsCoverageData.Add(remainingLandCoverage);
+
+                
+                _continentsCoverageData.Add(remainingWaterCoverage);
+                break;
+            }
+            int totalPossibleLandCoverageFraction = (int)(totalPossibleLandCoverage / 100f) * 10;
+            int continentSizeRandomVal = Random.Range(-totalPossibleLandCoverageFraction, totalPossibleLandCoverageFraction);
+            int newContinentSize = 0;
+            int newOceanSize = 0;
+            newContinentSize = (remainingLandCoverage / 2) + continentSizeRandomVal;
             remainingLandCoverage -= newContinentSize;
             _continentsCoverageData.Add(newContinentSize);
 
-           
-            totalLandCoveragePixels += newContinentSize;
-
+            newOceanSize = remainingWaterCoverage / 4 + minimumViableOcean;
+            remainingWaterCoverage -= newOceanSize;
+            _continentsCoverageData.Add(newOceanSize);
         }
 
         _totalPixelsOnDiameter = (int)(Radius * 2) * PixelPerDistance;
         _pixelSize = (Radius)/(PixelPerDistance* _totalPixelsOnDiameter);
         _calculatedLandDepth = LandDepth * (int)Radius;
-
-        totalPixels = totalWaterCoveragePixels + totalLandCoveragePixels;
     }
     
 

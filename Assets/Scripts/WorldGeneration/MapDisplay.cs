@@ -2,12 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DrawType
+{
+    HeightMap = 1,
+    Continents = 2,
+    MoistureMap = 4,
+    TemperatureMap = 8,
+
+    Full = 64
+}
+
 public class MapDisplay : MonoBehaviour
 {
 
     public Renderer heightMapRend;
 
-    public void DrawNoiseMap(float[,] dataArray, bool thresholdValues)
+    public void DrawNoiseMap(float[,] dataArray, DrawType drawMode)
     {
         int width = dataArray.GetLength(0);
         int height = dataArray.GetLength(1);
@@ -27,16 +37,10 @@ public class MapDisplay : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                if (thresholdValues)
-                {
-                    colourMap[y * width + x] = (dataArray[x, y] < 0.5f) ? land : water;
-                    specColourMap[y * width + x] = (dataArray[x, y] < 0.5f) ? nonReflective : reflective;
-                }
-                else
-                {
-                    colourMap[y * width + x] = Color.Lerp(land, water, dataArray[x, y]);
-                    specColourMap[y * width + x] = Color.Lerp(nonReflective, reflective, dataArray[x, y]);
-                }
+
+
+                colourMap[y * width + x] = Color.Lerp(water, land, dataArray[x, y]);
+                specColourMap[y * width + x] = Color.Lerp(reflective, nonReflective, dataArray[x, y]);
 
             }
         }
