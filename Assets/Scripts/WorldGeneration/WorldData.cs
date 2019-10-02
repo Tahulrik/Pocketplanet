@@ -16,3 +16,21 @@ public class WorldData : MonoBehaviour
         
     }
 }
+
+public struct PixelType
+{
+    public int pixelValue;
+    public bool isLand;
+
+    public PixelType(int _pixelValue, bool _isLand)
+    {
+        pixelValue = _pixelValue;
+        isLand = _isLand;
+    }
+
+    public static PixelType operator +(PixelType a, int b)
+        => new PixelType(a.pixelValue + b, a.isLand);
+
+    public static PixelType operator -(PixelType a, int b)
+        => a + (-b);
+}
