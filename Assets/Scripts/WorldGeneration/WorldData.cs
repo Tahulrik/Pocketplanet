@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WorldData
@@ -7,13 +8,18 @@ public class WorldData
     public static WorldData instance;
 
     private WorldNode[,] worldGrid;
-    private int worldWidth;
-    private int worldHeight;
+    public int worldWidth;
+    public int worldHeight;
 
-    public WorldData(int _worldwidth, int _worldheight)
+    private GameObject worldObject;
+
+    private List<WorldNode> grid;
+
+    public WorldData(int _worldwidth, int _worldheight, GameObject _worldObject)
     {
         worldWidth = _worldwidth;
         worldHeight = _worldheight;
+        worldObject = _worldObject;
 
         Initialize();
     }
@@ -21,81 +27,90 @@ public class WorldData
     public void Initialize()
     {
         instance = this;
-
+        worldGrid = new WorldNode[worldWidth, worldHeight];
         for (int y = 0; y < worldWidth; y++)
         {
             for (int x = 0; x < worldHeight; x++)
             {
-                SetNodeDataInWorldGridAtPosition(new WorldNode(0, WorldNodeType.Invalid),new Vector2Int(x,y));
+                SetNodeDataInWorldAtGridPosition(new WorldNode(0, WorldNodeType.Invalid),new Vector2Int(x,y));
             }
         }
     }
 
-    public void SetNodeDataInWorldGridAtPosition(WorldNode node, Vector2Int position)
+    public void GenerateWorldDataFromHeightMap(float[,] heightMap)
     {
-        //convert from position relative to center, to array coords
+        int width = heightMap.GetLength(0);
+        int height = heightMap.GetLength(1);
 
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                var value = heightMap[x, y];
+                SetNodeDataInWorldAtGridPosition(
+                    new WorldNode(value, (value < 1) ? WorldNodeType.Water : WorldNodeType.Land),
+                    new Vector2Int(x, y));
+            }
+        }
+    }
 
+    public void SetNodeDataInWorldAtGridPosition(WorldNode node, Vector2Int position)
+    {
         worldGrid[position.x, position.y] = node;
     }
 
-    public WorldNode GetNodeDataAtPosition(Vector2Int position)
+    public WorldNode GetNodeDataInWorldAtGridPosition(Vector2Int position)
     {
-        //convert from position relative to center, to array coors
+        if (position.x < 0 || position.x > worldWidth)
+        {
+            return new WorldNode(0, WorldNodeType.Invalid); //error
+        }
+        if (position.y < 0 || position.y > worldHeight)
+        {
+            return new WorldNode(0, WorldNodeType.Invalid); //error
+        }
 
         return worldGrid[position.x, position.y];
+    }
+
+    public WorldNode GetNodeDataAtWorldPosition(Vector2 worldPosition)
+    {
+        var halfWidth = Mathf.RoundToInt((worldGrid.GetLength(0) / 2));
+        var halfHeight = Mathf.RoundToInt((worldGrid.GetLength(1) / 2));
+        var NodesPerWorldUnitWidth = Mathf.RoundToInt(worldWidth / 10f);
+        var NodesPerWorldUnitHeight = Mathf.RoundToInt(worldHeight / 10f);
+        var x = (worldPosition.x * NodesPerWorldUnitWidth);
+        var y = (worldPosition.y * NodesPerWorldUnitHeight);
+
+        x = halfWidth + x;
+        y = halfHeight + y;
+        x++;
+        y++;
+        var result = GetNodeDataInWorldAtGridPosition(new Vector2Int((int)x, (int)y));
+
+        return result;
     }
 
     public void FindLocationOnPlanet()//To Find Coordinates on planet surface - used for objects etc.
     {
         
     }
-
-    public static void SetValueInDataMap(float[,] mapData, float newValue, Vector2 position)
-    {
-        var maxX = mapData.GetLength(0) - 1;
-        var maxY = mapData.GetLength(1) - 1;
-
-        var xInMap = Mathf.RoundToInt((((maxX + 1) / 2f) + position.x) - 0.5f);
-        var yInMap = Mathf.RoundToInt((((maxY + 1) / 2f) + position.y) - 0.5f);
-
-        if (xInMap < 0)
-        {
-            xInMap = 0;
-        }
-        if (xInMap > maxX)
-        {
-            xInMap = maxX;
-        }
-        if (yInMap < 0)
-        {
-            yInMap = 0;
-        }
-        if (yInMap > maxY)
-        {
-            yInMap = maxY;
-        }
-
-        mapData[xInMap, yInMap] = newValue;
-    }
 }
 
 public class WorldNode
 {
     public Vector2Int RelativePosition = Vector2Int.zero; //Position Relative to world center
-    public int NodeValue;
+    public float NodeHeight;
     public WorldNodeType nodeType;
-    //normal
 
-
-    public WorldNode(int _nodeValue, WorldNodeType _nodeType)
+    public WorldNode(float _nodeValue, WorldNodeType _nodeType)
     {
-        NodeValue = _nodeValue;
         nodeType = _nodeType;
+        NodeHeight = (float)_nodeValue;
     }
 
     public static WorldNode operator +(WorldNode a, int b)
-        => new WorldNode(a.NodeValue + b, a.nodeType);
+        => new WorldNode(a.NodeHeight + b, a.nodeType);
 
     public static WorldNode operator -(WorldNode a, int b)
         => a + (-b);

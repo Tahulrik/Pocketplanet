@@ -45,7 +45,7 @@ public class MapGenerator : MonoBehaviour
     [Range(40, 95)]
     public int LandCoveragePercentage = 80;
     public int _worldCircumference;
-    public List<WorldNode> _continentsCoverageData;
+    public List<int> _continentsCoverageData;
 
     [Range(0, 360)]
     public int ContinentsOffset = 200;
@@ -65,36 +65,32 @@ public class MapGenerator : MonoBehaviour
         Generate();
     }
     public void Start()
-    {
-        rend = GetComponent<Renderer>();
-        if (rend == null)
-        {
-            rend = gameObject.AddComponent<MeshRenderer>();
-        }
-
-        filter = GetComponent<MeshFilter>();
-        if (filter == null)
-        {
-            filter = gameObject.AddComponent<MeshFilter>();
-        }
-
-
-
-        //filter.mesh = ;
+    { 
 
     }
+
     public void Update()
     {
-        // if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+            var dist = Vector3.Distance(Camera.main.transform.position, rend.transform.position);
+            var screenPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, dist));
+            var planetpos = rend.transform.position;
+            Vector2 posInMapCoords = new Vector2(screenPos.x - planetpos.x, screenPos.y - planetpos.y);
 
+
+            Debug.DrawLine(planetpos, posInMapCoords, Color.red, 5);
+            Debug.DrawLine(Camera.main.transform.position, screenPos, Color.blue, 5);
+
+            var node = WorldData.instance.GetNodeDataAtWorldPosition(posInMapCoords);
+            print("inworldPos" + posInMapCoords + " " + node.nodeType.ToString());
 
         }
     }
     void OnValidate()
     {
         _worldCircumference = (int)((2 * (Radius * PixelPerDistance)) * Mathf.PI);
-        _continentsCoverageData = new List<WorldNode>(Continents);
+        _continentsCoverageData = new List<int>(Continents);
         _totalPixelsOnDiameter = (int)(Radius * 2) * PixelPerDistance;
         _pixelSize = (Radius) / (PixelPerDistance * _totalPixelsOnDiameter);
         _calculatedLandDepth = LandDepth * (int)Radius;
@@ -104,7 +100,7 @@ public class MapGenerator : MonoBehaviour
     public void UpdateRandomVarianceData()
     {
         Continents = Random.Range(2, 5);
-        _continentsCoverageData = new List<WorldNode>(Continents);
+        _continentsCoverageData = new List<int>(Continents);
 
         totalPossibleLandCoverage = (int)((_worldCircumference / 100f) * LandCoveragePercentage);
         totalPossibleWaterCoverage = _worldCircumference - totalPossibleLandCoverage;
@@ -126,26 +122,26 @@ public class MapGenerator : MonoBehaviour
 
             if (i == Continents - 1)
             {
-                if (remainingWaterCoverage < minimumViableOceanSize)
-                {
-                    int missingAmount = minimumViableOceanSize - remainingWaterCoverage;
-
-                    var selectedContinent = _continentsCoverageData.First(x => x.NodeValue >= missingAmount && x.nodeType == WorldNodeType.Water);
-                    selectedContinent -= missingAmount;
-                    remainingWaterCoverage += missingAmount;
-                }
-
                 if (remainingLandCoverage < minimumViableLandSize)
                 {
                     int missingAmount = minimumViableLandSize - remainingLandCoverage;
 
-                    var selectedContinent = _continentsCoverageData.First(x => x.NodeValue >= missingAmount && x.nodeType == WorldNodeType.Land);
+                    var selectedContinent = _continentsCoverageData.First(x => x > missingAmount && i == 0 || i % 2 == 0);
                     selectedContinent -= missingAmount;
                     remainingLandCoverage += missingAmount;
                 }
 
-                _continentsCoverageData.Add(new WorldNode(remainingLandCoverage, WorldNodeType.Land));
-                _continentsCoverageData.Add(new WorldNode(remainingWaterCoverage, WorldNodeType.Water));
+                if (remainingWaterCoverage < minimumViableOceanSize)
+                {
+                    int missingAmount = minimumViableOceanSize - remainingWaterCoverage;
+
+                    var selectedContinent = _continentsCoverageData.First(x => x > missingAmount && i % 2 == 1);
+                    selectedContinent -= missingAmount;
+                    remainingWaterCoverage += missingAmount;
+                }
+
+                _continentsCoverageData.Add(remainingLandCoverage);
+                _continentsCoverageData.Add(remainingWaterCoverage);
                 break;
             }
 
@@ -155,18 +151,19 @@ public class MapGenerator : MonoBehaviour
             newContinentSize = Mathf.RoundToInt(totalPossibleLandCoverage / Continents) + continentSizeRandomVal;
 
             remainingLandCoverage -= newContinentSize;
-            _continentsCoverageData.Add(new WorldNode(newContinentSize, WorldNodeType.Land));
+            _continentsCoverageData.Add(remainingLandCoverage);
 
             newOceanSize = remainingWaterCoverage / 4 + minimumViableLandSize;
             remainingWaterCoverage -= newOceanSize;
-            _continentsCoverageData.Add(new WorldNode(newOceanSize, WorldNodeType.Water));
+            _continentsCoverageData.Add(remainingWaterCoverage);
         }
+
     }
     float[,] DrawContinentsOnMap(float[,] mapData)
     {
         float angle = 0f;
 
-        WorldNode currentDrawPixelAmount = _continentsCoverageData.First();
+        int currentContinent = _continentsCoverageData.First();
         int continentProgress = 0;
         int continentPixelProgress = 0;
         bool DrawingContinent = true;
@@ -175,7 +172,7 @@ public class MapGenerator : MonoBehaviour
 
         for (int i = 0 + ContinentsOffset; i <= _worldCircumference + ContinentsOffset; ++i)
         {
-            if (currentDrawPixelAmount.NodeValue <= continentPixelProgress)
+            if (currentContinent <= continentPixelProgress)
             {
                 HasSelectedDrawType = false;
             }
@@ -193,7 +190,7 @@ public class MapGenerator : MonoBehaviour
 
                 continentProgress++;
                 if (continentProgress < _continentsCoverageData.Count)
-                    currentDrawPixelAmount = _continentsCoverageData[continentProgress];
+                    currentContinent = _continentsCoverageData[continentProgress];
                 continentPixelProgress = 0;
                 HasSelectedDrawType = true;
             }
@@ -205,7 +202,14 @@ public class MapGenerator : MonoBehaviour
                     * (PixelPerDistance * currentDist);
 
                 pixelDrawVal = (DrawingContinent) ? 1 : 0;
-                WorldData.SetValueInDataMap(mapData, pixelDrawVal, pixelLocationOnWorldEdge);
+
+                var maxX = mapData.GetLength(0) - 1;
+                var maxY = mapData.GetLength(1) - 1;
+
+                var xInMap = Mathf.Clamp(Mathf.RoundToInt((((maxX + 1) / 2f) + (int)pixelLocationOnWorldEdge.x) - 0.5f), 0, maxX);
+                var yInMap = Mathf.Clamp(Mathf.RoundToInt((((maxY + 1) / 2f) + (int)pixelLocationOnWorldEdge.y) - 0.5f), 0, maxY);
+
+                mapData[xInMap, yInMap] = pixelDrawVal;
             }
 
             angle = (i / (Radius * PixelPerDistance));
@@ -216,10 +220,25 @@ public class MapGenerator : MonoBehaviour
     }
     public void Generate()
     {
+        MapDisplay display = FindObjectOfType<MapDisplay>();
+
+        rend = display.GetComponent<Renderer>();
+        if (rend == null)
+        {
+            rend = display.gameObject.AddComponent<MeshRenderer>();
+        }
+
+        filter = display.GetComponent<MeshFilter>();
+        if (filter == null)
+        {
+            filter = display.gameObject.AddComponent<MeshFilter>();
+        }
+
         Seed = Random.Range(-100, 100);//temporary
         int pixelAmount = Mathf.RoundToInt(PixelPerDistance*(Radius*2)+1); //Calculate the total amount of pixels used to generate the map. +1 to centre create a centre for the circle
         var mapData = new float[pixelAmount, pixelAmount];
 
+        new WorldData(pixelAmount, pixelAmount, rend.gameObject);
         for(int y = 0; y < pixelAmount; y ++)
         {
             for (int x = 0; x < pixelAmount; x++)
@@ -236,14 +255,14 @@ public class MapGenerator : MonoBehaviour
         if (MapDrawMode == DrawType.Full)
             mapData = SquarizeWorldData(mapData, LandmassBlockSize);
 
-        MapDisplay display = FindObjectOfType<MapDisplay>();
+        //create world data
+        WorldData.instance.GenerateWorldDataFromHeightMap(mapData);
 
-        
         var mesh = display.gameObject.GetComponentInChildren<MeshFilter>();
-        //if(mesh.sharedMesh == null)
+        if(mesh.sharedMesh == null)
             mesh.sharedMesh = GenerateCircleMesh(CircleSegmentCount, Radius);
 
-        display.DrawNoiseMap(mapData, MapDrawMode);
+        display.DrawMap(WorldData.instance, MapDrawMode);
     }
     private float[,] SquarizeWorldData(float[,] mapData, int kernelSize)
     {
@@ -271,15 +290,15 @@ public class MapGenerator : MonoBehaviour
         var circle = new Mesh();
         var vertices = new List<Vector3>(CircleVertexCount);
         var indices = new int[CircleIndexCount];
-        Vector2[] uvs = new Vector2[CircleVertexCount];
+        List<Vector2> uvs = new List<Vector2>(CircleVertexCount);
         var segmentWidth = Mathf.PI * 2f / segments;
         var angle = 0f;
         vertices.Add(Vector3.zero);
-        uvs[0] = Vector2.zero;
+        uvs.Add(Vector2.zero);
         for (int i = 1; i < CircleVertexCount; ++i)
         {
             vertices.Add(new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)) * radius);
-            uvs[i] = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+            uvs.Add(new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)));
             angle -= segmentWidth;
             if (i > 1)
             {
