@@ -37,23 +37,6 @@ public class WorldData
         }
     }
 
-    public void GenerateWorldDataFromHeightMap(float[,] heightMap)
-    {
-        int width = heightMap.GetLength(0);
-        int height = heightMap.GetLength(1);
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                var value = heightMap[x, y];
-                SetNodeDataInWorldAtGridPosition(
-                    new WorldNode(value, (value < 1) ? WorldNodeType.Water : WorldNodeType.Land),
-                    new Vector2Int(x, y));
-            }
-        }
-    }
-
     public void SetNodeDataInWorldAtGridPosition(WorldNode node, Vector2Int position)
     {
         worldGrid[position.x, position.y] = node;

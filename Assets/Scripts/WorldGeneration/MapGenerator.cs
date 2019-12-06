@@ -111,10 +111,12 @@ public class MapGenerator : MonoBehaviour
         randomContinentVariationFraction = (int)(totalPossibleLandCoverage / 100f) * 5;
         ContinentsOffset = Random.Range(0, 360);
     }
+
     public void GenerateWorldSurfaceData()
     {
         int remainingLandCoverage = totalPossibleLandCoverage;
         int remainingWaterCoverage = totalPossibleWaterCoverage;
+
 
         for (int i = 0; i < Continents; i++)
         {
@@ -159,6 +161,24 @@ public class MapGenerator : MonoBehaviour
         }
 
     }
+
+    void GenerateWorldDataFromHeightMap(float[,] heightMap)
+    {
+        int width = heightMap.GetLength(0);
+        int height = heightMap.GetLength(1);
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                var value = heightMap[x, y];
+                WorldData.instance.SetNodeDataInWorldAtGridPosition(
+                    new WorldNode(value, (value < 1) ? WorldNodeType.Water : WorldNodeType.Land),
+                    new Vector2Int(x, y));
+            }
+        }
+    }
+
     float[,] DrawContinentsOnMap(float[,] mapData)
     {
         float angle = 0f;
@@ -218,6 +238,7 @@ public class MapGenerator : MonoBehaviour
 
         return mapData;
     }
+
     public void Generate()
     {
         MapDisplay display = FindObjectOfType<MapDisplay>();
@@ -256,7 +277,7 @@ public class MapGenerator : MonoBehaviour
             mapData = SquarizeWorldData(mapData, LandmassBlockSize);
 
         //create world data
-        WorldData.instance.GenerateWorldDataFromHeightMap(mapData);
+        GenerateWorldDataFromHeightMap(mapData);
 
         var mesh = display.gameObject.GetComponentInChildren<MeshFilter>();
         if(mesh.sharedMesh == null)
