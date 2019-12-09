@@ -2247,14 +2247,14 @@ MonoBehaviour:
   AtmosphereHeightPart: 0.8
   PixelPerDistance: 20
   _pixelSize: 0.0025
-  Seed: -86
+  Seed: 5
   Offset: {x: 16.51, y: -3.27}
   LandDepth: 95
-  Continents: 2
+  Continents: 3
   LandCoveragePercentage: 56
   _worldCircumference: 628
   _continentsCoverageData: 
-  ContinentsOffset: 15
+  ContinentsOffset: 306
 --- !u!4 &1182641840
 Transform:
   m_ObjectHideFlags: 0
