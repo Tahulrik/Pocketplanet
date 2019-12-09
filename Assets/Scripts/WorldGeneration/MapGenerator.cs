@@ -29,9 +29,12 @@ public class MapGenerator : MonoBehaviour
 
     [Range(1f, 100f)]
     public float Radius = 3;
+    [Range(0.1f, 2f)]
+    public float AtmosphereHeightPart = 0.8f;
+
     [Range(1, 300)]
     public int PixelPerDistance = 100;
-    int _totalPixelsOnDiameter;
+    int _totalPixelsOnRadius;
     public float _pixelSize;
 
     public int Seed;
@@ -83,16 +86,16 @@ public class MapGenerator : MonoBehaviour
             Debug.DrawLine(Camera.main.transform.position, screenPos, Color.blue, 5);
 
             var node = WorldData.instance.GetNodeDataAtWorldPosition(posInMapCoords);
-            print("inworldPos" + posInMapCoords + " " + node.nodeType.ToString());
+            print($"inworldPos {posInMapCoords} and ingridpos {node.RelativePosition} is node of type: "+ node.nodeType.ToString());
 
         }
     }
     void OnValidate()
     {
-        _worldCircumference = (int)((2 * (Radius * PixelPerDistance)) * Mathf.PI);
         _continentsCoverageData = new List<int>(Continents);
-        _totalPixelsOnDiameter = (int)(Radius * 2) * PixelPerDistance;
-        _pixelSize = (Radius) / (PixelPerDistance * _totalPixelsOnDiameter);
+        _totalPixelsOnRadius = (int)(Radius) * PixelPerDistance;
+        _worldCircumference = (int)((2 * _totalPixelsOnRadius) * Mathf.PI);
+        _pixelSize = (Radius) / (PixelPerDistance * _totalPixelsOnRadius);
         _calculatedLandDepth = LandDepth * (int)Radius;
     }
     #endregion
@@ -112,7 +115,7 @@ public class MapGenerator : MonoBehaviour
         ContinentsOffset = Random.Range(0, 360);
     }
 
-    public void GenerateWorldSurfaceData()
+    public void GenerateWorldContinentsData()
     {
         int remainingLandCoverage = totalPossibleLandCoverage;
         int remainingWaterCoverage = totalPossibleWaterCoverage;
@@ -162,31 +165,58 @@ public class MapGenerator : MonoBehaviour
 
     }
 
-    void GenerateWorldDataFromHeightMap(float[,] heightMap)
+    void GenerateWorldData(float[,] heightMap)
     {
-        int width = heightMap.GetLength(0);
-        int height = heightMap.GetLength(1);
+        int height = heightMap.GetLength(0);
+        float heightInWorldSpaceUnits = height/PixelPerDistance;
+        float atmosphereHeight = (int)(Radius * AtmosphereHeightPart);
+        float spaceHeight = atmosphereHeight * 2;
+        float totalMapHeight = heightInWorldSpaceUnits + (atmosphereHeight * 2) + (spaceHeight * 2);
 
-        for (int x = 0; x < width; x++)
+
+        new WorldData(totalMapHeight, PixelPerDistance, _totalPixelsOnRadius, rend.gameObject);
+
+        int totalMapHeightPixels = (int)totalMapHeight * PixelPerDistance;
+        int planetOffset = (int)(atmosphereHeight + spaceHeight)*PixelPerDistance;
+
+        for (int x = 0; x < totalMapHeightPixels; x++)//using height and height is fine, world grid should always be a square
         {
-            for (int y = 0; y < height; y++)
+            for (int y = 0; y < totalMapHeightPixels; y++)
             {
-                var value = heightMap[x, y];
-                WorldData.instance.SetNodeDataInWorldAtGridPosition(
-                    new WorldNode(value, (value < 1) ? WorldNodeType.Water : WorldNodeType.Land),
-                    new Vector2Int(x, y));
+                Vector2Int gridPos = new Vector2Int(x, y);
+                if (WorldData.instance.IsWorldGridPositionWithinPlanetArea(gridPos))
+                {
+                    int xInPlanet = x - planetOffset;
+                    int yInPlanet = y - planetOffset;
+
+                    var value = heightMap[xInPlanet, yInPlanet];
+                    WorldNodeType newNodeType = (value < 1) ? WorldNodeType.Water : WorldNodeType.Land;
+                    WorldNode newNode = new WorldNode(value, newNodeType);
+                    WorldData.instance.SetNodeDataAtGridPosition(newNode, new Vector2Int(x, y));
+                }
+                else 
+                {
+                    WorldNodeType newNodeType = WorldNodeType.Air;
+                    WorldNode newNode = new WorldNode(1, newNodeType);
+                    WorldData.instance.SetNodeDataAtGridPosition(newNode, new Vector2Int(x, y));
+                }
+                //Nej
+                    //Udregn afstand fra overflade
+                    //Sæt "luft værdi" baseret på afstanden
+                    //Hvis "luft værdi" > 0 sæt type til luft, ellers sæt type til rum.
+                    //indsæt i worldgrid på position
             }
         }
     }
 
-    float[,] DrawContinentsOnMap(float[,] mapData)
+    float[,] AddContinentsInMap(float[,] mapData)
     {
         float angle = 0f;
 
         int currentContinent = _continentsCoverageData.First();
         int continentProgress = 0;
         int continentPixelProgress = 0;
-        bool DrawingContinent = true;
+        bool AddingContinent = true;
         bool HasSelectedDrawType = true;
         float pixelDrawVal = 0;
 
@@ -199,13 +229,13 @@ public class MapGenerator : MonoBehaviour
 
             if (!HasSelectedDrawType)
             {
-                if (DrawingContinent)
+                if (AddingContinent)
                 {
-                    DrawingContinent = false;
+                    AddingContinent = false;
                 }
                 else
                 {
-                    DrawingContinent = true;
+                    AddingContinent = true;
                 }
 
                 continentProgress++;
@@ -221,7 +251,7 @@ public class MapGenerator : MonoBehaviour
                 var pixelLocationOnWorldEdge = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle))
                     * (PixelPerDistance * currentDist);
 
-                pixelDrawVal = (DrawingContinent) ? 1 : 0;
+                pixelDrawVal = (AddingContinent) ? 1 : 0;
 
                 var maxX = mapData.GetLength(0) - 1;
                 var maxY = mapData.GetLength(1) - 1;
@@ -259,7 +289,9 @@ public class MapGenerator : MonoBehaviour
         int pixelAmount = Mathf.RoundToInt(PixelPerDistance*(Radius*2)+1); //Calculate the total amount of pixels used to generate the map. +1 to centre create a centre for the circle
         var mapData = new float[pixelAmount, pixelAmount];
 
-        new WorldData(pixelAmount, pixelAmount, rend.gameObject);
+        
+
+
         for(int y = 0; y < pixelAmount; y ++)
         {
             for (int x = 0; x < pixelAmount; x++)
@@ -268,23 +300,24 @@ public class MapGenerator : MonoBehaviour
             }
         }
         UpdateRandomVarianceData();
-        GenerateWorldSurfaceData();
+        GenerateWorldContinentsData();
 
         mapData = NoiseGenerator.GenerateNoiseMap(pixelAmount, pixelAmount, Seed, NoiseScale, Octaves, Persistance, Lacunarity, Offset);
-        mapData = DrawContinentsOnMap(mapData);
+        mapData = AddContinentsInMap(mapData);
 
         if (MapDrawMode == DrawType.Full)
             mapData = SquarizeWorldData(mapData, LandmassBlockSize);
 
         //create world data
-        GenerateWorldDataFromHeightMap(mapData);
+        GenerateWorldData(mapData);
 
         var mesh = display.gameObject.GetComponentInChildren<MeshFilter>();
         if(mesh.sharedMesh == null)
             mesh.sharedMesh = GenerateCircleMesh(CircleSegmentCount, Radius);
 
-        display.DrawMap(WorldData.instance, MapDrawMode);
+        display.DrawMap(mapData, MapDrawMode);
     }
+
     private float[,] SquarizeWorldData(float[,] mapData, int kernelSize)
     {
         float[,] squarizedMap = (float[,])mapData.Clone();

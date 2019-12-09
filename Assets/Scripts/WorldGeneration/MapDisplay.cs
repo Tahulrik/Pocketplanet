@@ -17,10 +17,10 @@ public class MapDisplay : MonoBehaviour
 
     public Renderer heightMapRend;
 
-    public void DrawMap(WorldData worldData, DrawType drawMode)
+    public void DrawMap(float[,] heightMap, DrawType drawMode)
     {
-        int width = worldData.worldWidth;
-        int height = worldData.worldHeight;
+        int width = heightMap.GetLength(0);
+        int height = heightMap.GetLength(1);
 
         Texture2D mainTexture = new Texture2D(width, height);
         Texture2D specularMap = new Texture2D(width, height);
@@ -37,8 +37,8 @@ public class MapDisplay : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
-                colourMap[y * width + x] = Color.Lerp(water, land, worldData.GetNodeDataInWorldAtGridPosition(new Vector2Int(x,y)).NodeHeight);
-                specColourMap[y * width + x] = Color.Lerp(reflective, nonReflective, worldData.GetNodeDataInWorldAtGridPosition(new Vector2Int(x, y)).NodeHeight);
+                colourMap[y * width + x] = Color.Lerp(water, land, heightMap[x,y]);
+                specColourMap[y * width + x] = Color.Lerp(reflective, nonReflective, heightMap[x, y]);
             }
         }
 
