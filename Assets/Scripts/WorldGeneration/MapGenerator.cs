@@ -189,6 +189,25 @@ public class MapGenerator : MonoBehaviour
                     int xInPlanet = x - planetOffset;
                     int yInPlanet = y - planetOffset;
 
+                    //clamp values - probably rounding errors that creates this issue. Shouldnt ever become a problem.
+                    //Consider refactoring some day
+                    if (xInPlanet < 0)
+                    {
+                        xInPlanet = 0;
+                    }
+                    if (xInPlanet >= height)
+                    {
+                        xInPlanet = height-1; //sbutract 1 for index normalising
+                    }
+                    if (yInPlanet < 0)
+                    {
+                        yInPlanet = 0;
+                    }
+                    if (yInPlanet >= height)
+                    {
+                        yInPlanet = height-1; //subtract 1 for index normalising
+                    }
+
                     var value = heightMap[xInPlanet, yInPlanet];
                     WorldNodeType newNodeType = (value < 1) ? WorldNodeType.Water : WorldNodeType.Land;
                     WorldNode newNode = new WorldNode(value, newNodeType);
