@@ -31,6 +31,7 @@ public class MapGenerator : MonoBehaviour
     public float Radius = 3;
     [Range(0.1f, 2f)]
     public float AtmosphereHeightPart = 0.8f;
+    public AnimationCurve AtmospherFalloff;
 
     [Range(1, 300)]
     public int PixelPerDistance = 100;
@@ -81,12 +82,11 @@ public class MapGenerator : MonoBehaviour
             var planetpos = rend.transform.position;
             Vector2 posInMapCoords = new Vector2(screenPos.x - planetpos.x, screenPos.y - planetpos.y);
 
-
-            Debug.DrawLine(planetpos, posInMapCoords, Color.red, 5);
             Debug.DrawLine(Camera.main.transform.position, screenPos, Color.blue, 5);
 
             var node = WorldData.instance.GetNodeDataAtWorldPosition(posInMapCoords);
             print($"inworldPos {posInMapCoords} and ingridpos {node.RelativePosition} is node of type: "+ node.nodeType.ToString());
+
 
         }
     }
@@ -215,15 +215,21 @@ public class MapGenerator : MonoBehaviour
                 }
                 else 
                 {
-                    WorldNodeType newNodeType = WorldNodeType.Air;
-                    WorldNode newNode = new WorldNode(1, newNodeType);
+                    var currentWorldPos = WorldData.instance.GetWorldPositionFromGridPosition(new Vector2Int(x, y));
+                    var planetSurfacePoint = WorldData.instance.GetClosestWorldPointOnPlanet(currentWorldPos);
+
+                    float altitude = Vector3.Distance(planetSurfacePoint.normalized, currentWorldPos.normalized);
+                    var airVal = Mathf.Abs(AtmospherFalloff.Evaluate(altitude));
+
+                    WorldNodeType newNodeType = WorldNodeType.Invalid;
+                    if (airVal <= 0)
+                        newNodeType = WorldNodeType.Space;
+                    else
+                        newNodeType = WorldNodeType.Air;
+
+                    WorldNode newNode = new WorldNode(airVal, newNodeType);
                     WorldData.instance.SetNodeDataAtGridPosition(newNode, new Vector2Int(x, y));
                 }
-                //Nej
-                    //Udregn afstand fra overflade
-                    //Sæt "luft værdi" baseret på afstanden
-                    //Hvis "luft værdi" > 0 sæt type til luft, ellers sæt type til rum.
-                    //indsæt i worldgrid på position
             }
         }
     }
@@ -309,7 +315,7 @@ public class MapGenerator : MonoBehaviour
         var mapData = new float[pixelAmount, pixelAmount];
 
         
-
+        //set size of background to match planet size
 
         for(int y = 0; y < pixelAmount; y ++)
         {
@@ -331,10 +337,13 @@ public class MapGenerator : MonoBehaviour
         GenerateWorldData(mapData);
 
         var mesh = display.gameObject.GetComponentInChildren<MeshFilter>();
-        if(mesh.sharedMesh == null)
+        
+        if(mesh.sharedMesh == null && mesh.mesh.bounds.extents.x != Radius)
             mesh.sharedMesh = GenerateCircleMesh(CircleSegmentCount, Radius);
 
         display.DrawMap(mapData, MapDrawMode);
+
+        display.DrawSky(WorldData.instance.worldGrid);
     }
 
     private float[,] SquarizeWorldData(float[,] mapData, int kernelSize)

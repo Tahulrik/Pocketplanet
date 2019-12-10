@@ -7,12 +7,14 @@ public class WorldData
 {
     public static WorldData instance;
 
-    private WorldNode[,] worldGrid;
-    private int planetRadius;
+    public WorldNode[,] worldGrid;
+    private int planetRadiusGrid;
+    private float planetRadiusWorld;
     private float worldHeightInWorldUnits;
     public int worldHeight;
 
     public GameObject planetObject;
+
 
     public WorldData(float _worldheight, int _pixelsPerWorldUnit, int _planetRadius, GameObject _planetObject)
     {
@@ -20,8 +22,9 @@ public class WorldData
         worldHeight = (int)_worldheight*_pixelsPerWorldUnit + 1; //add 1 to have an uneven number of units (such that there is a center in the world
         worldHeightInWorldUnits = _worldheight;
 
-        planetRadius = _planetRadius;
+        planetRadiusGrid = _planetRadius;
         planetObject = _planetObject;
+        planetRadiusWorld = _planetRadius / (float)_pixelsPerWorldUnit; //TODO: no need to calculate this.. it should be passed through in constructor.
 
         Initialize();
     }
@@ -47,11 +50,11 @@ public class WorldData
 
     public WorldNode GetNodeDataInWorldAtGridPosition(Vector2Int position)
     {
-        if (position.x < 0 || position.x > worldHeight)
+        if (position.x < 0 || position.x >= worldHeight)
         {
             return new WorldNode(0, WorldNodeType.Invalid); //error
         }
-        if (position.y < 0 || position.y > worldHeight)
+        if (position.y < 0 || position.y >= worldHeight)
         {
             return new WorldNode(0, WorldNodeType.Invalid); //error
         }
@@ -87,6 +90,20 @@ public class WorldData
         return new Vector2Int(xRes, yRes);
     }
 
+    public Vector3 GetWorldPositionFromGridPosition(Vector2Int gridPosition) //might need more digits to be precise enough
+    {
+        var halfHeight = Mathf.RoundToInt((worldGrid.GetLength(1) / 2));
+
+        var NodesPerWorldUnitHeight = (worldHeight / worldHeightInWorldUnits); // set this as a private property
+
+        float newX = (float)(gridPosition.x-halfHeight) / NodesPerWorldUnitHeight;
+        float newY = (float)(gridPosition.y-halfHeight) / NodesPerWorldUnitHeight;
+
+        Vector3 newPosition = new Vector3(newX + planetObject.transform.position.x, newY + planetObject.transform.position.y, planetObject.transform.position.z);
+
+        return newPosition;
+    }
+
     public bool IsWorldGridPositionWithinPlanetArea(Vector2Int gridPosition)
     {
         Vector2 planetCenter2D = new Vector2(planetObject.transform.position.x, planetObject.transform.position.y);
@@ -95,17 +112,17 @@ public class WorldData
         int dx = Mathf.Abs(gridPosition.x - PlanetCenterInWorldGrid.x);
         int dy = Mathf.Abs(gridPosition.y - PlanetCenterInWorldGrid.y);
 
-        if (dx > planetRadius || dy > planetRadius)
+        if (dx > planetRadiusGrid || dy > planetRadiusGrid)
         {
             return false;
         }
 
-        if (dx + dy <= planetRadius)
+        if (dx + dy <= planetRadiusGrid)
         { 
             return true;
         }
 
-        if ((dx * dx) + (dy * dy) < planetRadius * planetRadius)
+        if ((dx * dx) + (dy * dy) < planetRadiusGrid * planetRadiusGrid)
         {
             return true;
         }
@@ -113,6 +130,20 @@ public class WorldData
         {
             return false;
         }
+    }
+
+    public Vector3 GetClosestWorldPointOnPlanet(Vector3 worldPosition)
+    {
+        Vector2 pos = new Vector2(worldPosition.x, worldPosition.y);
+
+        var planetVec = new Vector2(planetObject.transform.position.x, planetObject.transform.position.y);
+        var toVector = (pos.normalized * planetRadiusWorld) - planetVec;
+
+        var newRes = planetVec + toVector;
+
+        Vector3 returnPos = new Vector3(newRes.x, newRes.y, worldPosition.z);
+
+        return returnPos;
     }
 }
 
@@ -140,6 +171,6 @@ public enum WorldNodeType
     Land,
     Water,
     Air,
-    Underground, //Currently Unused
+    Space,
     Invalid
 }

@@ -15,7 +15,8 @@ public enum DrawType
 public class MapDisplay : MonoBehaviour
 {
 
-    public Renderer heightMapRend;
+    public Renderer PlanetRenderer;
+    public Renderer SkyRenderer;
 
     public void DrawMap(float[,] heightMap, DrawType drawMode)
     {
@@ -52,12 +53,47 @@ public class MapDisplay : MonoBehaviour
         specularMap.filterMode = FilterMode.Point;
         specularMap.wrapMode = TextureWrapMode.Clamp;
 
-        heightMapRend.sharedMaterial.SetTextureScale("_MainTex", new Vector2(0.5f, 0.5f));
-        heightMapRend.sharedMaterial.SetTextureOffset("_MainTex", new Vector2(0.5f, 0.5f));
+        PlanetRenderer.sharedMaterial.SetTextureScale("_MainTex", new Vector2(0.5f, 0.5f));
+        PlanetRenderer.sharedMaterial.SetTextureOffset("_MainTex", new Vector2(0.5f, 0.5f));
 
-        heightMapRend.sharedMaterial.mainTexture = mainTexture;
-        heightMapRend.sharedMaterial.SetTexture("_SpecGlossMap", specularMap);
+        PlanetRenderer.sharedMaterial.mainTexture = mainTexture;
+        PlanetRenderer.sharedMaterial.SetTexture("_SpecGlossMap", specularMap);
 
 
+    }
+
+    public void DrawSky(WorldNode[,] mapData)
+    {
+        var height = mapData.GetLength(0);
+
+        Texture2D mainTexture = new Texture2D(height, height);
+
+        Color[] colourMap = new Color[height * height];
+
+        Color resColor = Color.clear;
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < height; x++)
+            {
+                WorldNode currentNode = mapData[x, y];
+                if (currentNode.nodeType == WorldNodeType.Air)
+                {
+                    resColor = new Color(0.4f, 0.4f, 1, currentNode.NodeHeight);
+                }
+                else
+                {
+                    continue;
+                }
+
+                colourMap[y * height + x] = resColor;
+            }
+        }
+
+        mainTexture.SetPixels(colourMap);
+        mainTexture.Apply();
+        mainTexture.filterMode = FilterMode.Bilinear;
+        mainTexture.wrapMode = TextureWrapMode.Clamp;
+
+        SkyRenderer.sharedMaterial.mainTexture = mainTexture;
     }
 }
