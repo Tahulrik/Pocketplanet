@@ -179,6 +179,7 @@ public class MapGenerator : MonoBehaviour
         int totalMapHeightPixels = (int)totalMapHeight * PixelPerDistance;
         int planetOffset = (int)(atmosphereHeight + spaceHeight)*PixelPerDistance;
 
+        var minAirVal = float.MaxValue;
         for (int x = 0; x < totalMapHeightPixels; x++)//using height and height is fine, world grid should always be a square
         {
             for (int y = 0; y < totalMapHeightPixels; y++)
@@ -219,11 +220,20 @@ public class MapGenerator : MonoBehaviour
                     var planetSurfacePoint = WorldData.instance.GetClosestWorldPointOnPlanet(currentWorldPos);
 
                     float altitude = Vector3.Distance(planetSurfacePoint.normalized, currentWorldPos.normalized);
-                    var airVal = Mathf.Abs(AtmospherFalloff.Evaluate(altitude));
+                    var airVal = AtmospherFalloff.Evaluate(altitude);
+                    airVal = Mathf.Clamp01(airVal);
 
                     WorldNodeType newNodeType = WorldNodeType.Invalid;
-                    if (airVal <= 0)
+
+
+                    if (airVal < minAirVal)
+                    {
+                        minAirVal = airVal;
+                    }
+                    if (airVal <= 0.0f)
+                    { 
                         newNodeType = WorldNodeType.Space;
+                    }
                     else
                         newNodeType = WorldNodeType.Air;
 
@@ -232,6 +242,8 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
+
+        print(minAirVal.ToString());
     }
 
     float[,] AddContinentsInMap(float[,] mapData)

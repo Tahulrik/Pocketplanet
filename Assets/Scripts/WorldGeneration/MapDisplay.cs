@@ -53,10 +53,10 @@ public class MapDisplay : MonoBehaviour
         specularMap.filterMode = FilterMode.Point;
         specularMap.wrapMode = TextureWrapMode.Clamp;
 
-        PlanetRenderer.sharedMaterial.SetTextureScale("_MainTex", new Vector2(0.5f, 0.5f));
-        PlanetRenderer.sharedMaterial.SetTextureOffset("_MainTex", new Vector2(0.5f, 0.5f));
+        PlanetRenderer.sharedMaterial.SetTextureScale("_BaseMap", new Vector2(0.5f, 0.5f));
+        PlanetRenderer.sharedMaterial.SetTextureOffset("_BaseMap", new Vector2(0.5f, 0.5f));
 
-        PlanetRenderer.sharedMaterial.mainTexture = mainTexture;
+        PlanetRenderer.sharedMaterial.SetTexture("_BaseMap", mainTexture);
         PlanetRenderer.sharedMaterial.SetTexture("_SpecGlossMap", specularMap);
 
 
@@ -78,7 +78,11 @@ public class MapDisplay : MonoBehaviour
                 WorldNode currentNode = mapData[x, y];
                 if (currentNode.nodeType == WorldNodeType.Air)
                 {
-                    resColor = new Color(0.4f, 0.4f, 1, currentNode.NodeHeight);
+                    resColor = new Color(0.4f* currentNode.NodeHeight, 0.4f *currentNode.NodeHeight, 1* currentNode.NodeHeight, currentNode.NodeHeight);
+                }
+                else if (currentNode.nodeType == WorldNodeType.Land || currentNode.nodeType == WorldNodeType.Water)
+                {
+                    resColor = new Color(0.4f, 0.4f, 1, 1);
                 }
                 else
                 {
@@ -94,6 +98,6 @@ public class MapDisplay : MonoBehaviour
         mainTexture.filterMode = FilterMode.Bilinear;
         mainTexture.wrapMode = TextureWrapMode.Clamp;
 
-        SkyRenderer.sharedMaterial.mainTexture = mainTexture;
+        SkyRenderer.sharedMaterial.SetTexture("_BaseMap", mainTexture);
     }
 }
