@@ -341,11 +341,11 @@ public class MapGenerator : MonoBehaviour
         mapData = NoiseGenerator.GenerateNoiseMap(pixelAmount, pixelAmount, Seed, NoiseScale, Octaves, Persistance, Lacunarity, Offset);
         mapData = AddContinentsInMap(mapData);
 
-       // if (MapDrawMode == DrawType.Full)
-            //mapData = SquarizeWorldData(mapData, LandmassBlockSize);
+        if (MapDrawMode == DrawType.Full)
+            mapData = SquarizeWorldData(mapData, LandmassBlockSize);
 
         //create world data
-        //GenerateWorldData(mapData);
+        GenerateWorldData(mapData);
 
         var mesh = display.gameObject.GetComponentInChildren<MeshFilter>();
         
@@ -354,7 +354,7 @@ public class MapGenerator : MonoBehaviour
 
         display.DrawMap(mapData, MapDrawMode);
 
-     //   display.DrawSky(WorldData.instance.worldGrid);
+        display.DrawSky(WorldData.instance.worldGrid);
     }
 
     private float[,] SquarizeWorldData(float[,] mapData, int kernelSize)
