@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2258,14 +2258,13 @@ MonoBehaviour:
     m_RotationOrder: 4
   PixelPerDistance: 25
   _pixelSize: 0.0016
-  Seed: -98
+  Seed: 78
   Offset: {x: 16.51, y: -3.27}
-  LandDepth: 95
-  Continents: 2
-  LandCoveragePercentage: 56
+  LandDepth: 94
+  Continents: 4
+  LandCoveragePercentage: 51
   _worldCircumference: 785
-  _continentsCoverageData: 
-  ContinentsOffset: 282
+  ContinentsOffset: 52
 --- !u!4 &1182641840
 Transform:
   m_ObjectHideFlags: 0
