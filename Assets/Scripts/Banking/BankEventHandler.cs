@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Buildings;
 
-public class BankEventHandler : MonoBehaviour {
+/*public class BankEventHandler : MonoBehaviour {
 
 	CPRAccountData data;
 
@@ -158,7 +158,7 @@ public class BankEventHandler : MonoBehaviour {
 		}	
 	}*/
 
-	public void NextDayFunction()
+	/*public void NextDayFunction()
 	{
 		currectDayText = currectDayText.AddDays(1);
 		GameHandler.Instance.WeekDayText.text = currectDayText.DayOfWeek.ToString();
@@ -312,7 +312,7 @@ public class BankEventHandler : MonoBehaviour {
 		{
 			EventHandler.TriggerBlockman(EventCategory.BlockMan, Random.insideUnitCircle * 2, GameHandler.Instance.Blockman, false);
 		}
-	}
+	}*/
 	/*void CalculateProperEvent(float percent)
 	{
 		if (percent < 0)
@@ -410,4 +410,4 @@ public class BankEventHandler : MonoBehaviour {
 			}
 		}
 	}*/
-}
+//}

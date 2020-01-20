@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine;
-using Lean.Touch;
 using UnityEngine.UI;
 
 public class ObjectSpawner : MonoBehaviour {
@@ -16,8 +15,8 @@ public class ObjectSpawner : MonoBehaviour {
 	public float Distance;
 
 	// The finger used to spawn this
-	[HideInInspector]
-	public LeanFinger SpawnFinger;
+	//[HideInInspector]
+	//public LeanFinger SpawnFinger;
 	[HideInInspector]
 	public EventCategory currentType;
 	[HideInInspector]
@@ -35,14 +34,14 @@ public class ObjectSpawner : MonoBehaviour {
 	protected virtual void OnEnable()
 	{
 		// Hook events
-		LeanTouch.OnFingerUp += OnFingerUp;
+		//LeanTouch.OnFingerUp += OnFingerUp;
 
 	}
 
 	protected virtual void OnDisable()
 	{
 		// Unhook events
-		LeanTouch.OnFingerUp -= OnFingerUp;
+		//LeanTouch.OnFingerUp -= OnFingerUp;
 	}
 
 	void Start()
@@ -57,10 +56,10 @@ public class ObjectSpawner : MonoBehaviour {
 	protected virtual void Update()
 	{
 		// Does the spawn finger exist?
-		if (SpawnFinger != null)
+		//if (SpawnFinger != null)
 		{
 //			print (currentType);
-			transform.position = SpawnFinger.GetWorldPosition(Distance);
+			//transform.position = SpawnFinger.GetWorldPosition(Distance);
 			Planet.RotateObjectToSurface (gameObject);
 			var surfacePosition = Planet.FindPointOnSurface (Planet.Radius, transform.position);
 			//Debug.DrawRay (Planet.PlanetObject.transform.localPosition, surfacePosition, Color.cyan);
@@ -102,7 +101,7 @@ public class ObjectSpawner : MonoBehaviour {
 		}
 	}
 
-	public void OnFingerUp(LeanFinger finger)
+	/*public void OnFingerUp(LeanFinger finger)
 	{
 		//If finger is on valid placement
 		if (finger.IsOverGui) {
@@ -127,13 +126,13 @@ public class ObjectSpawner : MonoBehaviour {
 			SpawnFinger = null;
 			Destroy (gameObject);
 		}
-	}
+	}*/
 
 	public void CancelPlacement()
 	{
-		selection.GetComponent<DragObjectToWorld> ().CheckForPointAvailability (0);
+		//selection.GetComponent<DragObjectToWorld> ().CheckForPointAvailability (0);
 		Destroy (gameObject);
-		SpawnFinger = null;
+		//SpawnFinger = null;
 	}
 		
 	bool ValidEventPosition(Vector2 position)

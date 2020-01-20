@@ -14,13 +14,13 @@ namespace Buildings
 		void OnEnable()
 		{
 			EventHandler.CreateMafia += SpawnMobster;
-            ObjectSpawner.Released += Spawn;
+           // ObjectSpawner.Released += Spawn;
 		}
 		
 		void OnDisable()
 		{
 			EventHandler.CreateMafia -= SpawnMobster;
-            ObjectSpawner.Released -= Spawn;
+            //ObjectSpawner.Released -= Spawn;
         }
 
         // Use this for initialization

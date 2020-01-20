@@ -34,9 +34,9 @@ public class MenuContentFiller : MonoBehaviour {
             
 			buttonSprite.sprite = objectImage.sprite;
 
-			var dragHandler = newButton.GetComponentInChildren<DragObjectToWorld> ();
+			//var dragHandler = newButton.GetComponentInChildren<DragObjectToWorld> ();
 
-			dragHandler.SpawnType = Object;
+			//dragHandler.SpawnType = Object;
 
 			costText.text = "Cost: " + eventCost.Cost.ToString ();
 			newButton.name = Object.name + " Button";

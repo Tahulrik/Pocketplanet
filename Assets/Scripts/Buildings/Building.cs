@@ -11,7 +11,7 @@ namespace Buildings
 		Small = 2, Medium = 1, Large = 0, Special = 3, Store = 4
 	}
 
-	[RequireComponent(typeof(BuildingSelectHandler))]
+//	[RequireComponent(typeof(BuildingSelectHandler))]
 	public abstract class Building : Damageable {
 
 		public delegate void ConstructedBuilding (GameObject GO);

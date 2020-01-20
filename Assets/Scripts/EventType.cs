@@ -14,7 +14,7 @@ public enum EventCategory
 	Missile
 }
 
-public class EventType : MonoBehaviour {
+/*public class EventType : MonoBehaviour {
 
 	public EventCategory _EventType;
-}
+}*/

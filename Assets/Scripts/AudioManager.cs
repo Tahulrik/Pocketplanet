@@ -27,8 +27,8 @@ public class AudioManager : MonoBehaviour {
     {
 		EventHandler.BlockzillaSpawned += TransitionToAttackMusic;
 		EventHandler.BlockzillaDead += TransitionToNormalMusic;
-        CameraControls.ZoomedIn += TransitionToZoomedIn;
-        CameraControls.ZoomedOut += TransitionToZoomedOut;
+        //CameraControls.ZoomedIn += TransitionToZoomedIn;
+       // CameraControls.ZoomedOut += TransitionToZoomedOut;
     }
 
     void OnDisable()
@@ -36,8 +36,8 @@ public class AudioManager : MonoBehaviour {
 		EventHandler.BlockzillaSpawned -= TransitionToAttackMusic;
 		EventHandler.BlockzillaDead -= TransitionToNormalMusic;
 
-        CameraControls.ZoomedIn -= TransitionToZoomedIn;
-        CameraControls.ZoomedOut -= TransitionToZoomedOut;
+        //CameraControls.ZoomedIn -= TransitionToZoomedIn;
+        //CameraControls.ZoomedOut -= TransitionToZoomedOut;
     }
 
     // Use this for initialization
