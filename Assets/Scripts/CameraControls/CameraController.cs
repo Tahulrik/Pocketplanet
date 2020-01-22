@@ -33,6 +33,8 @@ public class CameraController : MonoBehaviour
     [Range(0,1)]
     public float currentZoomAmount = 0;
 
+    public float cameraMinMoveHeight = 0f, cameraMaxMoveHeight = 1.2f, cameraMaxMoveWidth = 0.5f;
+
     public CameraState currentCameraState;
 
     [Tooltip("This is set to true the frame a multi-tap occurs.")]
@@ -52,6 +54,8 @@ public class CameraController : MonoBehaviour
     // Previous fingerCount
     private int lastFingerCount;
 
+    float cameraDistance;
+
     void OnEnable()
     {
         LeanTouch.OnFingerDown += CommandSetFinger;
@@ -69,6 +73,7 @@ public class CameraController : MonoBehaviour
     {
         mainCam = Camera.main;
         //vCam = GetComponentInChildren<CinemachineVirtualCamera>();
+        float cameraDistance = vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance;
     }
 
     private void Update()
@@ -132,7 +137,7 @@ public class CameraController : MonoBehaviour
                 break;
             case CameraState.MovingTo:
 
-                transform.Rotate(Vector3.forward / 5);
+                transform.Rotate(Vector3.forward / 5f);
 
                 if (targetPos.x != CameraHolder.transform.position.x)
                 {
@@ -215,11 +220,11 @@ public class CameraController : MonoBehaviour
         if (fingers.Count > 0)
         {
             //Move Cam in field
-            Vector3 targetPos = fingers[0].GetWorldPosition(15);
+            Vector3 targetPos = fingers[0].GetWorldPosition(cameraDistance);
 
             targetPos = CameraTarget.transform.InverseTransformPoint(targetPos);
-            targetPos.x = Mathf.Clamp(targetPos.x, -0.5f, 0.5f);
-            targetPos.y = Mathf.Clamp(targetPos.y, 0, 0.5f);
+            targetPos.x = Mathf.Clamp(targetPos.x, -cameraMaxMoveWidth, cameraMaxMoveWidth);
+            targetPos.y = Mathf.Clamp(targetPos.y, cameraMinMoveHeight, cameraMaxMoveHeight);
             CameraTarget.transform.localPosition = targetPos;
 
             //Rotate planet if outside boundaries
@@ -232,7 +237,7 @@ public class CameraController : MonoBehaviour
             if (fingerScreenPos.x < leftBoundary)
             {
                 print("left");
-                transform.Rotate(Vector3.forward);
+                transform.Rotate(Vector3.forward/5f);
                 //CameraTarget.transform.localPosition = new Vector3(targetPos.x, 0);
                 //rotate towards the left
 
@@ -240,7 +245,7 @@ public class CameraController : MonoBehaviour
             else if (fingerScreenPos.x > rightBoundary)
             {
                 print("right");
-                transform.Rotate(-Vector3.forward);
+                transform.Rotate(-Vector3.forward/5f);
                 //CameraTarget.transform.localPosition = new Vector3(targetPos.x, 0);
                 //rotate towards the right
             }

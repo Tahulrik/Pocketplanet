@@ -998,7 +998,32 @@ PrefabInstance:
     - target: {fileID: 905395502202639233, guid: 650c4cb5e99507649acfe165cac2d35e,
         type: 3}
       propertyPath: planetRadius
-      value: 8
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 905395502202639233, guid: 650c4cb5e99507649acfe165cac2d35e,
+        type: 3}
+      propertyPath: CameraZoomMoveCurve.m_Curve.Array.data[1].time
+      value: 0.7573242
+      objectReference: {fileID: 0}
+    - target: {fileID: 905395502202639233, guid: 650c4cb5e99507649acfe165cac2d35e,
+        type: 3}
+      propertyPath: CameraZoomMoveCurve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 905395502202639233, guid: 650c4cb5e99507649acfe165cac2d35e,
+        type: 3}
+      propertyPath: CameraZoomMoveCurve.m_Curve.Array.data[1].inSlope
+      value: 4.0531425
+      objectReference: {fileID: 0}
+    - target: {fileID: 905395502202639233, guid: 650c4cb5e99507649acfe165cac2d35e,
+        type: 3}
+      propertyPath: CameraZoomMoveCurve.m_Curve.Array.data[1].outSlope
+      value: 4.0531425
+      objectReference: {fileID: 0}
+    - target: {fileID: 905395502202639233, guid: 650c4cb5e99507649acfe165cac2d35e,
+        type: 3}
+      propertyPath: CameraZoomMoveCurve.m_Curve.Array.data[1].inWeight
+      value: 0.03523905
       objectReference: {fileID: 0}
     - target: {fileID: 905395502202639246, guid: 650c4cb5e99507649acfe165cac2d35e,
         type: 3}
@@ -2191,14 +2216,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11350ffff8c11aa4688e7e0af5c3396f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CircleSegmentCount: 50
+  CircleSegmentCount: 100
   MapDrawMode: 64
   LandmassBlockSize: 5
   NoiseScale: 61.8
   Octaves: 4
   Persistance: 0.1
   Lacunarity: 4.05
-  Radius: 8
+  Radius: 7
   AtmosphereHeightPart: 0.8
   AtmospherFalloff:
     serializedVersion: 2
@@ -2231,7 +2256,7 @@ MonoBehaviour:
   LandDepth: 94
   Continents: 4
   LandCoveragePercentage: 51
-  _worldCircumference: 1005
+  _worldCircumference: 879
   ContinentsOffset: 52
 --- !u!4 &1182641840
 Transform:
