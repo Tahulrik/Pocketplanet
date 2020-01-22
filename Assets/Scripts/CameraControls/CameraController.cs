@@ -4,6 +4,7 @@ using UnityEngine;
 using Lean;
 using Lean.Touch;
 using Cinemachine;
+using System.Linq;
 
 public enum CameraState
 { 
@@ -23,18 +24,33 @@ public class CameraController : MonoBehaviour
     public float FarthestZoom;
     public float NearestZoom;
     public AnimationCurve CameraZoomMoveCurve;
-    CinemachineVirtualCamera vCam;
+    public CinemachineVirtualCamera vCam;
 
 
-    GameObject CameraHolder;
-    Camera mainCam;
+    public GameObject CameraHolder;
+    public GameObject CameraTarget;
+    public Camera mainCam;
     [Range(0,1)]
     public float currentZoomAmount = 0;
 
     public CameraState currentCameraState;
-    /// <summary>Pitch of the rotation in degrees.</summary>
-    [Tooltip("Pitch of the rotation in degrees.")]
-    public float Pitch;
+
+    [Tooltip("This is set to true the frame a multi-tap occurs.")]
+    public bool MultiTap;
+
+    /// <summary>This is set to the current multi-tap count.</summary>
+    [Tooltip("This is set to the current multi-tap count.")]
+    public int MultiTapCount;
+
+    /// <summary>Highest number of fingers held down during this multi-tap.</summary>
+    [Tooltip("Highest number of fingers held down during this multi-tap.")]
+    public int HighestFingerCount;
+
+    // Seconds at least one finger has been held down
+    private float age;
+
+    // Previous fingerCount
+    private int lastFingerCount;
 
     void OnEnable()
     {
@@ -52,26 +68,61 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         mainCam = Camera.main;
-        CameraHolder = mainCam.transform.parent.gameObject;
-        
-        vCam = GetComponentInChildren<CinemachineVirtualCamera>();
+        //vCam = GetComponentInChildren<CinemachineVirtualCamera>();
     }
 
+    private void Update()
+    {
+        
+    }
+    Vector3 targetPos;
     // Update is called once per frame
     void LateUpdate()
     {
-        var fingers = LeanTouch.Fingers;
-        if (fingers.Count > 1)
-        { 
-        
-        }
-        CommandMoveCamera();
         switch (currentCameraState)
         {
             case CameraState.CityView:
                 //Hold and movein x-y directions
+                CommandMoveCamera();
                 break;
             case CameraState.PlanetView:
+
+                var fingers = Use.GetFingers();
+                /*if (CheckForDoubleTap())
+                {
+                    targetPos = fingers[0].GetWorldPosition(15);
+
+                    //use event here
+                    
+                    currentCameraState = CameraState.MovingTo;
+                }*/
+
+                if (fingers.Count > 0)
+                {
+                    Vector3 fingerScreenPos = fingers[0].ScreenPosition;
+
+                    int leftBoundary = Screen.width / 100 * 20;
+                    int rightBoundary = Screen.width / 100 * 80;
+
+
+                    if (fingerScreenPos.x < leftBoundary)
+                    {
+                        print("left");
+                        transform.Rotate(Vector3.forward);
+                        CameraTarget.transform.localPosition = new Vector3(targetPos.x, 0);
+                        //rotate towards the left
+
+                    }
+                    else if (fingerScreenPos.x > rightBoundary)
+                    {
+                        print("right");
+                        transform.Rotate(-Vector3.forward);
+                        CameraTarget.transform.localPosition = new Vector3(targetPos.x, 0);
+                        //rotate towards the right
+                    }
+                }
+                
+
                 //Rotate Camera?
                 //Swipe Rotate
                 //Double tap to zoom to point
@@ -80,12 +131,28 @@ public class CameraController : MonoBehaviour
                 ZoomCamera();
                 break;
             case CameraState.MovingTo:
-                //From doubleclick
+
+                transform.Rotate(Vector3.forward / 5);
+
+                if (targetPos.x != CameraHolder.transform.position.x)
+                {
+                    Vector3 holderPos = CameraHolder.transform.position;
+                    currentZoomAmount = Mathf.Lerp(0, 1, Vector3.Distance(targetPos, transform.position));
+                    float lerpAmount = Mathf.Clamp01(CameraZoomMoveCurve.Evaluate(currentZoomAmount));
+                    holderPos.y = Mathf.Lerp(0, planetRadius, lerpAmount);
+                    vCam.m_Lens.OrthographicSize = Mathf.Lerp(NearestZoom, FarthestZoom, 1 - currentZoomAmount);
+
+                    CameraHolder.transform.position = holderPos;
+                }
+                else 
+                {
+                    ResetCamera();
+                }
                 break;
             case CameraState.EventView:
                 //From Event
 
-                //Moveto the same as Movingto - keep state change though
+                //Keep the camera looking at an event, follow the event if necessary
                 break;
         }
     }
@@ -112,19 +179,13 @@ public class CameraController : MonoBehaviour
             return;
         }
 
-        if (currentZoomAmount > 0.5f)
-        {
-            currentCameraState = CameraState.CityView;
-        }
-        else
-        {
-            currentCameraState = CameraState.PlanetView;
-        }
+
+        ResetCamera();
     }
 
     void ZoomCamera()
     {
-        var fingers = Use.GetFingers();
+        var fingers = Use.GetFingers(true);
         var zoomAmount = LeanGesture.GetPinchScale(fingers);
 
        
@@ -137,31 +198,79 @@ public class CameraController : MonoBehaviour
                 currentZoomAmount *= zoomAmount;
 
                 currentZoomAmount = Mathf.Clamp(currentZoomAmount, 0.1f, 1f);
-                Vector3 newCamPos = CameraHolder.transform.position;
+                Vector3 newCamPos = Vector3.zero;
                 float lerpAmount = Mathf.Clamp01(CameraZoomMoveCurve.Evaluate(currentZoomAmount));
                 newCamPos.y = Mathf.Lerp(0, planetRadius, lerpAmount);
-                vCam.m_Lens.OrthographicSize = Mathf.Lerp(NearestZoom, FarthestZoom, 1 - lerpAmount);
+                vCam.m_Lens.OrthographicSize = Mathf.Lerp(NearestZoom, FarthestZoom, 1- currentZoomAmount);
 
-                CameraHolder.transform.position = newCamPos;
+                CameraHolder.transform.localPosition = newCamPos;
             }
         }
     }
 
     void CommandMoveCamera()
     {
-        if (LeanTouch.Fingers.Count > 1)
-        {
-            return;
-        }
-        var fingers = Use.GetFingers();
-        var distance = LeanGesture.GetScreenDelta(fingers).magnitude;
-        print(distance);
+        var fingers = Use.GetFingers(true);
         
+        if (fingers.Count > 0)
+        {
+            //Move Cam in field
+            Vector3 targetPos = fingers[0].GetWorldPosition(15);
+
+            targetPos = CameraTarget.transform.InverseTransformPoint(targetPos);
+            targetPos.x = Mathf.Clamp(targetPos.x, -0.5f, 0.5f);
+            targetPos.y = Mathf.Clamp(targetPos.y, 0, 0.5f);
+            CameraTarget.transform.localPosition = targetPos;
+
+            //Rotate planet if outside boundaries
+            Vector3 fingerScreenPos = fingers[0].ScreenPosition;
+
+            int leftBoundary = Screen.width / 100 * 20;
+            int rightBoundary = Screen.width / 100 * 80;
+
+            CameraTarget.transform.localRotation = Quaternion.identity;
+            if (fingerScreenPos.x < leftBoundary)
+            {
+                print("left");
+                transform.Rotate(Vector3.forward);
+                //CameraTarget.transform.localPosition = new Vector3(targetPos.x, 0);
+                //rotate towards the left
+
+            }
+            else if (fingerScreenPos.x > rightBoundary)
+            {
+                print("right");
+                transform.Rotate(-Vector3.forward);
+                //CameraTarget.transform.localPosition = new Vector3(targetPos.x, 0);
+                //rotate towards the right
+            }
+        }
+
     }
 
     void ResetCamera()
-    { 
-    
+    {
+        if (currentZoomAmount > 0.5f)
+        {
+            currentCameraState = CameraState.CityView;
+        }
+        else
+        {
+            currentCameraState = CameraState.PlanetView;
+        }
+
+
+        //CameraTarget.transform.localPosition = Vector3.zero;
+        //Remember to calculate the position of the camera target.
+        /*if (currentCameraState == CameraState.PlanetView)
+        {
+            currentZoomAmount = 1;
+        }
+        else if (currentCameraState == CameraState.CityView)
+        {
+            currentZoomAmount = 0;
+        }*/
+
     }
 
     bool IsCurrentActionManual()
@@ -171,6 +280,74 @@ public class CameraController : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    bool CheckForDoubleTap()
+    {
+        bool result = false;
+        // Get fingers and calculate how many are still touching the screen
+        var fingers = Use.GetFingers();
+        var fingerCount = GetFingerCount(fingers);
+
+        // At least one finger set?
+        if (fingerCount > 0)
+        {
+            // Did this just begin?
+            if (lastFingerCount == 0)
+            {
+                age = 0.0f;
+                HighestFingerCount = fingerCount;
+            }
+            else if (fingerCount > HighestFingerCount)
+            {
+                HighestFingerCount = fingerCount;
+            }
+        }
+
+        age += Time.unscaledDeltaTime;
+
+        // Reset
+        MultiTap = false;
+
+        // Is a multi-tap still eligible?
+        if (age <= LeanTouch.CurrentTapThreshold)
+        {
+            // All fingers released?
+            if (fingerCount == 0 && lastFingerCount > 0)
+            {
+                MultiTapCount += 1;
+
+                if (MultiTapCount == 2)
+                {
+                    result = true;
+                    print("doubletap");
+                }
+            }
+        }
+        // Reset
+        else
+        {
+            MultiTapCount = 0;
+            HighestFingerCount = 0;
+        }
+
+        lastFingerCount = fingerCount;
+        return result;
+    }
+
+    private int GetFingerCount(List<LeanFinger> fingers)
+    {
+        var count = 0;
+
+        for (var i = fingers.Count - 1; i >= 0; i--)
+        {
+            if (fingers[i].Up == false)
+            {
+                count += 1;
+            }
+        }
+
+        return count;
     }
 
 }
