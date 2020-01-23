@@ -49,7 +49,7 @@ public class MapGenerator : MonoBehaviour
     [Range(40, 95)]
     public int LandCoveragePercentage = 80;
     public int _worldCircumference;
-    public List<int> _continentsCoverageData;
+    public List<(WorldNodeType, int)> _continentsCoverageData;
 
     [Range(0, 360)]
     public int ContinentsOffset = 200;
@@ -92,7 +92,7 @@ public class MapGenerator : MonoBehaviour
     }
     void OnValidate()
     {
-        _continentsCoverageData = new List<int>(Continents);
+        _continentsCoverageData = new List<(WorldNodeType, int)>(Continents);
         _totalPixelsOnRadius = (int)(Radius) * PixelPerDistance;
         _worldCircumference = (int)((2 * _totalPixelsOnRadius) * Mathf.PI);
         _pixelSize = (Radius) / (PixelPerDistance * _totalPixelsOnRadius);
@@ -103,8 +103,8 @@ public class MapGenerator : MonoBehaviour
     public void UpdateRandomVarianceData()
     {
         Continents = Random.Range(2, 5);
-        _continentsCoverageData = new List<int>(Continents);
 
+        _continentsCoverageData = new List<(WorldNodeType, int)>(Continents);
         totalPossibleLandCoverage = (int)((_worldCircumference / 100f) * LandCoveragePercentage);
         totalPossibleWaterCoverage = _worldCircumference - totalPossibleLandCoverage;
 
@@ -120,7 +120,6 @@ public class MapGenerator : MonoBehaviour
         int remainingLandCoverage = totalPossibleLandCoverage;
         int remainingWaterCoverage = totalPossibleWaterCoverage;
 
-
         for (int i = 0; i < Continents; i++)
         {
             continentSizeRandomVal = Random.Range(-randomContinentVariationFraction, randomContinentVariationFraction);
@@ -131,8 +130,8 @@ public class MapGenerator : MonoBehaviour
                 {
                     int missingAmount = minimumViableLandSize - remainingLandCoverage;
 
-                    var selectedContinent = _continentsCoverageData.First(x => x > missingAmount && i == 0 || i % 2 == 0);
-                    selectedContinent -= missingAmount;
+                    var selectedContinent = _continentsCoverageData.First(x => x.Item2 > missingAmount && x.Item1 == WorldNodeType.Land);
+                    selectedContinent.Item2 -= missingAmount;
                     remainingLandCoverage += missingAmount;
                 }
 
@@ -140,13 +139,13 @@ public class MapGenerator : MonoBehaviour
                 {
                     int missingAmount = minimumViableOceanSize - remainingWaterCoverage;
 
-                    var selectedContinent = _continentsCoverageData.First(x => x > missingAmount && i % 2 == 1);
-                    selectedContinent -= missingAmount;
+                    var selectedContinent = _continentsCoverageData.First(x => x.Item2 > missingAmount && x.Item1 == WorldNodeType.Water);
+                    selectedContinent.Item2 -= missingAmount;
                     remainingWaterCoverage += missingAmount;
                 }
 
-                _continentsCoverageData.Add(remainingLandCoverage);
-                _continentsCoverageData.Add(remainingWaterCoverage);
+                _continentsCoverageData.Add((WorldNodeType.Land, remainingLandCoverage));
+                _continentsCoverageData.Add((WorldNodeType.Water, remainingWaterCoverage));
                 break;
             }
 
@@ -156,11 +155,11 @@ public class MapGenerator : MonoBehaviour
             newContinentSize = Mathf.RoundToInt(totalPossibleLandCoverage / Continents) + continentSizeRandomVal;
 
             remainingLandCoverage -= newContinentSize;
-            _continentsCoverageData.Add(remainingLandCoverage);
+            _continentsCoverageData.Add((WorldNodeType.Land, newContinentSize));
 
             newOceanSize = remainingWaterCoverage / 4 + minimumViableLandSize;
             remainingWaterCoverage -= newOceanSize;
-            _continentsCoverageData.Add(remainingWaterCoverage);
+            _continentsCoverageData.Add((WorldNodeType.Water,newContinentSize));
         }
 
     }
@@ -250,7 +249,7 @@ public class MapGenerator : MonoBehaviour
     {
         float angle = 0f;
 
-        int currentContinent = _continentsCoverageData.First();
+        var currentContinent = _continentsCoverageData.First();
         int continentProgress = 0;
         int continentPixelProgress = 0;
         bool AddingContinent = true;
@@ -259,7 +258,7 @@ public class MapGenerator : MonoBehaviour
 
         for (int i = 0 + ContinentsOffset; i <= _worldCircumference + ContinentsOffset; ++i)
         {
-            if (currentContinent <= continentPixelProgress)
+            if (currentContinent.Item2 <= continentPixelProgress)
             {
                 HasSelectedDrawType = false;
             }
