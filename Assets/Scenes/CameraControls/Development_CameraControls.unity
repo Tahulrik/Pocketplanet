@@ -2019,7 +2019,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 684544706}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25218195, y: 0.26998025, z: -14.99545}
+  m_LocalPosition: {x: 0.25218195, y: 0.34998026, z: -14.99545}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1562327158}
@@ -2682,7 +2682,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013171391}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.080000006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 996538695}
@@ -3140,7 +3140,7 @@ MonoBehaviour:
     RequiredFingerCount: 0
     RequiredMouseButtons: 0
     RequiredSelectable: {fileID: 0}
-  planetRadius: 8
+  PlanetRadius: 8
   FarthestZoom: 33
   NearestZoom: 1
   CameraZoomMoveCurve:
@@ -3167,12 +3167,17 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  vCam: {fileID: 1679487963}
+  VCam: {fileID: 0}
   CameraHolder: {fileID: 1013171391}
   CameraTarget: {fileID: 996538694}
-  mainCam: {fileID: 0}
-  currentZoomAmount: 0
-  currentCameraState: 0
+  MainCam: {fileID: 0}
+  CurrentZoomAmount: 0.1
+  ZoomLevelSnapThreshold: 0.5
+  CameraMinMoveHeight: 0
+  CameraMaxMoveHeight: 1.8
+  CameraMaxMoveWidth: 0.5
+  CameraRotationSpeed: 25
+  CurrentCameraState: 0
   MultiTap: 0
   MultiTapCount: 0
   HighestFingerCount: 0
@@ -4150,7 +4155,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1679487961}
   m_LocalRotation: {x: -0.008999355, y: 0.008407419, z: -0.00007962396, w: -0.9999242}
-  m_LocalPosition: {x: 0.25218195, y: 0.26998025, z: -14.99545}
+  m_LocalPosition: {x: 0.25218195, y: 0.34998026, z: -14.99545}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 802865770}

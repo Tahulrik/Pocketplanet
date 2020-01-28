@@ -11,7 +11,7 @@ public enum CameraState
     PlanetView, //Used when the camera is zoomed out viewing the planet
     CityView, //Used when the camera is near the city
     Zooming, //Used when the camera is currently zooming
-    MovingTo, //Used When Camera must move towards double click position - event view might be sufficient
+    MovingTo, //Used When Camera must move towards a position - either from snapping or from double click zoom
     EventView //Used When Camera must move to look at an event happening
 }
 
@@ -19,23 +19,51 @@ public class CameraController : MonoBehaviour
 {
     public LeanFingerFilter Use = new LeanFingerFilter(true);
 
-    public float planetRadius;
+    public float PlanetRadius = 8;
 
     public float FarthestZoom;
     public float NearestZoom;
     public AnimationCurve CameraZoomMoveCurve;
-    public CinemachineVirtualCamera vCam;
+    public CinemachineVirtualCamera VCam;
 
 
     public GameObject CameraHolder;
     public GameObject CameraTarget;
-    public Camera mainCam;
-    [Range(0,1)]
-    public float currentZoomAmount = 0;
+    public Camera MainCam;
+    [Range(0.1f, 1)]
+    public float CurrentZoomAmount = 0.1f;
+    [Range(0.15f, 0.95f)]
+    public float ZoomLevelSnapThreshold = 0.5f;
+    public float CameraMinMoveHeight = 0f, CameraMaxMoveHeight = 1.2f, CameraMaxMoveWidth = 0.5f;
 
-    public float cameraMinMoveHeight = 0f, cameraMaxMoveHeight = 1.2f, cameraMaxMoveWidth = 0.5f;
+    [Range(10f, 50f)]
+    public float CameraRotationSpeed = 25f;
 
-    public CameraState currentCameraState;
+    public CameraState CurrentCameraState;
+    bool IsCameraReset
+    {
+        get {
+            bool result = true;
+            if (CameraTarget.transform.localPosition != Vector3.zero || CurrentZoomAmount != 0.1f || CurrentZoomAmount == 1f)
+            {
+                result = false;
+            }
+
+            return result;
+        }
+    }
+
+    bool IsCurrentActionManual
+    {
+        get {
+            if (CurrentCameraState == CameraState.EventView || CurrentCameraState == CameraState.MovingTo)
+            {
+                return false;
+            }
+            return true;
+        }
+    }
+
 
     [Tooltip("This is set to true the frame a multi-tap occurs.")]
     public bool MultiTap;
@@ -71,20 +99,21 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mainCam = Camera.main;
-        //vCam = GetComponentInChildren<CinemachineVirtualCamera>();
-        float cameraDistance = vCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance;
+        MainCam = Camera.main;
+        VCam = GetComponentInChildren<CinemachineVirtualCamera>();
+        float cameraDistance = VCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance;
     }
 
     private void Update()
     {
         
     }
-    Vector3 targetPos;
+
+
     // Update is called once per frame
     void LateUpdate()
     {
-        switch (currentCameraState)
+        switch (CurrentCameraState)
         {
             case CameraState.CityView:
                 //Hold and movein x-y directions
@@ -92,43 +121,13 @@ public class CameraController : MonoBehaviour
                 break;
             case CameraState.PlanetView:
 
-                var fingers = Use.GetFingers();
-                /*if (CheckForDoubleTap())
+                var fingers = Use.GetFingers(true);
+                if (CheckForDoubleTap())
                 {
-                    targetPos = fingers[0].GetWorldPosition(15);
-
-                    //use event here
-                    
-                    currentCameraState = CameraState.MovingTo;
-                }*/
-
-                if (fingers.Count > 0)
-                {
-                    Vector3 fingerScreenPos = fingers[0].ScreenPosition;
-
-                    int leftBoundary = Screen.width / 100 * 20;
-                    int rightBoundary = Screen.width / 100 * 80;
-
-
-                    if (fingerScreenPos.x < leftBoundary)
-                    {
-                        print("left");
-                        transform.Rotate(Vector3.forward);
-                        CameraTarget.transform.localPosition = new Vector3(targetPos.x, 0);
-                        //rotate towards the left
-
-                    }
-                    else if (fingerScreenPos.x > rightBoundary)
-                    {
-                        print("right");
-                        transform.Rotate(-Vector3.forward);
-                        CameraTarget.transform.localPosition = new Vector3(targetPos.x, 0);
-                        //rotate towards the right
-                    }
+                    var targetPos = fingers[0].GetWorldPosition(15);
                 }
-                
 
-                //Rotate Camera?
+                RotateCameraView(fingers);
                 //Swipe Rotate
                 //Double tap to zoom to point
                 break;
@@ -136,23 +135,6 @@ public class CameraController : MonoBehaviour
                 ZoomCamera();
                 break;
             case CameraState.MovingTo:
-
-                transform.Rotate(Vector3.forward / 5f);
-
-                if (targetPos.x != CameraHolder.transform.position.x)
-                {
-                    Vector3 holderPos = CameraHolder.transform.position;
-                    currentZoomAmount = Mathf.Lerp(0, 1, Vector3.Distance(targetPos, transform.position));
-                    float lerpAmount = Mathf.Clamp01(CameraZoomMoveCurve.Evaluate(currentZoomAmount));
-                    holderPos.y = Mathf.Lerp(0, planetRadius, lerpAmount);
-                    vCam.m_Lens.OrthographicSize = Mathf.Lerp(NearestZoom, FarthestZoom, 1 - currentZoomAmount);
-
-                    CameraHolder.transform.position = holderPos;
-                }
-                else 
-                {
-                    ResetCamera();
-                }
                 break;
             case CameraState.EventView:
                 //From Event
@@ -165,128 +147,170 @@ public class CameraController : MonoBehaviour
     //Find out what State the camera should go to
     void CommandSetFinger(LeanFinger finger)
     {
-        if (!IsCurrentActionManual())
+        if (!IsCurrentActionManual)
         {
             return;
         }
 
         if (LeanTouch.Fingers.Count > 1)
         { 
-            currentCameraState = CameraState.Zooming;
+            CurrentCameraState = CameraState.Zooming;
         }
     }
 
     //Find out what the resulting 
     void CommandRemoveFinger(LeanFinger finger)
     {
-        if (!IsCurrentActionManual())
+        if (!IsCurrentActionManual)
         {
             return;
         }
 
-
         ResetCamera();
     }
 
+    #region ZoomFunctions
     void ZoomCamera()
     {
         var fingers = Use.GetFingers(true);
         var zoomAmount = LeanGesture.GetPinchScale(fingers);
 
-       
         if (zoomAmount != 1.0f) //Fingers changed position
         {
             var screenPoint = default(Vector2);
 
             if (LeanGesture.TryGetScreenCenter(fingers, ref screenPoint) == true)
             {
-                currentZoomAmount *= zoomAmount;
+                var newZoomLevel = CurrentZoomAmount * zoomAmount;
 
-                currentZoomAmount = Mathf.Clamp(currentZoomAmount, 0.1f, 1f);
-                Vector3 newCamPos = Vector3.zero;
-                float lerpAmount = Mathf.Clamp01(CameraZoomMoveCurve.Evaluate(currentZoomAmount));
-                newCamPos.y = Mathf.Lerp(0, planetRadius, lerpAmount);
-                vCam.m_Lens.OrthographicSize = Mathf.Lerp(NearestZoom, FarthestZoom, 1- currentZoomAmount);
-
-                CameraHolder.transform.localPosition = newCamPos;
+                SetZoomLevel(newZoomLevel);
             }
         }
     }
 
+    void SetZoomLevel(float newZoomLevel)
+    {
+        var editedZoomLevel = Mathf.Clamp(newZoomLevel, 0.1f, 1f);
+        Vector3 newCamPos = Vector3.zero;
+        float lerpAmount = Mathf.Clamp01(CameraZoomMoveCurve.Evaluate(editedZoomLevel));
+        newCamPos.y = Mathf.Lerp(0, PlanetRadius, lerpAmount);
+        VCam.m_Lens.OrthographicSize = Mathf.Lerp(NearestZoom, FarthestZoom, 1 - editedZoomLevel);
+
+        CameraHolder.transform.localPosition = newCamPos;
+        CurrentZoomAmount = editedZoomLevel;
+
+        if (CurrentZoomAmount < ZoomLevelSnapThreshold)
+        {
+            CentreCameraOnOrigin();
+        }
+    }
+    #endregion
+
+    #region MoveFunctions
     void CommandMoveCamera()
     {
         var fingers = Use.GetFingers(true);
-        
+
         if (fingers.Count > 0)
         {
             //Move Cam in field
-            Vector3 targetPos = fingers[0].GetWorldPosition(cameraDistance);
-
-            targetPos = CameraTarget.transform.InverseTransformPoint(targetPos);
-            targetPos.x = Mathf.Clamp(targetPos.x, -cameraMaxMoveWidth, cameraMaxMoveWidth);
-            targetPos.y = Mathf.Clamp(targetPos.y, cameraMinMoveHeight, cameraMaxMoveHeight);
-            CameraTarget.transform.localPosition = targetPos;
+            MoveCameraInViewField(fingers);
 
             //Rotate planet if outside boundaries
+            RotateCameraView(fingers);
+        }
+    }
+
+    void MoveCameraInViewField(List<LeanFinger> fingers)
+    {
+        Vector3 targetPos = fingers[0].GetWorldPosition(cameraDistance);
+
+        targetPos = CameraTarget.transform.InverseTransformPoint(targetPos);
+        targetPos.x = Mathf.Clamp(targetPos.x, -CameraMaxMoveWidth, CameraMaxMoveWidth);
+        targetPos.y = Mathf.Clamp(targetPos.y, CameraMinMoveHeight, CameraMaxMoveHeight);
+        CameraTarget.transform.localPosition = targetPos;
+    }
+
+    void RotateCameraView(List<LeanFinger> fingers)
+    {
+        if (fingers.Count > 0) // refactor to have one reference for current fingers on screen
+        {
             Vector3 fingerScreenPos = fingers[0].ScreenPosition;
 
             int leftBoundary = Screen.width / 100 * 20;
             int rightBoundary = Screen.width / 100 * 80;
 
-            CameraTarget.transform.localRotation = Quaternion.identity;
+            float rotationDirection = 0;
             if (fingerScreenPos.x < leftBoundary)
-            {
-                print("left");
-                transform.Rotate(Vector3.forward/5f);
-                //CameraTarget.transform.localPosition = new Vector3(targetPos.x, 0);
-                //rotate towards the left
-
-            }
+                rotationDirection = 1;
             else if (fingerScreenPos.x > rightBoundary)
-            {
-                print("right");
-                transform.Rotate(-Vector3.forward/5f);
-                //CameraTarget.transform.localPosition = new Vector3(targetPos.x, 0);
-                //rotate towards the right
-            }
-        }
+                rotationDirection = -1;
 
+            RotateCameraByAmount(CameraRotationSpeed * rotationDirection);
+        }
     }
+
+    void RotateCameraByAmount(float amount)
+    {
+        transform.Rotate(Vector3.forward * amount * Time.deltaTime);
+    }
+    #endregion
+
+    #region SwipeCameraFunctions
+    #endregion
+
+    #region AutomaticMoveFunctions
+    IEnumerator SnapCameraToZoomPosition()
+    {
+        CurrentCameraState = CameraState.MovingTo;
+        float snapZoomCurrentLevel = CurrentZoomAmount;
+        float zoomDir = (snapZoomCurrentLevel > ZoomLevelSnapThreshold) ? 1f : -1f;
+        yield return new WaitUntil(() =>
+        {
+            snapZoomCurrentLevel += (Time.deltaTime * zoomDir)/1.5f;
+            SetZoomLevel(snapZoomCurrentLevel);
+
+            if (CurrentZoomAmount == 0.1f || CurrentZoomAmount == 1)
+                return true;
+            else
+                return false;
+        });
+
+        SetCameraZoomState();
+    }
+
+
+    #endregion
 
     void ResetCamera()
     {
-        if (currentZoomAmount > 0.5f)
+        SetCameraZoomState();
+
+        if (IsCameraReset)
+            return;
+
+        StartCoroutine(SnapCameraToZoomPosition());
+    }
+
+    void SetCameraZoomState()
+    {
+        if (CurrentZoomAmount > ZoomLevelSnapThreshold)
         {
-            currentCameraState = CameraState.CityView;
+            CurrentCameraState = CameraState.CityView;
         }
         else
         {
-            currentCameraState = CameraState.PlanetView;
+            CurrentCameraState = CameraState.PlanetView;
+            CentreCameraOnOrigin();
         }
-
-
-        //CameraTarget.transform.localPosition = Vector3.zero;
-        //Remember to calculate the position of the camera target.
-        /*if (currentCameraState == CameraState.PlanetView)
-        {
-            currentZoomAmount = 1;
-        }
-        else if (currentCameraState == CameraState.CityView)
-        {
-            currentZoomAmount = 0;
-        }*/
-
     }
 
-    bool IsCurrentActionManual()
+    void CentreCameraOnOrigin()
     {
-        if (currentCameraState == CameraState.EventView || currentCameraState == CameraState.MovingTo)
-        {
-            return false;
-        }
-        return true;
+        CameraTarget.transform.localPosition = Vector3.zero;
     }
 
+    
     bool CheckForDoubleTap()
     {
         bool result = false;
@@ -311,9 +335,6 @@ public class CameraController : MonoBehaviour
 
         age += Time.unscaledDeltaTime;
 
-        // Reset
-        MultiTap = false;
-
         // Is a multi-tap still eligible?
         if (age <= LeanTouch.CurrentTapThreshold)
         {
@@ -325,7 +346,6 @@ public class CameraController : MonoBehaviour
                 if (MultiTapCount == 2)
                 {
                     result = true;
-                    print("doubletap");
                 }
             }
         }
@@ -334,6 +354,7 @@ public class CameraController : MonoBehaviour
         {
             MultiTapCount = 0;
             HighestFingerCount = 0;
+            MultiTap = false;
         }
 
         lastFingerCount = fingerCount;
