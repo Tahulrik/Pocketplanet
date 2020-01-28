@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Lean.Touch;
 using Buildings;
 using UnityEngine.UI;
-
+/*
 [RequireComponent(typeof(LeanSelectable))]
 public class BuildingSelectHandler : LeanSelectableBehaviour 
 {
@@ -155,3 +154,4 @@ public class BuildingSelectHandler : LeanSelectableBehaviour
 		}
 	}
 }
+*/

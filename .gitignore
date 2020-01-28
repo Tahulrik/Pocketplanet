@@ -9,6 +9,8 @@
 sysinfo.txt
 *.stackdump
 /Assets/AssetStoreTools*
+/Build_Dev*
+/Build_Release*
 *.apk
 *.unitypackage
  

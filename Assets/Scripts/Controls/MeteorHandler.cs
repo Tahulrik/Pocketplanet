@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using InteractionTypes;
-using Lean.Touch;
-
 public class MeteorHandler : MonoBehaviour {
 
 	public delegate void MeteorDisaster(GameObject go);

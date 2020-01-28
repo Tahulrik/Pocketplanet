@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using InteractionTypes;
-using Lean.Touch;
 using System.Linq;
 using Citizens;
 using UnityEngine.Audio;
@@ -58,8 +57,8 @@ public class CameraControls : MonoBehaviour {
 
 	void OnEnable()
 	{
-		LeanTouch.OnFingerHeldDown += HoldCamera;
-		LeanTouch.OnFingerHeldSet += DragCamera;
+		//LeanTouch.OnFingerHeldDown += HoldCamera;
+		//LeanTouch.OnFingerHeldSet += DragCamera;
 		//LeanTouch.OnFingerSwipe += SwipeCamera;
 	}
 
@@ -73,9 +72,9 @@ public class CameraControls : MonoBehaviour {
 		originalDampening = Dampening;
 		InteractionType.ChangeModeToCamera ();
 
-		if (LeanTouch.GetCamera (ref MainCamera) == true) {
-			currentFov = GetCurrent ();
-		}
+		//if (LeanTouch.GetCamera (ref MainCamera) == true) {
+		//	currentFov = GetCurrent ();
+		//}
 		//set current zoom to a specific value?	
 
 		//Not a nice solution so far but it should work
@@ -93,7 +92,7 @@ public class CameraControls : MonoBehaviour {
 
 	protected virtual void LateUpdate()
 	{
-		if(LeanTouch.Fingers.Count < RequiredFingerCount) {
+		//if(LeanTouch.Fingers.Count < RequiredFingerCount) {
 			if (swipeSpeed != 0) {
 				swipeSpeed = Dampen(swipeSpeed, 0);
 
@@ -102,7 +101,7 @@ public class CameraControls : MonoBehaviour {
 				}
 			}
 
-		}
+		//}
 
 	}
 
@@ -116,10 +115,10 @@ public class CameraControls : MonoBehaviour {
 			break;
 		case InteractionSetting.Camera:
 			CurrentOrbitDistance = Mathf.Clamp (CurrentOrbitDistance, MinOrbitDistance, MaxOrbitDistance);
-			if (LeanTouch.Fingers.Count == RequiredFingerCount) {
-				ZoomCamera ();
+			//if (LeanTouch.Fingers.Count == RequiredFingerCount) {
+				//ZoomCamera ();
 				OrbitCamera (0);
-			} 
+			//} 
 			break;
 		case InteractionSetting.Meteor:
 			
@@ -131,7 +130,7 @@ public class CameraControls : MonoBehaviour {
 		}
 	}
 
-	void DragCamera(LeanFinger finger)
+	/*void DragCamera(LeanFinger finger)
 	{
 		if (LeanTouch.Fingers.Count >= RequiredFingerCount) {
 			return;
@@ -148,9 +147,9 @@ public class CameraControls : MonoBehaviour {
 
 		OrbitCamera (speed * Time.deltaTime*cameraSpeed);
 
-	}
+	}*/
 
-	void HoldCamera(LeanFinger finger)
+	/*void HoldCamera(LeanFinger finger)
 	{
 		Dampening = HeldDampening;
 	}
@@ -169,7 +168,7 @@ public class CameraControls : MonoBehaviour {
 		Dampening = originalDampening;
 		var swipe = finger.SwipeScreenDelta;
 		swipeSpeed = swipe.x > 0 ? swipe.magnitude : -swipe.magnitude;
-	}
+	}*/
 
 	void OrbitCamera(float angularSpeed)
 	{
@@ -182,7 +181,7 @@ public class CameraControls : MonoBehaviour {
 		MainCamera.transform.position = Vector3.MoveTowards(MainCamera.transform.position, desiredPosition,  zoomSpeed);
 	}
 
-	void ZoomCamera()
+	/*void ZoomCamera()
 	{
 		// If camera is null, try and get the main camera, return true if a camera was found
 		if (LeanTouch.GetCamera(ref MainCamera) == true)
@@ -258,7 +257,7 @@ public class CameraControls : MonoBehaviour {
 				
 			SetCurrent(currentFov);
 		}
-	}
+	}*/
 
 	private float GetCurrent()
 	{
@@ -294,5 +293,4 @@ public class CameraControls : MonoBehaviour {
 
 
 }
-
 

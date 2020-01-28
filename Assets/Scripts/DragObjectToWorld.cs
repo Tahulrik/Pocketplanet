@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Lean.Touch;
+//using Lean.Touch;
 using UnityEngine.UI;
-
+/*
 public class DragObjectToWorld : MonoBehaviour {
 
 	[Tooltip("The prefab that will spawn when dragging this UI element")]
@@ -138,3 +138,4 @@ public class DragObjectToWorld : MonoBehaviour {
 
 	}
 }
+*/

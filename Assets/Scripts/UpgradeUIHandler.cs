@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Lean.Touch;
+//using Lean.Touch;
 using Buildings;
-
+/*
 public class UpgradeUIHandler : MonoBehaviour {
 
 	public int smallToMedCost = 1;
@@ -90,3 +90,4 @@ public class UpgradeUIHandler : MonoBehaviour {
 		}	
 	}
 }
+*/
