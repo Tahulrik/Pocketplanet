@@ -109,7 +109,6 @@ public class CameraController : MonoBehaviour
         
     }
 
-
     // Update is called once per frame
     void LateUpdate()
     {
@@ -124,7 +123,9 @@ public class CameraController : MonoBehaviour
                 var fingers = Use.GetFingers(true);
                 if (CheckForDoubleTap())
                 {
-                    var targetPos = fingers[0].GetWorldPosition(15);
+                    var targetPos = fingers[0].GetWorldPosition(cameraDistance);
+                    targetPos.z = 0;
+                    StartCoroutine(MoveCameraToSelectedPosition(targetPos));
                 }
 
                 RotateCameraView(fingers);
@@ -210,7 +211,7 @@ public class CameraController : MonoBehaviour
     void CommandMoveCamera()
     {
         var fingers = Use.GetFingers(true);
-
+        
         if (fingers.Count > 0)
         {
             //Move Cam in field
@@ -265,9 +266,10 @@ public class CameraController : MonoBehaviour
         CurrentCameraState = CameraState.MovingTo;
         float snapZoomCurrentLevel = CurrentZoomAmount;
         float zoomDir = (snapZoomCurrentLevel > ZoomLevelSnapThreshold) ? 1f : -1f;
+
         yield return new WaitUntil(() =>
         {
-            snapZoomCurrentLevel += (Time.deltaTime * zoomDir)/1.5f;
+            snapZoomCurrentLevel += (Time.deltaTime * zoomDir)/1.5f; // this will always take 1.5 seconds - how do i make it take 1.5 seconds for the entire distance
             SetZoomLevel(snapZoomCurrentLevel);
 
             if (CurrentZoomAmount == 0.1f || CurrentZoomAmount == 1)
@@ -279,7 +281,42 @@ public class CameraController : MonoBehaviour
         SetCameraZoomState();
     }
 
+    IEnumerator MoveCameraToSelectedPosition(Vector2 targetPosition)
+    {
+        CurrentCameraState = CameraState.MovingTo;
+        float angleBetweenCameraAndPoint = 0;
+        float CurrentRotation = transform.rotation.eulerAngles.z;
+        float TargetRotation = 0;
+        float RemainingLerp = 0;
+        float moveCurveVal = 0f;
+        var RemainingZoom = CurrentZoomAmount;
+        Vector3 rotationEuler = Vector3.zero;
 
+        angleBetweenCameraAndPoint = Vector2.SignedAngle(targetPosition, CameraHolder.transform.position);
+        TargetRotation = -angleBetweenCameraAndPoint;
+        RemainingLerp = 0;
+        yield return new WaitUntil(() =>
+        {
+            RemainingLerp = Mathf.Clamp01(RemainingLerp + (Time.deltaTime / 2f));
+            RemainingZoom = Mathf.Clamp01(RemainingZoom + (Time.deltaTime / 2f));
+
+            moveCurveVal = CameraZoomMoveCurve.Evaluate(RemainingLerp) * TargetRotation;
+            CurrentRotation += moveCurveVal * Time.deltaTime;
+            rotationEuler = new Vector3(0, 0, CurrentRotation);
+            Quaternion rot = transform.rotation;
+            rot.eulerAngles = rotationEuler;
+            transform.rotation = rot;
+
+            SetZoomLevel(RemainingZoom);
+
+            if (RemainingLerp < 1)
+                return false;
+            else
+                return true;
+        });
+
+        SetCameraZoomState();
+    }
     #endregion
 
     void ResetCamera()
