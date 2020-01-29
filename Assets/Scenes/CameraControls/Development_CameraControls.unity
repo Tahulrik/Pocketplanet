@@ -3115,6 +3115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1208140696}
   - component: {fileID: 1208140695}
+  - component: {fileID: 1208140697}
   m_Layer: 0
   m_Name: CameraController
   m_TagString: Untagged
@@ -3176,6 +3177,30 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  CameraMoveToCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   VCam: {fileID: 0}
   CameraHolder: {fileID: 1013171391}
   CameraTarget: {fileID: 996538694}
@@ -3186,10 +3211,15 @@ MonoBehaviour:
   CameraMaxMoveHeight: 1.8
   CameraMaxMoveWidth: 0.5
   CameraRotationSpeed: 25
+  SwipeTargetAngle: 0
+  SwipeCurrentDampening: 0
+  SwipeMinimumDampening: 2.5
+  SwipeMaximumDampening: 10
   CurrentCameraState: 0
   MultiTap: 0
   MultiTapCount: 0
   HighestFingerCount: 0
+  swipeForce: 0
 --- !u!4 &1208140696
 Transform:
   m_ObjectHideFlags: 0
@@ -3207,6 +3237,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1208140697
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1208140694}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d298de279075ff8438094b3f5b9d6bce, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1247521115
 GameObject:
   m_ObjectHideFlags: 0

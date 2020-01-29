@@ -24,6 +24,7 @@ public class CameraController : MonoBehaviour
     public float FarthestZoom;
     public float NearestZoom;
     public AnimationCurve CameraZoomMoveCurve;
+    public AnimationCurve CameraMoveToCurve;
     public CinemachineVirtualCamera VCam;
 
 
@@ -38,6 +39,9 @@ public class CameraController : MonoBehaviour
 
     [Range(10f, 50f)]
     public float CameraRotationSpeed = 25f;
+    public float SwipeTargetAngle = 0;
+    public float SwipeCurrentDampening = 2.5f;
+    public float SwipeMinimumDampening = 2.5f, SwipeMaximumDampening = 5f;
 
     public CameraState CurrentCameraState;
     bool IsCameraReset
@@ -88,12 +92,16 @@ public class CameraController : MonoBehaviour
     {
         LeanTouch.OnFingerDown += CommandSetFinger;
         LeanTouch.OnFingerUp += CommandRemoveFinger;
+
+        LeanTouch.OnFingerSwipe += CommandFingerSwipe;
     }
 
     void OnDisable()
     {
         LeanTouch.OnFingerDown -= CommandSetFinger;
         LeanTouch.OnFingerUp -= CommandRemoveFinger;
+
+        LeanTouch.OnFingerSwipe -= CommandFingerSwipe;
     }
 
     // Start is called before the first frame update
@@ -104,13 +112,8 @@ public class CameraController : MonoBehaviour
         float cameraDistance = VCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance;
     }
 
-    private void Update()
-    {
-        
-    }
-
     // Update is called once per frame
-    void LateUpdate()
+    void Update()
     {
         switch (CurrentCameraState)
         {
@@ -129,13 +132,29 @@ public class CameraController : MonoBehaviour
                 }
 
                 RotateCameraView(fingers);
-                //Swipe Rotate
-                //Double tap to zoom to point
+
+
+                if (SwipeTargetAngle != 0)
+                {
+                    if (fingers.Count > 0)
+                    {
+                        
+                        if (fingers[0].Age >= LeanTouch.CurrentTapThreshold)
+                        {
+                            //print("hold");
+                            SwipeCurrentDampening = SwipeMaximumDampening;
+                        }
+                    }
+                    
+                    MoveTowardsSwipe();
+                }
+
                 break;
             case CameraState.Zooming:
                 ZoomCamera();
                 break;
             case CameraState.MovingTo:
+                //Nothing
                 break;
             case CameraState.EventView:
                 //From Event
@@ -167,7 +186,26 @@ public class CameraController : MonoBehaviour
             return;
         }
 
-        ResetCamera();
+        if (Use.GetFingers(true).Count == 0)
+        { 
+            ResetCamera();
+        }
+    }
+
+    void CommandFingerSwipe(LeanFinger finger)
+    {
+        if (!IsCurrentActionManual)
+        {
+            return;
+        }
+
+        print("swipe");
+        SetSwipeTarget(finger);
+
+        if (SwipeCurrentDampening != SwipeMinimumDampening)
+        {
+            SwipeCurrentDampening = SwipeMinimumDampening;
+        }
     }
 
     #region ZoomFunctions
@@ -258,6 +296,40 @@ public class CameraController : MonoBehaviour
     #endregion
 
     #region SwipeCameraFunctions
+
+    public float swipeForce = 0;
+    void SetSwipeTarget(LeanFinger finger)
+    {
+        float maxForce = 350;
+        float swipeDir = 1;
+
+        float swipeAmountInAngles = 0;
+        float swipeAmountToAdd = 0;
+        if (finger.SwipeScreenDelta.x < 0)
+            swipeDir = -1;
+
+        swipeForce = Mathf.Clamp(finger.SwipeScreenDelta.x, -maxForce, maxForce);
+        swipeAmountInAngles = (swipeForce / maxForce) * 500;
+
+        SwipeTargetAngle += swipeAmountInAngles;
+    }
+
+    void MoveTowardsSwipe()
+    {
+
+        var moveAmountPerFrame = Mathf.Lerp(0, SwipeTargetAngle, Time.deltaTime * SwipeCurrentDampening);
+
+        var newRotationEuler = new Vector3(0,0, moveAmountPerFrame);
+
+        transform.Rotate(newRotationEuler);
+
+        SwipeTargetAngle -= moveAmountPerFrame;
+        if (Mathf.Abs(SwipeTargetAngle) < 2f)
+        {
+            SwipeTargetAngle = 0;
+        }
+    }
+
     #endregion
 
     #region AutomaticMoveFunctions
@@ -300,7 +372,7 @@ public class CameraController : MonoBehaviour
             RemainingLerp = Mathf.Clamp01(RemainingLerp + (Time.deltaTime / 2f));
             RemainingZoom = Mathf.Clamp01(RemainingZoom + (Time.deltaTime / 2f));
 
-            moveCurveVal = CameraZoomMoveCurve.Evaluate(RemainingLerp) * TargetRotation;
+            moveCurveVal = CameraMoveToCurve.Evaluate(RemainingLerp) * TargetRotation;
             CurrentRotation += moveCurveVal * Time.deltaTime;
             rotationEuler = new Vector3(0, 0, CurrentRotation);
             Quaternion rot = transform.rotation;
@@ -317,6 +389,9 @@ public class CameraController : MonoBehaviour
 
         SetCameraZoomState();
     }
+
+    //Go To Event
+    //FocusOnEvent
     #endregion
 
     void ResetCamera()
