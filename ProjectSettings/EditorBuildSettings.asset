@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Development_Main.unity
     guid: 89dfc739efa6820489e60a4a0c9e965e
   - enabled: 1
-    path: Assets/Scenes/CameraControls/Development_CameraControls.unity
+    path: Assets/CameraSystem/Scenes/Development_CameraControls.unity
     guid: 28657d7b7d9a9de4d973c2bf667accf3
   m_configObjects: {}

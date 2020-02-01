@@ -29,6 +29,7 @@ namespace CameraSystem.StateMachine.States
         public float NearestZoom;
         public AnimationCurve CameraZoomMoveCurve;
         public AnimationCurve CameraMoveToCurve;
+        public AnimationCurve CameraFocusOnEventCurve;
         CinemachineVirtualCamera VCam;
 
         GameObject CameraHolder;
@@ -43,7 +44,7 @@ namespace CameraSystem.StateMachine.States
 
         [Range(10f, 50f)]
         public float CameraRotationSpeed = 25f;
-        float SwipeTargetAngle = 0;
+        static float SwipeTargetAngle = 0;
         public float SwipeCurrentDampening = 2.5f;
         public float SwipeMinimumDampening = 2.5f, SwipeMaximumDampening = 5f;
 
@@ -229,6 +230,11 @@ namespace CameraSystem.StateMachine.States
             var target = lastFingerWorldPos;
             StartCoroutine(MoveCameraToSelectedPosition(target));
         }
+
+        public void CommandMoveToEvent()
+        {
+            StartCoroutine(MoveCameraToEvent(EventPos));
+        }
         #endregion
 
 
@@ -380,14 +386,77 @@ namespace CameraSystem.StateMachine.States
             SetCameraZoomState();
         }
 
+        IEnumerator MoveCameraToEvent(Vector2 targetPosition)
+        {
+            CurrentCameraState = CameraState.MovingTo;
+            float angleBetweenCameraAndPoint = 0;
+            float CurrentRotation = transform.rotation.eulerAngles.z;
+            float TargetRotation = 0;
+            float RemainingMove = 0;
+            float moveCurveVal = 0f;
+            var RemainingZoom = CurrentZoomAmount;
+            Vector3 rotationEuler = Vector3.zero;
+            angleBetweenCameraAndPoint = Vector2.SignedAngle(targetPosition, CameraHolder.transform.position);
+            TargetRotation = -angleBetweenCameraAndPoint;
+            float maxAngle = 180;
+            float maxZoomAmount = 0f;
+            float timeToReachPosition = 2f;
+
+            if (CurrentZoomAmount == 1)
+            { 
+                maxZoomAmount = Mathf.Clamp01(1 - (Mathf.Abs(TargetRotation/2f) / maxAngle)*0.75f);
+            }
+            timeToReachPosition = (2 - maxZoomAmount/4f);
+
+            Keyframe start = new Keyframe(0.1f, CurrentZoomAmount);
+            Keyframe midLeft = new Keyframe(0.45f, maxZoomAmount);
+            midLeft.weightedMode = WeightedMode.Both;
+
+            Keyframe midRight = new Keyframe(0.55f, maxZoomAmount);
+
+
+            Keyframe end = new Keyframe(1f, 1f);
+            Keyframe[] keys = new Keyframe[4] {start, midLeft, midRight, end};
+            CameraFocusOnEventCurve = new AnimationCurve(keys);
+
+            
+            RemainingMove = 0f;
+            var lerpAmount = 0f;
+            yield return new WaitUntil(() =>
+            {
+                lerpAmount += Time.deltaTime / timeToReachPosition;
+                RemainingMove = Mathf.Clamp01(lerpAmount);
+                RemainingZoom = CameraFocusOnEventCurve.Evaluate(lerpAmount);
+
+                if (RemainingMove < 1)
+                {
+                    moveCurveVal = CameraMoveToCurve.Evaluate(RemainingMove) * TargetRotation;
+                    CurrentRotation += moveCurveVal * Time.deltaTime;
+                    rotationEuler = new Vector3(0, 0, CurrentRotation);
+                    Quaternion rot = transform.rotation;
+                    rot.eulerAngles = rotationEuler;
+                    transform.rotation = rot;
+                }
+                if (lerpAmount < 1)
+                { 
+                    SetZoomLevel(RemainingZoom);
+                }
+
+                if (RemainingMove == 1 && RemainingZoom == 1)
+                    return true;
+                else
+                    return false;
+            });
+            animator.SetBool("IsMovingToPosition", false);
+            SetCameraZoomState();
+        }
         //Go To Event
         //FocusOnEvent
         #endregion
 
-        void ResetCamera()
+        public void ResetCamera()
         {
             SetCameraZoomState();
-
             if (IsCameraReset)
                 return;
 
@@ -476,10 +545,17 @@ namespace CameraSystem.StateMachine.States
 
             return count;
         }
-
+        Vector2 EventPos;
         public void TestMethod_SpawnRandomEvent()
-        { 
-            
+        {
+            EventPos = new Vector2(Random.Range(-10, 10), Random.Range(-10, 10));
+            var randomVal = Random.Range(1, 10);
+            if (randomVal > 5)
+            { 
+                animator.SetTrigger("GoToPreviousPosition");
+            }
+            animator.SetBool("IsMovingToPosition", true);
+            animator.SetTrigger("EventHappened");
         }
 
 

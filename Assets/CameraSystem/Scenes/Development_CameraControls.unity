@@ -3395,13 +3395,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 502855046458099132, guid: f7a3f149756f3944db6a1b29cecb2c8f,
-          type: 3}
-        m_MethodName: 
+      - m_Target: {fileID: 1540939659}
+        m_MethodName: TestMethod_SpawnRandomEvent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3719,6 +3718,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1540939659 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+    type: 3}
+  m_PrefabInstance: {fileID: 502855047666140714}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d512e75e6efcad34ca32788ade95821d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1586325285
 GameObject:
   m_ObjectHideFlags: 0
@@ -4740,6 +4751,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
         type: 3}
+      propertyPath: CameraFocusOnEventCurve.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
       propertyPath: SwipeCurrentDampening
       value: 2.5
       objectReference: {fileID: 0}
@@ -4747,6 +4763,86 @@ PrefabInstance:
         type: 3}
       propertyPath: CurrentZoomAmount
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: CameraFocusOnEventCurve.m_Curve.Array.data[0].inSlope
+      value: 0.016498266
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: CameraFocusOnEventCurve.m_Curve.Array.data[0].outSlope
+      value: 0.016498266
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: CameraFocusOnEventCurve.m_Curve.Array.data[1].time
+      value: 0.5000731
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: CameraFocusOnEventCurve.m_Curve.Array.data[1].value
+      value: -0.00000059604645
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: CameraFocusOnEventCurve.m_Curve.Array.data[1].inSlope
+      value: -0.031522095
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: CameraFocusOnEventCurve.m_Curve.Array.data[1].outSlope
+      value: -0.031522095
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: CameraFocusOnEventCurve.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: CameraFocusOnEventCurve.m_Curve.Array.data[1].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: CameraFocusOnEventCurve.m_Curve.Array.data[2].time
+      value: 0.9991455
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: CameraFocusOnEventCurve.m_Curve.Array.data[2].value
+      value: 1.0021667
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: CameraFocusOnEventCurve.m_Curve.Array.data[0].outWeight
+      value: 0.2007454
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: CameraFocusOnEventCurve.m_Curve.Array.data[0].value
+      value: 0.9992981
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: CameraFocusOnEventCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: CameraZoomMoveCurve.m_Curve.Array.data[1].inSlope
+      value: 1.73139
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: CameraZoomMoveCurve.m_Curve.Array.data[1].outSlope
+      value: 1.73139
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: CameraZoomMoveCurve.m_Curve.Array.data[1].inWeight
+      value: 0.04818691
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7a3f149756f3944db6a1b29cecb2c8f, type: 3}

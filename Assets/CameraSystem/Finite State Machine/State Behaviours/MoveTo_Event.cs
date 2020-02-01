@@ -4,21 +4,25 @@ using UnityEngine;
 
 namespace CameraSystem.StateMachine.States
 {
-    public class Swipe : SceneLinkedSMB<CameraController>
+    public class MoveTo_Event : SceneLinkedSMB<CameraController>
     {
-        public override void OnSLTransitionToStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnSLStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            m_MonoBehaviour.CommandSwipeCamera();
+            m_MonoBehaviour.CommandMoveToEvent();
         }
 
-        public override void OnSLStateNoTransitionUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
+        public override void OnSLTransitionToStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            m_MonoBehaviour.CommandSwipeCamera();
+
+        }
+
+        public override void OnSLStateNoTransitionUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+
         }
 
         public override void OnSLStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            m_MonoBehaviour.ResetCamera();
         }
     }
 }
