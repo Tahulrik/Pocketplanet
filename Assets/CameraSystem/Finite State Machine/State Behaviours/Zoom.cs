@@ -4,23 +4,16 @@ using UnityEngine;
 
 namespace CameraSystem.StateMachine.States
 {
-    public class Zoom : StateMachineBehaviour
+    public class Zoom : SceneLinkedSMB<CameraController>
     {
-        CameraController controller;
-
-        //public zo
-        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnSLTransitionToStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            controller = animator.GetComponent<CameraController>();
+            m_MonoBehaviour.CommandZoomCamera();
         }
 
-        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnSLStateNoTransitionUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            
-        }
-
-        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
+            m_MonoBehaviour.CommandZoomCamera();
         }
     }
 }

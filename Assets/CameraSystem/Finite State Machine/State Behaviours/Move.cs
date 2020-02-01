@@ -4,23 +4,16 @@ using UnityEngine;
 
 namespace CameraSystem.StateMachine.States
 {
-    public class Move : StateMachineBehaviour
+    public class Move : SceneLinkedSMB<CameraController>
     {
-        CameraController controller;
-
-        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnSLTransitionToStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            controller = animator.GetComponent<CameraController>();
+            m_MonoBehaviour.CommandMoveCamera();
         }
 
-        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        public override void OnSLStateNoTransitionUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            controller.MoveCamera();
-        }
-
-        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-        {
-
+            m_MonoBehaviour.CommandMoveCamera();
         }
     }
 }
