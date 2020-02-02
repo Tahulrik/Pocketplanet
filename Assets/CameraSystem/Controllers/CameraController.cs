@@ -20,7 +20,13 @@ namespace CameraSystem.StateMachine.States
 
     public class CameraController : MonoBehaviour
     {
-        public LeanFingerFilter FingerFilter = new LeanFingerFilter(true);
+        public GameObject TestEventObject;
+
+
+        LeanFingerFilter TouchFilter = new LeanFingerFilter(true);
+        LeanFingerFilter TapFilter = new LeanFingerFilter(true);
+        LeanFingerFilter SwipeFilter = new LeanFingerFilter(true);
+        LeanFingerFilter PinchFilter = new LeanFingerFilter(true);
         List<LeanFinger> ActiveFingers;
 
         public float PlanetRadius = 8;
@@ -36,6 +42,8 @@ namespace CameraSystem.StateMachine.States
         GameObject CameraTarget;
         Camera MainCam;
         Animator animator;
+
+        public float PinchLevel = 1f;
         [Range(0.1f, 1)]
         public float CurrentZoomAmount = 0.1f;
         [Range(0.15f, 0.95f)]
@@ -45,8 +53,11 @@ namespace CameraSystem.StateMachine.States
         [Range(10f, 50f)]
         public float CameraRotationSpeed = 25f;
         static float SwipeTargetAngle = 0;
-        public float SwipeCurrentDampening = 2.5f;
+        
+        float SwipeCurrentDampening = 2.5f;
         public float SwipeMinimumDampening = 2.5f, SwipeMaximumDampening = 5f;
+        [Range(0, 2f)]
+        public float SwipeForceModifier = 1;
 
         public CameraState CurrentCameraState;
         bool IsCameraReset
@@ -63,18 +74,7 @@ namespace CameraSystem.StateMachine.States
             }
         }
 
-        bool IsCurrentActionManual
-        {
-            get
-            {
-                if (CurrentCameraState == CameraState.EventView || CurrentCameraState == CameraState.MovingTo)
-                {
-                    return false;
-                }
-                return true;
-            }
-        }
-
+        bool IsCurrentActionManual = true;
 
         [Tooltip("This is set to true the frame a multi-tap occurs.")]
         public bool MultiTap;
@@ -92,7 +92,7 @@ namespace CameraSystem.StateMachine.States
 
         // Previous fingerCount
         private int lastFingerCount;
-        private Vector2 lastFingerWorldPos;
+        public Vector2 lastFingerWorldPos;
 
         float cameraDistance;
 
@@ -102,6 +102,7 @@ namespace CameraSystem.StateMachine.States
             LeanTouch.OnFingerUp += CommandRemoveFinger;
 
             LeanTouch.OnFingerSwipe += CommandFingerSwipe;
+            LeanTouch.OnFingerOld += CommandFingerHold;
         }
 
         void OnDisable()
@@ -110,6 +111,7 @@ namespace CameraSystem.StateMachine.States
             LeanTouch.OnFingerUp -= CommandRemoveFinger;
 
             LeanTouch.OnFingerSwipe -= CommandFingerSwipe;
+            LeanTouch.OnFingerOld -= CommandFingerHold;
         }
 
         // Start is called before the first frame update
@@ -123,21 +125,30 @@ namespace CameraSystem.StateMachine.States
             CameraHolder = CameraTarget.transform.parent.gameObject;
 
             SceneLinkedSMB<CameraController>.Initialise(animator, this);
+
+            TapFilter.RequiredFingerCount = 1;
+            SwipeFilter.RequiredFingerCount = 1;
+            PinchFilter.RequiredFingerCount = 2;
+
+            SwipeCurrentDampening = SwipeMinimumDampening;
+            SetManualAction(true);
         }
 
         // Update is called once per frame
         void Update()
         {
-            ActiveFingers = FingerFilter.GetFingers(true);
+            ActiveFingers = TouchFilter.GetFingers();
+            
+            animator.SetInteger("ActiveFingers", ActiveFingers.Count);
+
 
             if (CheckForDoubleTap())
             {
-                if(IsCurrentActionManual)
-                {
-                    lastFingerWorldPos = ActiveFingers[0].GetWorldPosition(1); //Should be part of checking for double tap
-                    animator.SetBool("IsMovingToPosition", true);
-                }
+                lastFingerWorldPos = TouchFilter.GetFingers()[0].GetWorldPosition(cameraDistance); //Should be part of checking for double tap
+                animator.SetBool("IsMovingToPosition", true);
             }
+
+            CheckForFingerPinch();
         }
 
         #region Commands
@@ -148,9 +159,8 @@ namespace CameraSystem.StateMachine.States
             {
                 return;
             }
-
-            animator.SetInteger("ActiveFingers", FingerFilter.GetFingers(true).Count);
         }
+
         //Find out what the resulting 
         void CommandRemoveFinger(LeanFinger finger)
         {
@@ -158,46 +168,47 @@ namespace CameraSystem.StateMachine.States
             {
                 return;
             }
-
-            animator.SetInteger("ActiveFingers", FingerFilter.GetFingers(true).Count);
-
-            if (FingerFilter.GetFingers(true).Count == 0)
-            {
-                ResetCamera();
-            }
         }
+
         void CommandFingerSwipe(LeanFinger finger)
         {
-            if (!IsCurrentActionManual)
+            if (CurrentZoomAmount < ZoomLevelSnapThreshold)
             {
-                return;
+                if (SwipeFilter.GetFingers().Count == 1)
+                {
+                    SetSwipeTarget(finger);
+                }
             }
+        }
 
-            if (ActiveFingers.Count == 1)
-            {
-                SetSwipeTarget(finger);
-            }
+        void CommandFingerHold(LeanFinger finger)
+        {
+            if (SwipeTargetAngle != 0)
+                SwipeCurrentDampening = SwipeMaximumDampening; 
         }
     
         public void CommandZoomCamera()
         {
-            var zoomAmount = LeanGesture.GetPinchScale(ActiveFingers);
+            var screenPoint = default(Vector2);
 
-            if (zoomAmount != 1.0f) //Fingers changed position
+            if (LeanGesture.TryGetScreenCenter(ActiveFingers, ref screenPoint) == true)
             {
-                var screenPoint = default(Vector2);
+                var newZoomLevel = CurrentZoomAmount * PinchLevel;
 
-                if (LeanGesture.TryGetScreenCenter(ActiveFingers, ref screenPoint) == true)
+                SetZoomLevel(newZoomLevel);
+
+                if (CurrentZoomAmount < ZoomLevelSnapThreshold)
                 {
-                    var newZoomLevel = CurrentZoomAmount * zoomAmount;
-
-                    SetZoomLevel(newZoomLevel);
+                    CentreCameraOnOrigin();
                 }
+
             }
+
         }
+
         public void CommandMoveCamera()
         {
-            var fingers = FingerFilter.GetFingers(true);
+            var fingers = TouchFilter.GetFingers(true);
 
             if (fingers.Count > 0)
             {
@@ -205,9 +216,10 @@ namespace CameraSystem.StateMachine.States
                 MoveCameraInViewField(fingers);
             }
         }
+
         public void CommandRotateCamera()
         {
-            var fingers = FingerFilter.GetFingers(true);
+            var fingers = TouchFilter.GetFingers(true);
 
             if (fingers.Count > 0)
             {
@@ -217,7 +229,7 @@ namespace CameraSystem.StateMachine.States
         }
         public void CommandSwipeCamera()
         {
-            if (Mathf.Abs(SwipeTargetAngle) < 2f)
+            if (Mathf.Abs(SwipeTargetAngle) < 5f)
             {
                 SwipeTargetAngle = 0;
                 animator.SetBool("IsSwiping", false);
@@ -225,6 +237,7 @@ namespace CameraSystem.StateMachine.States
 
             FindNextSwipePosition();
         }
+
         public void CommandMoveTo()
         {
             var target = lastFingerWorldPos;
@@ -286,11 +299,6 @@ namespace CameraSystem.StateMachine.States
                 else if (fingerScreenPos.x > rightBoundary)
                     rotationDirection = -1;
 
-                if (rotationDirection != 0)
-                {
-                    animator.SetBool("InRotateArea", true);
-                }
-
                 RotateCameraByAmount(CameraRotationSpeed * rotationDirection);
             }
         }
@@ -302,6 +310,10 @@ namespace CameraSystem.StateMachine.States
         #endregion
 
         #region SwipeCameraFunctions
+        public void SetCurrentSwipeDampening(float newDampening)
+        {
+            SwipeCurrentDampening = newDampening;
+        }
         void SetSwipeTarget(LeanFinger finger)
         {
             float maxForce = 350;
@@ -309,7 +321,7 @@ namespace CameraSystem.StateMachine.States
             float swipeAmountInAngles = 0;
 
             float swipeForce = Mathf.Clamp(finger.SwipeScreenDelta.x, -maxForce, maxForce);
-            swipeAmountInAngles = (swipeForce / maxForce) * 500;
+            swipeAmountInAngles = (swipeForce / maxForce) * (1000 * SwipeForceModifier);
 
             SwipeTargetAngle += swipeAmountInAngles;
 
@@ -318,13 +330,13 @@ namespace CameraSystem.StateMachine.States
 
         void FindNextSwipePosition()
         {
-            var moveAmountPerFrame = Mathf.Lerp(0, SwipeTargetAngle, Time.deltaTime * SwipeCurrentDampening);
+            var moveAmountPerFrame = SwipeTargetAngle * Time.deltaTime;
 
             var newRotationEuler = new Vector3(0, 0, moveAmountPerFrame);
 
             transform.Rotate(newRotationEuler);
 
-            SwipeTargetAngle -= moveAmountPerFrame;
+            SwipeTargetAngle -= SwipeTargetAngle * (Time.deltaTime * SwipeCurrentDampening);
         }
         #endregion
 
@@ -339,8 +351,8 @@ namespace CameraSystem.StateMachine.States
             {
                 snapZoomCurrentLevel += (Time.deltaTime * zoomDir) / 1.5f; // this will always take 1.5 seconds - how do i make it take 1.5 seconds for the entire distance
                 SetZoomLevel(snapZoomCurrentLevel);
-
-                if (CurrentZoomAmount == 0.1f || CurrentZoomAmount == 1)
+                
+                if (CurrentZoomAmount == 0.1f || CurrentZoomAmount == 0.9f)
                     return true;
                 else
                     return false;
@@ -359,10 +371,12 @@ namespace CameraSystem.StateMachine.States
             float moveCurveVal = 0f;
             var RemainingZoom = CurrentZoomAmount;
             Vector3 rotationEuler = Vector3.zero;
-
+            
             angleBetweenCameraAndPoint = Vector2.SignedAngle(targetPosition, CameraHolder.transform.position);
             TargetRotation = -angleBetweenCameraAndPoint;
             RemainingLerp = 0;
+
+            //Debug.DrawLine(Vector3.zero, targetPosition, Color.magenta, 10);
             yield return new WaitUntil(() =>
             {
                 RemainingLerp = Mathf.Clamp01(RemainingLerp + (Time.deltaTime / 2f));
@@ -374,7 +388,6 @@ namespace CameraSystem.StateMachine.States
                 Quaternion rot = transform.rotation;
                 rot.eulerAngles = rotationEuler;
                 transform.rotation = rot;
-
                 SetZoomLevel(RemainingZoom);
 
                 if (RemainingLerp < 1)
@@ -396,17 +409,20 @@ namespace CameraSystem.StateMachine.States
             float moveCurveVal = 0f;
             var RemainingZoom = CurrentZoomAmount;
             Vector3 rotationEuler = Vector3.zero;
-            angleBetweenCameraAndPoint = Vector2.SignedAngle(targetPosition, CameraHolder.transform.position);
-            TargetRotation = -angleBetweenCameraAndPoint;
+            var CurrentPos = new Vector2(CameraTarget.transform.position.x, 1);
+            Debug.DrawLine(Vector3.zero, CurrentPos, Color.blue, 10);
+            angleBetweenCameraAndPoint = Vector2.SignedAngle(targetPosition, CurrentPos);
+            TargetRotation = (-angleBetweenCameraAndPoint);
             float maxAngle = 180;
             float maxZoomAmount = 0f;
             float timeToReachPosition = 2f;
 
-            if (CurrentZoomAmount == 1)
+            if(CurrentZoomAmount > ZoomLevelSnapThreshold)
             { 
-                maxZoomAmount = Mathf.Clamp01(1 - (Mathf.Abs(TargetRotation/2f) / maxAngle)*0.75f);
+                maxZoomAmount = Mathf.Clamp01(1 - (Mathf.Abs(TargetRotation/2f) / maxAngle)*0.25f);
             }
-            timeToReachPosition = (2 - maxZoomAmount/4f);
+
+            timeToReachPosition = 4;
 
             Keyframe start = new Keyframe(0.1f, CurrentZoomAmount);
             Keyframe midLeft = new Keyframe(0.45f, maxZoomAmount);
@@ -459,7 +475,7 @@ namespace CameraSystem.StateMachine.States
             SetCameraZoomState();
             if (IsCameraReset)
                 return;
-
+            
             StartCoroutine(SnapCameraToZoomPosition());
         }
 
@@ -485,9 +501,9 @@ namespace CameraSystem.StateMachine.States
         {
             bool result = false;
             // Get fingers and calculate how many are still touching the screen
-            var fingers = FingerFilter.GetFingers();
+            var fingers = TouchFilter.GetFingers();
             var fingerCount = GetFingerCount(fingers);
-
+            
             // At least one finger set?
             if (fingerCount > 0)
             {
@@ -530,7 +546,6 @@ namespace CameraSystem.StateMachine.States
             lastFingerCount = fingerCount;
             return result;
         }
-
         private int GetFingerCount(List<LeanFinger> fingers)
         {
             var count = 0;
@@ -545,18 +560,46 @@ namespace CameraSystem.StateMachine.States
 
             return count;
         }
+        bool CheckForFingerPinch()
+        {
+            var fingers = PinchFilter.GetFingers();
+            if (fingers.Count < 2)
+            {
+                animator.SetBool("IsPinching", false);
+                return false;
+            }
+
+            animator.SetBool("IsPinching", true);
+            PinchLevel = LeanGesture.GetPinchScale(ActiveFingers);
+            return true;
+        }
+        public void SetManualAction(bool newValue)
+        {
+            IsCurrentActionManual = newValue;
+            animator.SetBool("IsCurrentActionManual", newValue);
+        }
         Vector2 EventPos;
         public void TestMethod_SpawnRandomEvent()
         {
             EventPos = new Vector2(Random.Range(-10, 10), Random.Range(-10, 10));
+           /* var obj = Instantiate(TestEventObject);
+            obj.transform.position = EventPos.normalized * PlanetRadius;
+            Quaternion quat = Quaternion.identity;
+            quat.eulerAngles = EventPos.normalized * PlanetRadius;
+            obj.transform.rotation = quat;
+            Destroy(obj, 10);
+            Debug.DrawLine(Vector3.zero, EventPos.normalized*PlanetRadius, Color.red, 10);*/
+            //EventPos = new Vector2(2, 2);
             var randomVal = Random.Range(1, 10);
             if (randomVal > 5)
             { 
-                animator.SetTrigger("GoToPreviousPosition");
+               // animator.SetTrigger("GoToPreviousPosition");
             }
             animator.SetBool("IsMovingToPosition", true);
             animator.SetTrigger("EventHappened");
         }
+
+
 
 
     }

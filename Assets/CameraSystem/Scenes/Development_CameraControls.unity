@@ -4757,12 +4757,12 @@ PrefabInstance:
     - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
         type: 3}
       propertyPath: SwipeCurrentDampening
-      value: 2.5
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
         type: 3}
       propertyPath: CurrentZoomAmount
-      value: 0.1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
         type: 3}
@@ -4843,6 +4843,26 @@ PrefabInstance:
         type: 3}
       propertyPath: CameraZoomMoveCurve.m_Curve.Array.data[1].inWeight
       value: 0.04818691
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: SwipeMinimumDampening
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: SwipeForceModifier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: ZoomLevelSnapThreshold
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 502855046458099133, guid: f7a3f149756f3944db6a1b29cecb2c8f,
+        type: 3}
+      propertyPath: FarthestZoom
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7a3f149756f3944db6a1b29cecb2c8f, type: 3}
