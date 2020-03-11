@@ -320,7 +320,7 @@ namespace CameraSystem.StateMachine.States
             float maxForce = 350;
 
             float swipeForce = Mathf.Clamp(finger.SwipeScreenDelta.x, -maxForce, maxForce);
-            swipeAmountInAngles = (swipeForce / maxForce) * (1000 * SwipeForceModifier);
+            var swipeAmountInAngles = (swipeForce / maxForce) * (1000 * SwipeForceModifier);
 
             SwipeTargetAngle += swipeAmountInAngles;
 
