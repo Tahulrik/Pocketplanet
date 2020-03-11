@@ -246,6 +246,7 @@ namespace CameraSystem.StateMachine.States
 
         public void CommandMoveToEvent()
         {
+
             StartCoroutine(MoveCameraToEvent(EventPos));
         }
         #endregion
@@ -318,8 +319,6 @@ namespace CameraSystem.StateMachine.States
         {
             float maxForce = 350;
 
-            float swipeAmountInAngles = 0;
-
             float swipeForce = Mathf.Clamp(finger.SwipeScreenDelta.x, -maxForce, maxForce);
             swipeAmountInAngles = (swipeForce / maxForce) * (1000 * SwipeForceModifier);
 
@@ -369,18 +368,15 @@ namespace CameraSystem.StateMachine.States
             float TargetRotation = 0;
             float RemainingLerp = 0;
             float moveCurveVal = 0f;
-            var RemainingZoom = CurrentZoomAmount;
             Vector3 rotationEuler = Vector3.zero;
             
             angleBetweenCameraAndPoint = Vector2.SignedAngle(targetPosition, CameraHolder.transform.position);
             TargetRotation = -angleBetweenCameraAndPoint;
             RemainingLerp = 0;
 
-            //Debug.DrawLine(Vector3.zero, targetPosition, Color.magenta, 10);
             yield return new WaitUntil(() =>
             {
                 RemainingLerp = Mathf.Clamp01(RemainingLerp + (Time.deltaTime / 2f));
-                RemainingZoom = Mathf.Clamp01(RemainingZoom + (Time.deltaTime / 2f));
 
                 moveCurveVal = CameraMoveToCurve.Evaluate(RemainingLerp) * TargetRotation;
                 CurrentRotation += moveCurveVal * Time.deltaTime;
@@ -388,12 +384,56 @@ namespace CameraSystem.StateMachine.States
                 Quaternion rot = transform.rotation;
                 rot.eulerAngles = rotationEuler;
                 transform.rotation = rot;
-                SetZoomLevel(RemainingZoom);
+                SetZoomLevel(RemainingLerp);
 
                 if (RemainingLerp < 1)
                     return false;
                 else
                     return true;
+            });
+            animator.SetBool("IsMovingToPosition", false);
+            SetCameraZoomState();
+        }
+
+        IEnumerator MoveCameraToSelectedAngle(float targetAngle)
+        {
+            CurrentCameraState = CameraState.MovingTo;
+            float currentRotation = transform.rotation.eulerAngles.z;
+            float targetRotation = targetAngle;
+            float remainingLerp = 0;
+            float moveCurveVal = 0f;
+            float rotateDir = 1;
+            float angleBetweenCameraAndPoint = currentRotation - targetRotation;
+            Vector3 rotationEuler = Vector3.zero;
+
+            if (angleBetweenCameraAndPoint < currentRotation)
+                rotateDir = -1;
+            else
+                rotateDir = 1;
+
+            remainingLerp = 0;
+            var remainingRotate = 0f;
+            yield return new WaitUntil(() =>
+            {
+                if (currentRotation == targetRotation)
+                    return true;
+
+                moveCurveVal = CameraMoveToCurve.Evaluate(remainingLerp);
+                currentRotation = moveCurveVal * targetRotation;
+                rotationEuler = new Vector3(0, 0, currentRotation * rotateDir);
+
+                Quaternion rot = transform.rotation;
+
+                rot.eulerAngles = rotationEuler;
+                transform.rotation = rot;
+
+                SetZoomLevel(remainingLerp);
+
+                if (remainingLerp >= 1)
+                    return true;
+                else
+                    return false;
+
             });
             animator.SetBool("IsMovingToPosition", false);
             SetCameraZoomState();
@@ -409,10 +449,9 @@ namespace CameraSystem.StateMachine.States
             float moveCurveVal = 0f;
             var RemainingZoom = CurrentZoomAmount;
             Vector3 rotationEuler = Vector3.zero;
-            var CurrentPos = new Vector2(CameraTarget.transform.position.x, 1);
-            Debug.DrawLine(Vector3.zero, CurrentPos, Color.blue, 10);
-            angleBetweenCameraAndPoint = Vector2.SignedAngle(targetPosition, CurrentPos);
-            TargetRotation = (-angleBetweenCameraAndPoint);
+            Debug.DrawLine(Vector3.zero, targetPosition, Color.blue, 10);
+            angleBetweenCameraAndPoint = Vector2.SignedAngle(targetPosition, CameraHolder.transform.position);
+            TargetRotation = -angleBetweenCameraAndPoint;
             float maxAngle = 180;
             float maxZoomAmount = 0f;
             float timeToReachPosition = 2f;
@@ -422,7 +461,7 @@ namespace CameraSystem.StateMachine.States
                 maxZoomAmount = Mathf.Clamp01(1 - (Mathf.Abs(TargetRotation/2f) / maxAngle)*0.25f);
             }
 
-            timeToReachPosition = 4;
+            timeToReachPosition = 2;
 
             Keyframe start = new Keyframe(0.1f, CurrentZoomAmount);
             Keyframe midLeft = new Keyframe(0.45f, maxZoomAmount);
@@ -442,9 +481,9 @@ namespace CameraSystem.StateMachine.States
             {
                 lerpAmount += Time.deltaTime / timeToReachPosition;
                 RemainingMove = Mathf.Clamp01(lerpAmount);
-                RemainingZoom = CameraFocusOnEventCurve.Evaluate(lerpAmount);
+                RemainingZoom = Mathf.Clamp01(CameraFocusOnEventCurve.Evaluate(lerpAmount));
 
-                if (RemainingMove < 1)
+                if (RemainingMove <= 1)
                 {
                     moveCurveVal = CameraMoveToCurve.Evaluate(RemainingMove) * TargetRotation;
                     CurrentRotation += moveCurveVal * Time.deltaTime;
@@ -453,7 +492,7 @@ namespace CameraSystem.StateMachine.States
                     rot.eulerAngles = rotationEuler;
                     transform.rotation = rot;
                 }
-                if (lerpAmount < 1)
+                if (lerpAmount <= 1)
                 { 
                     SetZoomLevel(RemainingZoom);
                 }
@@ -466,7 +505,7 @@ namespace CameraSystem.StateMachine.States
             animator.SetBool("IsMovingToPosition", false);
             SetCameraZoomState();
         }
-        //Go To Event
+
         //FocusOnEvent
         #endregion
 
