@@ -28,12 +28,21 @@ namespace InteractionSystem.UI
 
                 newSlice.transform.rotation = Quaternion.Euler(0,0, rotationAmount);
             }
+
+            transform.GetChild(0).gameObject.SetActive(false);
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (Input.GetMouseButtonDown(1))
+            {
+                
 
+                transform.position = Camera.main.WorldToScreenPoint(EntityInteracted.transform.position);
+                transform.rotation = EntityInteracted.transform.rotation;
+                transform.GetChild(0).gameObject.SetActive(true);
+            }
         }
 
         GameObject CreateNewMenuSlice(int sliceAmount)
@@ -49,7 +58,7 @@ namespace InteractionSystem.UI
             imageComponent.sprite = MenuItemImage;
 
             newSlice.transform.parent = MenuHolder;
-            newSlice.transform.localPosition = Vector3.zero;
+            newSlice.transform.localPosition = -Vector3.up*25;
             return newSlice;
         }
 
