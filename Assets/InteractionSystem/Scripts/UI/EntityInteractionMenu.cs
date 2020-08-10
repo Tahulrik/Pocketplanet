@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,24 +13,19 @@ namespace InteractionSystem.UI
         public WorldEntity EntityInteracted;
         public Sprite MenuItemImage;
         public Transform MenuHolder;
+        public Transform StatsHolder;
+
+        public Transform HealthView;
         // Start is called before the first frame update
         void Start()
         {
             var interactions = GetInteractionsFromEntity(EntityInteracted);
 
-            
-            for(int i = 1; i <= interactions.Count; i++)
-            {
-                int sliceAmount = interactions.Count;
-                var newSlice = CreateNewMenuSlice(sliceAmount);
-                newSlice.name = interactions[i - 1].ToString() + "Menu";
-                var stepLength = (180 / sliceAmount) * (i-1);
-                var rotationAmount = -stepLength;
+            CreateInteractionRadialMenuSlices(interactions);
 
-                newSlice.transform.rotation = Quaternion.Euler(0,0, rotationAmount);
-            }
-
-            transform.GetChild(0).gameObject.SetActive(false);
+            var healthText = HealthView.GetComponent<TextMeshProUGUI>();
+            healthText.text = $"Health: {EntityInteracted.CurrentHealth}";
+            //transform.GetChild(0).gameObject.SetActive(false);
         }
 
         // Update is called once per frame
@@ -37,17 +33,51 @@ namespace InteractionSystem.UI
         {
             if (Input.GetMouseButtonDown(1))
             {
-                
+                SetPlacementPositionInUISpace(transform);
 
-                transform.position = Camera.main.WorldToScreenPoint(EntityInteracted.transform.position);
-                transform.rotation = EntityInteracted.transform.rotation;
-                transform.GetChild(0).gameObject.SetActive(true);
+
+                
             }
         }
 
-        GameObject CreateNewMenuSlice(int sliceAmount)
+        void CreateInteractionRadialMenuSlices(List<Interactions.Interaction> interactions)
         {
-            var sliceSize = 0.5f / sliceAmount /*- 10 / 360f*/;
+            for (int i = 1; i <= interactions.Count; i++)
+            {
+                int sliceAmount = interactions.Count;
+                var newSlice = CreateNewMenuSlice(sliceAmount, 360, MenuHolder);
+                newSlice.name = interactions[i - 1].ToString() + "Menu";
+                var stepLength = (360f / sliceAmount) * (i - 1);
+                var rotationAmount = -stepLength;
+
+                newSlice.transform.rotation = Quaternion.Euler(0, 0, rotationAmount);
+            }
+        }
+
+        void SetPlacementPositionInUISpace(Transform menuItem)
+        {
+            var BoundsForObject = EntityInteracted.GetComponent<SpriteRenderer>().bounds;
+            
+
+
+            transform.position = Camera.main.WorldToScreenPoint(BoundsForObject.center);
+            transform.rotation = EntityInteracted.transform.rotation;
+            transform.GetChild(0).gameObject.SetActive(true);   
+        }
+
+        GameObject CreateNewMenuSlice(int sliceAmount, float circumference, Transform parent)
+        {
+            if (circumference > 360)
+            {
+                circumference = 360;
+            }
+            else if (circumference < 0)
+            {
+                circumference = 0;
+            }
+
+            var fillAmount = circumference / 360f;
+            var sliceSize = fillAmount / sliceAmount - 2f / circumference;
 
             GameObject newSlice = new GameObject();
             var imageComponent = newSlice.AddComponent<Image>();
@@ -57,8 +87,8 @@ namespace InteractionSystem.UI
             imageComponent.fillAmount = sliceSize;
             imageComponent.sprite = MenuItemImage;
 
-            newSlice.transform.parent = MenuHolder;
-            newSlice.transform.localPosition = -Vector3.up*25;
+            newSlice.transform.parent = parent;
+            newSlice.transform.localPosition = Vector3.zero;
             return newSlice;
         }
 
@@ -68,8 +98,6 @@ namespace InteractionSystem.UI
 
             return components;
         }
-
-
     }
 }
 
