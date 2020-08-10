@@ -40,33 +40,7 @@ namespace InteractionSystem.CameraSystem
         GameObject CameraHolder;
         GameObject CameraTarget;
 
-        WorldEntity _worldTarget;
-        WorldEntity WorldTarget
-        {
-            get 
-            {
-                if (_worldTarget != null)
-                {
-                    var xDiff = _worldTarget.transform.position.x - CameraTarget.transform.position.x;
-                    var yDiff = _worldTarget.transform.position.y - CameraTarget.transform.position.y;
-                    if ((xDiff > 0.5f || xDiff < -0.5f) && ((yDiff > 0.5f || yDiff < -0.5f)))
-                    {
-                        _worldTarget = null;
-                        return null;
-                    }
-
-                    return _worldTarget;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            set
-            {
-                _worldTarget = value;
-            }
-        }
+        WorldEntity _worldEntityCameraTarget;
 
         Camera MainCam;
         Animator animator;
@@ -134,7 +108,7 @@ namespace InteractionSystem.CameraSystem
             LeanTouch.OnFingerSwipe += CommandFingerSwipe;
             LeanTouch.OnFingerOld += CommandFingerHold;
 
-            InteractionController.OnEntityClicked += CommandMoveToEntity;
+            InteractionController.EntitySelected += CommandMoveToEntity;
         }
 
         void OnDisable()
@@ -171,7 +145,6 @@ namespace InteractionSystem.CameraSystem
         // Update is called once per frame
         void Update()
         {
-            //print(WorldTarget?.name);
             ActiveFingers = TouchFilter.GetFingers();
             
             animator.SetInteger("ActiveFingers", ActiveFingers.Count);
@@ -281,10 +254,9 @@ namespace InteractionSystem.CameraSystem
 
         public void CommandMoveToEntity(WorldEntity entity)
         {
-            
-            if (WorldTarget == null) 
+            if (_worldEntityCameraTarget == null) 
             {
-                WorldTarget = entity;
+                _worldEntityCameraTarget = entity;
                 StartCoroutine(MoveCameraToSelectedPosition(entity.transform.position));
             }
         }
@@ -684,7 +656,10 @@ namespace InteractionSystem.CameraSystem
         }
 
 
-
+        private void EntityDeselected()
+        {
+            _worldEntityCameraTarget = null;
+        }
 
     }
 }

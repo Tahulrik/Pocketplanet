@@ -1,4 +1,5 @@
-﻿using InteractionSystem.Interactions;
+﻿using InteractionSystem.CameraSystem;
+using InteractionSystem.Interactions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,36 +9,77 @@ using UnityEngine.UI;
 
 namespace InteractionSystem.UI
 {
-    public class EntityInteractionMenu : MonoBehaviour
+    public class EntityInteractionMenu : MonoBehaviour, IDebugLogger
     {
-        public WorldEntity EntityInteracted;
+        public bool LogInteractions = false;
+
         public Sprite MenuItemImage;
         public Transform MenuHolder;
         public Transform StatsHolder;
 
         public Transform HealthView;
+
+        bool MenuActive;
+        WorldEntity _entityInteracted;
+        private void OnEnable()
+        {
+            InteractionController.EntitySelected += EnableInteractionMenuForInteraction;
+            InteractionController.EntityDeselected += DisableInteractionMenuForInteraction;
+        }
+
+        private void OnDisable()
+        {
+            InteractionController.EntitySelected -= EnableInteractionMenuForInteraction;
+            InteractionController.EntityDeselected -= DisableInteractionMenuForInteraction;
+        }
+
         // Start is called before the first frame update
         void Start()
         {
-            var interactions = GetInteractionsFromEntity(EntityInteracted);
+            MenuActive = true; //Ensure that interactionMenu state can be set
+            SetInteractionMenuActiveState(false);
+        }
+
+        // Update is called once per frame
+        void LateUpdate() //What update?
+        {
+            if (MenuActive)
+            {
+                UpdatePlacementTransformInUISpace();
+            }
+        }
+
+        void SetupInteractionMenuForInteractedObject(WorldEntity entity)
+        {
+            if (_entityInteracted == null || _entityInteracted != entity)
+            {
+                DeleteMenuButtons();
+            }
+
+            var interactions = GetInteractionsFromEntity(entity);
 
             CreateInteractionRadialMenuSlices(interactions);
 
             var healthText = HealthView.GetComponent<TextMeshProUGUI>();
-            healthText.text = $"Health: {EntityInteracted.CurrentHealth}";
-            gameObject.SetActive(false);
+            healthText.text = $"Health: {entity.CurrentHealth}";
         }
 
-        // Update is called once per frame
-        void Update()
+        void EnableInteractionMenuForInteraction(WorldEntity entity) // entity will always be null here
         {
-            if (Input.GetMouseButtonDown(1))
+            if (_entityInteracted != entity)
             {
-                SetPlacementPositionInUISpace(transform);
-
-
-                
+                SetupInteractionMenuForInteractedObject(entity);
+                _entityInteracted = entity; 
             }
+
+            SetInteractionMenuActiveState(true);
+        }
+
+        void DisableInteractionMenuForInteraction(WorldEntity entity) // entity will always be null here
+        {
+            SetInteractionMenuActiveState(false);
+
+            DeleteMenuButtons();
         }
 
         void CreateInteractionRadialMenuSlices(List<Interactions.Interaction> interactions)
@@ -54,15 +96,15 @@ namespace InteractionSystem.UI
             }
         }
 
-        void SetPlacementPositionInUISpace(Transform menuItem)
+        void UpdatePlacementTransformInUISpace()
         {
-            var BoundsForObject = EntityInteracted.GetComponent<SpriteRenderer>().bounds;
-            
+            var BoundsForObject = _entityInteracted.GetComponent<SpriteRenderer>().bounds;
 
-
-            transform.position = Camera.main.WorldToScreenPoint(BoundsForObject.center);
-            transform.rotation = EntityInteracted.transform.rotation;
-            transform.GetChild(0).gameObject.SetActive(true);   
+            var scaleAmount =  (CameraController.instance.CurrentZoomAmount) / (BoundsForObject.extents.x * 2);
+            transform.position = BoundsForObject.center;//Camera.main.WorldToScreenPoint(BoundsForObject.center);
+            transform.rotation = _entityInteracted.transform.rotation;
+            transform.localScale = new Vector2(scaleAmount, scaleAmount);
+            Log(scaleAmount.ToString());
         }
 
         GameObject CreateNewMenuSlice(int sliceAmount, float circumference, Transform parent)
@@ -89,6 +131,7 @@ namespace InteractionSystem.UI
 
             newSlice.transform.parent = parent;
             newSlice.transform.localPosition = Vector3.zero;
+            newSlice.transform.localScale = Vector3.one;
             return newSlice;
         }
 
@@ -97,6 +140,34 @@ namespace InteractionSystem.UI
             var components = entity.GetComponents<Interactions.Interaction>().ToList();
 
             return components;
+        }
+
+        private void DeleteMenuButtons()
+        {
+            if (MenuHolder.childCount > 0)
+            {
+                foreach (Transform slice in MenuHolder)
+                {
+                    Destroy(slice.gameObject);
+                }
+
+                _entityInteracted = null;
+            }
+        }
+
+        private void SetInteractionMenuActiveState(bool activeState)
+        {
+            if (MenuActive != activeState)
+            { 
+                MenuHolder.parent.gameObject.SetActive(activeState);
+                MenuActive = activeState;
+            }
+        }
+
+        public void Log(string message)
+        {
+            if (LogInteractions)
+                print(message);
         }
     }
 }

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameControllerBase : MonoBehaviour
+public class BaseGameController : MonoBehaviour, IDebugLogger
 {
-    public static GameControllerBase instance;
+    public bool LogEvents = false;
+    public static BaseGameController instance;
     void Awake()
     {
         instance = this;
@@ -13,12 +14,20 @@ public class GameControllerBase : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    public void Log(string message)
+    {
+        if (LogEvents)
+        {
+            print(message);
+        }
     }
 }

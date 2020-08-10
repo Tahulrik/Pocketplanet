@@ -1,4 +1,5 @@
-﻿using Lean.Touch;
+﻿using InteractionSystem.UI;
+using Lean.Touch;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,17 +8,22 @@ using UnityEngine;
 
 namespace InteractionSystem
 {
-    public class InteractionController : MonoBehaviour
+    public class InteractionController : BaseGameController
     {
         public delegate void EntityClicked(WorldEntity entity);
-        public static event EntityClicked OnEntityClicked;
+        public static event EntityClicked EntitySelected;
+        public static event EntityClicked EntityDeselected;
 
         //public static InteractionController instance;
+
+        public WorldEntity selectedEntity;
+        public EntityInteractionMenu interactionMenu;
+
 
         // Start is called before the first frame update
         void Awake()
         {
-
+            interactionMenu = GameObject.Find("EntityInteractionMenu").GetComponent<EntityInteractionMenu>();
         }
 
         // Update is called once per frame
@@ -43,11 +49,24 @@ namespace InteractionSystem
             var result = Physics2D.Raycast(ClickPosition, Vector2.up);
             if (result != false)
             {
-                var clickedEntity = result.collider.gameObject.GetComponent<WorldEntity>();
+                selectedEntity = result.collider.gameObject.GetComponent<WorldEntity>();
 
-                if (clickedEntity != null)
-                    OnEntityClicked?.Invoke(clickedEntity);
+                if (selectedEntity != null)
+                {
+                    Log("Entity Selected");
+                    EntitySelected?.Invoke(selectedEntity);
+                }
             }
+            else
+            {
+                if (selectedEntity != null)
+                {
+                    Log("Entity Deselected");
+                    selectedEntity = null;
+                    EntityDeselected?.Invoke(null);
+                }
+            }
+
         }
     }
 }
