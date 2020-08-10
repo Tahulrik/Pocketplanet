@@ -6,8 +6,7 @@ using Lean.Touch;
 using Cinemachine;
 using System.Linq;
 
-
-namespace CameraSystem.StateMachine.States
+namespace InteractionSystem.CameraSystem
 { 
     public enum CameraState
     {
@@ -40,6 +39,35 @@ namespace CameraSystem.StateMachine.States
 
         GameObject CameraHolder;
         GameObject CameraTarget;
+
+        WorldEntity _worldTarget;
+        WorldEntity WorldTarget
+        {
+            get 
+            {
+                if (_worldTarget != null)
+                {
+                    var xDiff = _worldTarget.transform.position.x - CameraTarget.transform.position.x;
+                    var yDiff = _worldTarget.transform.position.y - CameraTarget.transform.position.y;
+                    if ((xDiff > 0.5f || xDiff < -0.5f) && ((yDiff > 0.5f || yDiff < -0.5f)))
+                    {
+                        _worldTarget = null;
+                        return null;
+                    }
+
+                    return _worldTarget;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                _worldTarget = value;
+            }
+        }
+
         Camera MainCam;
         Animator animator;
 
@@ -96,6 +124,8 @@ namespace CameraSystem.StateMachine.States
 
         float cameraDistance;
 
+        public static CameraController instance;
+
         void OnEnable()
         {
             LeanTouch.OnFingerDown += CommandSetFinger;
@@ -103,6 +133,8 @@ namespace CameraSystem.StateMachine.States
 
             LeanTouch.OnFingerSwipe += CommandFingerSwipe;
             LeanTouch.OnFingerOld += CommandFingerHold;
+
+            InteractionController.OnEntityClicked += CommandMoveToEntity;
         }
 
         void OnDisable()
@@ -132,11 +164,14 @@ namespace CameraSystem.StateMachine.States
 
             SwipeCurrentDampening = SwipeMinimumDampening;
             SetManualAction(true);
+
+            instance = this;
         }
 
         // Update is called once per frame
         void Update()
         {
+            //print(WorldTarget?.name);
             ActiveFingers = TouchFilter.GetFingers();
             
             animator.SetInteger("ActiveFingers", ActiveFingers.Count);
@@ -242,6 +277,16 @@ namespace CameraSystem.StateMachine.States
         {
             var target = lastFingerWorldPos;
             StartCoroutine(MoveCameraToSelectedPosition(target));
+        }
+
+        public void CommandMoveToEntity(WorldEntity entity)
+        {
+            
+            if (WorldTarget == null) 
+            {
+                WorldTarget = entity;
+                StartCoroutine(MoveCameraToSelectedPosition(entity.transform.position));
+            }
         }
 
         public void CommandMoveToEvent()

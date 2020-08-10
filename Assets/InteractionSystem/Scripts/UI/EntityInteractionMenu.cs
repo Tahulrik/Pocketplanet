@@ -25,7 +25,7 @@ namespace InteractionSystem.UI
 
             var healthText = HealthView.GetComponent<TextMeshProUGUI>();
             healthText.text = $"Health: {EntityInteracted.CurrentHealth}";
-            //transform.GetChild(0).gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
 
         // Update is called once per frame

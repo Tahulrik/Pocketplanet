@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CameraSystem.StateMachine.States
+namespace InteractionSystem.CameraSystem.States
 {
     public class Swipe : SceneLinkedSMB<CameraController>
     {

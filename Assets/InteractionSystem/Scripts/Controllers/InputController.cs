@@ -27,6 +27,8 @@ public class InputController : MonoBehaviour
     // Seconds at least one finger has been held down
     private float age;
 
+    public static InputController instance;
+
     void OnEnable()
     {
         LeanTouch.OnFingerDown += CommandSetFinger;
@@ -43,9 +45,9 @@ public class InputController : MonoBehaviour
         LeanTouch.OnFingerSwipe -= CommandFingerSwipe;
     }
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        instance = this;
     }
 
     // Update is called once per frame
@@ -61,7 +63,7 @@ public class InputController : MonoBehaviour
         {
             if (activePinchFingers[0] == finger)
             {
-                print("Pinch");
+
             }
             LeanGesture.GetPinchScale(PinchFilter.GetFingers());
         }
@@ -74,7 +76,7 @@ public class InputController : MonoBehaviour
 
     void CommandFingerSwipe(LeanFinger finger)
     {
-       print(SwipeFilter.GetFingers()[0].ToString());
+       //print(SwipeFilter.GetFingers()[0].ToString());
     }
 
     bool CheckForDoubleTap()
