@@ -19,6 +19,8 @@ namespace InteractionSystem.UI
 
         public Transform HealthView;
 
+        private RectTransform HolderRectTransform;
+
         bool MenuActive;
         WorldEntity _entityInteracted;
         private void OnEnable()
@@ -36,6 +38,10 @@ namespace InteractionSystem.UI
         // Start is called before the first frame update
         void Start()
         {
+            HolderRectTransform = MenuHolder.GetComponent<RectTransform>();
+            var menuRectTransform = transform.GetComponent<RectTransform>();
+            menuRectTransform.sizeDelta = new Vector2(Screen.width, Screen.height);
+
             MenuActive = true; //Ensure that interactionMenu state can be set
             SetInteractionMenuActiveState(false);
         }
@@ -87,7 +93,7 @@ namespace InteractionSystem.UI
             for (int i = 1; i <= interactions.Count; i++)
             {
                 int sliceAmount = interactions.Count;
-                var newSlice = CreateNewMenuSlice(sliceAmount, 360, MenuHolder);
+                var newSlice = CreateNewMenuSlice(sliceAmount, 360, MenuHolder.GetChild(0));
                 newSlice.name = interactions[i - 1].ToString() + "Menu";
                 var stepLength = (360f / sliceAmount) * (i - 1);
                 var rotationAmount = -stepLength;
@@ -98,13 +104,24 @@ namespace InteractionSystem.UI
 
         void UpdatePlacementTransformInUISpace()
         {
-            var BoundsForObject = _entityInteracted.GetComponent<SpriteRenderer>().bounds;
+            var clampValueMin = 100;
+            var clampValueMax = Screen.width - (Screen.width * 0.4f);
+            var BoundsForObject = _entityInteracted.GetComponent<Collider2D>().bounds;
+            var selectedSprite = _entityInteracted.GetComponent<SpriteRenderer>().sprite;
+            var pixelsAcrossSprite = selectedSprite.pixelsPerUnit * selectedSprite.bounds.size.x;
 
-            var scaleAmount =  (CameraController.instance.CurrentZoomAmount) / (BoundsForObject.extents.x * 2);
-            transform.position = BoundsForObject.center;//Camera.main.WorldToScreenPoint(BoundsForObject.center);
+            var scaleForMenu = (Mathf.Clamp(pixelsAcrossSprite, clampValueMin, clampValueMax) / 
+                Mathf.Clamp(HolderRectTransform.rect.width, clampValueMin, clampValueMax));
+
+
+            Log(scaleForMenu.ToString());
+            Log(BoundsForObject.extents.x.ToString());
+            //            HolderRectTransform.anchorMin = new Vector2(BoundsForObject.extents.;
+            //          HolderRectTransform.anchorMax = new Vector2();
+            MenuHolder.transform.position = BoundsForObject.center;
+            MenuHolder.transform.localScale = new Vector2(scaleForMenu, scaleForMenu);
             transform.rotation = _entityInteracted.transform.rotation;
-            transform.localScale = new Vector2(scaleAmount, scaleAmount);
-            Log(scaleAmount.ToString());
+
         }
 
         GameObject CreateNewMenuSlice(int sliceAmount, float circumference, Transform parent)
@@ -144,9 +161,11 @@ namespace InteractionSystem.UI
 
         private void DeleteMenuButtons()
         {
-            if (MenuHolder.childCount > 0)
+            var radialMenuHolder = MenuHolder.GetChild(0);
+            if (radialMenuHolder.childCount > 0)
             {
-                foreach (Transform slice in MenuHolder)
+                Log(MenuHolder.GetChild(0).name);
+                foreach (Transform slice in radialMenuHolder)
                 {
                     Destroy(slice.gameObject);
                 }
@@ -159,7 +178,7 @@ namespace InteractionSystem.UI
         {
             if (MenuActive != activeState)
             { 
-                MenuHolder.parent.gameObject.SetActive(activeState);
+                MenuHolder.gameObject.SetActive(activeState);
                 MenuActive = activeState;
             }
         }
