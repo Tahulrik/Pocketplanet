@@ -10,63 +10,99 @@ namespace InteractionSystem
 {
     public class InteractionController : BaseGameController
     {
-        public delegate void EntityClicked(WorldEntity entity);
-        public static event EntityClicked EntitySelected;
-        public static event EntityClicked EntityDeselected;
+        public delegate void WorldClick(Vector2 clickPosition, WorldEntity entity);
+        public static event WorldClick EntitySelected;
+        public static event WorldClick MapClicked;
+        public static event WorldClick EntityDeselected;
 
         //public static InteractionController instance;
 
-        public WorldEntity selectedEntity;
+        WorldEntity selectedEntity;
         public EntityInteractionMenu interactionMenu;
 
-
+        public static InteractionController instance;
         // Start is called before the first frame update
         void Awake()
         {
-            interactionMenu = GameObject.Find("EntityInteractionMenu").GetComponent<EntityInteractionMenu>();
+            interactionMenu = GameObject.Find("EntityInteractionMenu")?.GetComponent<EntityInteractionMenu>();
+
+            instance = this;
         }
 
         // Update is called once per frame
         void Update()
         {
-            var tapFingers = InputController.instance.TapFilter.GetFingers(true);
+            var tapFingers = InputController.instance.TapFilter.GetFingers();
+
+
             if (tapFingers.Count > 0)
             {
                 var tapFinger = tapFingers.First();
                 var tapWorldPos = tapFinger.GetWorldPosition(Vector3.forward.magnitude, Camera.main);
-
-                //print(tapWorldPos);
-                if (tapFinger.Down)
+                var result = Physics2D.Raycast(tapWorldPos, Vector2.up);
+                WorldEntity click = null;
+                if (result != false)
                 {
-                    DetectClickOnWorldEntity(tapWorldPos);
+                    click = result.collider.gameObject.GetComponent<WorldEntity>();
                 }
 
+                
+
+                if (InputController.instance.MultiTap)
+                {
+                    DetectIfClickOnWorldEntity(tapWorldPos, click);
+                }
+                else if(tapFinger.Down)
+                {
+                    DetectDeselect(tapWorldPos, click);
+                }
+            }
+            
+            
+        }
+
+        public float GetSizeOfSelectedWorldEntity()
+        {
+            var rend = selectedEntity.GetComponent<SpriteRenderer>();
+            var largestAxisInPixels = rend.size.y * rend.sprite.pixelsPerUnit;
+            return largestAxisInPixels;
+        }
+
+        public bool HasSelectedEntity()
+        {
+            bool result = (selectedEntity != null) ? true : false;
+            return result;
+        }
+
+        public Vector3 GetCentreOfSelectedWorldEntity()
+        {
+            var rend = selectedEntity.GetComponent<SpriteRenderer>();
+            return rend.bounds.center;
+        }
+
+        private void DetectIfClickOnWorldEntity(Vector2 worldClickPos, WorldEntity clickedEntity)
+        {
+            if (clickedEntity != null && clickedEntity != selectedEntity) //if clciked on world entity
+            {
+                Log($"New Entity: {clickedEntity.gameObject.name} Selected");
+                selectedEntity = clickedEntity;
+                EntitySelected?.Invoke(worldClickPos, clickedEntity);
+            }
+            else if (clickedEntity == null) //if clicked on map position
+            {
+                Log("Position on World Clicked");
+                MapClicked?.Invoke(worldClickPos, clickedEntity);
             }
         }
 
-        private void DetectClickOnWorldEntity(Vector2 ClickPosition)
+        private void DetectDeselect(Vector2 worldClickPos, WorldEntity clickedEntity)
         {
-            var result = Physics2D.Raycast(ClickPosition, Vector2.up);
-            if (result != false)
+            if (selectedEntity != null && clickedEntity == null)
             {
-                selectedEntity = result.collider.gameObject.GetComponent<WorldEntity>();
-
-                if (selectedEntity != null)
-                {
-                    Log("Entity Selected");
-                    EntitySelected?.Invoke(selectedEntity);
-                }
+                Log($"Entity: {selectedEntity.gameObject.name} Deselected");
+                selectedEntity = null;
+                EntityDeselected?.Invoke(worldClickPos, null);
             }
-            else
-            {
-                if (selectedEntity != null)
-                {
-                    Log("Entity Deselected");
-                    selectedEntity = null;
-                    EntityDeselected?.Invoke(null);
-                }
-            }
-
         }
     }
 }

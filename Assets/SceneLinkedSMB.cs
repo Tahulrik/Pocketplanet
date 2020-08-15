@@ -3,7 +3,7 @@ using UnityEngine.Animations;
 
 public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB where TMonoBehaviour : MonoBehaviour
 {
-    protected TMonoBehaviour m_MonoBehaviour;
+    protected TMonoBehaviour controller;
     private bool m_FirstFrameHappened;
     private bool m_LastFrameHappened;
 
@@ -19,7 +19,7 @@ public class SceneLinkedSMB<TMonoBehaviour> : SealedSMB where TMonoBehaviour : M
 
     protected void InternalInitialise(Animator animator, TMonoBehaviour monoBehaviour)
     {
-        m_MonoBehaviour = monoBehaviour;
+        controller = monoBehaviour;
         OnStart(animator);
     }
 

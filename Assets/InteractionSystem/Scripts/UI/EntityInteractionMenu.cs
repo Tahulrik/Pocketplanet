@@ -70,7 +70,7 @@ namespace InteractionSystem.UI
             healthText.text = $"Health: {entity.CurrentHealth}";
         }
 
-        void EnableInteractionMenuForInteraction(WorldEntity entity) // entity will always be null here
+        void EnableInteractionMenuForInteraction(Vector2 clickPosition, WorldEntity entity)
         {
             if (_entityInteracted != entity)
             {
@@ -81,7 +81,7 @@ namespace InteractionSystem.UI
             SetInteractionMenuActiveState(true);
         }
 
-        void DisableInteractionMenuForInteraction(WorldEntity entity) // entity will always be null here
+        void DisableInteractionMenuForInteraction(Vector2 clickPosition, WorldEntity entity) // entity will always be null here
         {
             SetInteractionMenuActiveState(false);
 
@@ -116,8 +116,7 @@ namespace InteractionSystem.UI
 
             Log(scaleForMenu.ToString());
             Log(BoundsForObject.extents.x.ToString());
-            //            HolderRectTransform.anchorMin = new Vector2(BoundsForObject.extents.;
-            //          HolderRectTransform.anchorMax = new Vector2();
+
             MenuHolder.transform.position = BoundsForObject.center;
             MenuHolder.transform.localScale = new Vector2(scaleForMenu, scaleForMenu);
             transform.rotation = _entityInteracted.transform.rotation;

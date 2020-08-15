@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,7 +28,8 @@ public class BaseGameController : MonoBehaviour, IDebugLogger
     {
         if (LogEvents)
         {
-            print(message);
+            string logFormattedMessage = $"{DateTime.Now.ToString()}: {message}";
+            print(logFormattedMessage);
         }
     }
 }
