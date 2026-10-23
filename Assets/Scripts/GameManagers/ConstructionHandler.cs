@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using InteractionTypes;
 using Buildings;
+using PocketPlanet.Planet;
 
 public class ConstructionHandler : MonoBehaviour {
 
@@ -16,6 +17,7 @@ public class ConstructionHandler : MonoBehaviour {
 
 	//TileInfo[] tiles;
 	public int MaxBuilding = 40;
+	const float MaxPlacementNudge = 1.5f;
 
 	//resources.load these sites
 	GameObject[] ConstructionSite;
@@ -97,49 +99,22 @@ public class ConstructionHandler : MonoBehaviour {
 		CreateNewBuildingAtPosition (position, prefab);
 	}
 
-	public void CreateNewBuildingAtPosition(Vector2 position, GameObject buildingType){
-		var planetRadius = Planet.Radius;
-		var placementPos = Planet.FindPointOnSurface (planetRadius, position);
-
-		var constructionSiteSize = GetConstructionSiteSize (buildingType);
-		//if (Intersecting(placementPos, buildingType) || InWater(placementPos, buildingType)) {
-		//	return;
-		//}
-
-		PlaceConstructionSite (buildingType, constructionSiteSize, placementPos);
+	public void CreateNewBuildingAtPosition(Vector2 position, GameObject buildingType)
+	{
+		TryPlaceConstructionSite(position, buildingType);
 	}
 
 	public void CreateNewBuildingAtPosition(Vector2 position, GameObject buildingType, bool intersectionCheck)
 	{
-		var planetRadius = Planet.Radius;
-		var placementPos = Planet.FindPointOnSurface(planetRadius, position);
-
-		var constructionSiteSize = GetConstructionSiteSize(buildingType);
-		if (intersectionCheck)
-		{ 
-			if (Intersecting(placementPos, buildingType) || InWater(placementPos, buildingType))
-			{
-				return;
-			}
-		}
-
-		PlaceConstructionSite(buildingType, constructionSiteSize, placementPos);	
+		TryPlaceConstructionSite(position, buildingType);
 	}
 
 	public void CreateNewBuildingsAtRandomPosition(GameObject buildingType, int amount)
 	{
 		for (int i = 0; i < amount; i++)
 		{
-			var planetRadius = Planet.Radius;
-			var placementPos = Planet.FindPointOnSurface(planetRadius, Random.insideUnitCircle);
-			
-			var constructionSiteSize = GetConstructionSiteSize(buildingType);
-			if (Intersecting(placementPos, buildingType) || InWater(placementPos, buildingType))
-			{
+			if (!TryPlaceConstructionSite(RandomSurfacePoint(), buildingType))
 				return;
-			}
-			
-			PlaceConstructionSite(buildingType, constructionSiteSize, placementPos);
 		}
 	}
 
@@ -149,139 +124,115 @@ public class ConstructionHandler : MonoBehaviour {
 
 		foreach (Building_Normal_Residence b in allHouses)
 		{
-			if (b.buildingSize == initialSize)
+			if (b.buildingSize == initialSize && TryUpgrade(b, newBuilding))
 			{
-				RemoveForUpgradeBuilding (b);
 				localVar++;
-				b.GetComponentInChildren<Collider2D>().enabled = false;
-				Vector2 tempPos = b.transform.position;
-				GameHandler.Instance.ConstructionHandler.CreateNewBuildingAtPosition(tempPos, newBuilding, false);
 				if (localVar >= upgradeAmount)
 					return;
 			}
 		}
 	}
+
 	public void UpgradeSelectedBuilding(Building_Normal_Residence house, GameObject newBuilding)
 	{
-		house.GetComponentInChildren<Collider2D>().enabled = false;
-		Vector2 tempPos = house.transform.position;
-		RemoveForUpgradeBuilding (house);
-		GameHandler.Instance.ConstructionHandler.CreateNewBuildingAtPosition(tempPos, newBuilding, false);
-	}
-	public void CreateNewBuildingAtPosition(Vector2 position){
-		var planetRadius = Planet.Radius;
-		var placementPos = Planet.FindPointOnSurface (planetRadius, position);
-		var randomNumber = Random.Range (0, Buildings.Length);
-
-
-		//if (Intersecting(placementPos, Buildings[randomNumber]) || InWater(placementPos, Buildings[randomNumber])) {
-		//	return;
-		//}
-
-		var building = Instantiate (Buildings [randomNumber]) as GameObject;
-
-		building.transform.position = placementPos;
-		Planet.RotateObjectToSurface (building);
-
-		WorldObjects.Targets.Add (building);
-
+		TryUpgrade(house, newBuilding);
 	}
 
-	public bool CreateNewBuilding(){
-		
-		var planetRadius = Planet.Radius;
-		var placementPos = FindRandomPointOnSurface (planetRadius);
-		var randomNumber = Random.Range (0, Buildings.Length);
-
-		//if (Intersecting(placementPos, Buildings[randomNumber]) || InWater(placementPos, Buildings[randomNumber])) {
-		//	return false;
-		//}
-
-		var building = Instantiate (Buildings [randomNumber]) as GameObject;
-
-		building.transform.position = placementPos;
-
-		WorldObjects.Targets.Add (building);
-		return true;
-	}
-		
-	void RotateToSurface(Transform GO)
+	public void CreateNewBuildingAtPosition(Vector2 position)
 	{
-		var GOrot = GO.transform.rotation;
-
-		var dir = GO.position - Planet.PlanetObject.transform.position;
-
-		GOrot = Quaternion.LookRotation (Vector3.forward, dir);
-
-		GO.transform.rotation = GOrot;
+		var prefab = Buildings[Random.Range(0, Buildings.Length)];
+		var placement = FindPlacement(position, prefab);
+		if (placement.HasValue)
+			PlaceBuilding(prefab, placement.Value);
 	}
 
-	bool Intersecting(Vector2 position, GameObject building)
+	public bool CreateNewBuilding()
 	{
-
-		var buildingBounds = building.GetComponentInChildren<SpriteRenderer> ().bounds;
-		var size = new Vector2 (buildingBounds.extents.x, buildingBounds.extents.y);
-
-		Collider2D[] hits = Physics2D.OverlapCircleAll (position, size.x);
-		for (int i = 0; i < hits.Length; i++) {
-			if (hits [i].gameObject.transform.root.tag == "Building") {
-				return true;
-			}
-		
-		}
-
-		return false;
-	}
-
-	bool InWater(Vector2 position, GameObject building)
-	{
-		bool hitWater = false;
-		bool hitGround = false;
-
-		var buildingBounds = building.GetComponentInChildren<SpriteRenderer> ().bounds;
-		var size = new Vector2 (buildingBounds.extents.x, 0.2f);
-
-		Collider2D[] hits = Physics2D.OverlapCircleAll (position, size.x);
-
-		for (int i = 0; i < hits.Length; i++) {
-			if (hits [i].gameObject.tag == "Water") {
-				hitWater = true;
-			}
-			if (hits [i].gameObject.tag == "Ground") {
-				hitGround = true;
-			}
-
-			if (hitGround && hitWater) {
-				return false;
-			}
-
-		}
-
+		var prefab = Buildings[Random.Range(0, Buildings.Length)];
+		var placement = FindPlacement(RandomSurfacePoint(), prefab);
+		if (!placement.HasValue)
+			return false;
+		PlaceBuilding(prefab, placement.Value);
 		return true;
 	}
 
-	Vector2 FindRandomPointOnSurface(float radius)
+	bool TryUpgrade(Building oldBuilding, GameObject newBuilding)
 	{
-		Vector2 spawnPoint;
+		var oldOccupant = oldBuilding.GetComponent<PlanetOccupant>();
+		var oldPlacement = CurrentPlacement(oldOccupant);
+		if (oldOccupant != null)
+			oldOccupant.Release();
 
-		var randVal = Random.value;
-		var angle = randVal*Mathf.PI*2;
+		var placement = FindPlacement(oldBuilding.transform.position, newBuilding);
+		if (!placement.HasValue)
+		{
+			if (oldPlacement.HasValue)
+				oldOccupant.Reserve(oldPlacement.Value);
+			return false;
+		}
 
-		spawnPoint.x = Mathf.Cos(angle)*radius + Planet.PlanetObject.transform.position.x;
-		spawnPoint.y = Mathf.Sin(angle)*radius + Planet.PlanetObject.transform.position.y;
-
-		return spawnPoint;
+		oldBuilding.GetComponentInChildren<Collider2D>().enabled = false;
+		RemoveForUpgradeBuilding(oldBuilding);
+		PlaceConstructionSite(newBuilding, GetConstructionSiteSize(newBuilding), placement.Value);
+		return true;
 	}
 
-	public void PlaceConstructionSite(GameObject buildingPrefab, GameObject constructionSize, Vector2 position)
+	PlacementResult? CurrentPlacement(PlanetOccupant occupant)
+	{
+		if (occupant == null)
+			return null;
+		var surface = PlanetHost.Active.Planet.Surface;
+		foreach (SurfaceRow row in System.Enum.GetValues(typeof(SurfaceRow)))
+		{
+			if (surface.Row(row).TryGetRange(occupant, out var range))
+				return new PlacementResult(PlacementReason.None, row, range);
+		}
+		return null;
+	}
+
+	bool TryPlaceConstructionSite(Vector2 position, GameObject buildingType)
+	{
+		var placement = FindPlacement(position, buildingType);
+		if (!placement.HasValue)
+			return false;
+		PlaceConstructionSite(buildingType, GetConstructionSiteSize(buildingType), placement.Value);
+		return true;
+	}
+
+	PlacementResult? FindPlacement(Vector2 position, GameObject buildingType)
+	{
+		var planet = PlanetHost.Active.Planet;
+		var arc = planet.Frame.ToCoord(position).Arc;
+		return planet.Placement.FindNearestValid(PlanetFootprint.For(buildingType), arc, MaxPlacementNudge);
+	}
+
+	Vector2 RandomSurfacePoint()
+	{
+		var frame = PlanetHost.Active.Planet.Frame;
+		return frame.ToWorld(new PlanetCoord(Random.value * frame.Circumference, 0f));
+	}
+
+	public void PlaceConstructionSite(GameObject buildingPrefab, GameObject constructionSize, PlacementResult placement)
 	{
 		var newConstructionSite = Instantiate (constructionSize);
-
-		newConstructionSite.transform.position = position;
-
-		Planet.RotateObjectToSurface (newConstructionSite);
-
+		PositionOnSurface(newConstructionSite, placement);
 		newConstructionSite.GetComponent<Building_ConstructionSite> ().buildingPrefab = buildingPrefab;
+		PlanetOccupant.On(newConstructionSite, OccupantKind.ConstructionSite).Reserve(placement);
+	}
+
+	void PlaceBuilding(GameObject buildingPrefab, PlacementResult placement)
+	{
+		var building = Instantiate (buildingPrefab);
+		PositionOnSurface(building, placement);
+		PlanetOccupant.On(building, OccupantKind.Building).Reserve(placement);
+		WorldObjects.Targets.Add (building);
+	}
+
+	static void PositionOnSurface(GameObject target, PlacementResult placement)
+	{
+		var frame = PlanetHost.Active.Planet.Frame;
+		target.transform.position = frame.ToWorld(new PlanetCoord(placement.Range.Center, 0f));
+		target.transform.rotation = frame.UprightRotation(placement.Range.Center);
 	}
 
 	public GameObject GetConstructionSiteSize(GameObject buildingPrefab)
@@ -293,11 +244,11 @@ public class ConstructionHandler : MonoBehaviour {
 
 	public void RemoveForUpgradeBuilding(Building building)
 	{
+		PlanetOccupant.ReleaseFrom(building.gameObject);
 		Destroy (building.gameObject, 5);
 		WorldObjects.ActiveBuildings.Remove (building.gameObject);
 		WorldObjects.Buildings.Remove (building.gameObject);
 
-		//this probably isnt very fast
 		if (WorldObjects.BuildingsOnFire.Contains (building.gameObject)) {
 			WorldObjects.BuildingsOnFire.Remove (building.gameObject);
 		}

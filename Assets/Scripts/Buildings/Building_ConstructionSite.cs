@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PocketPlanet.Planet;
 
 namespace Buildings{
 	public class Building_ConstructionSite : MonoBehaviour {
@@ -42,8 +43,16 @@ namespace Buildings{
 			buildingConstructed = true;
 			building.fromConstruction = true;
 			Planet.RotateObjectToSurface (newBuilding);
+			TransferReservation (newBuilding);
 			WorldObjects.Targets.Add (newBuilding);
 			RemoveScaffold ();
+		}
+
+		void TransferReservation(GameObject newBuilding)
+		{
+			var site = GetComponent<PlanetOccupant> ();
+			if (site != null)
+				site.TransferTo (PlanetOccupant.On (newBuilding, OccupantKind.Building));
 		}
 
 		void RemoveScaffold()

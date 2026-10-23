@@ -41,6 +41,7 @@ public class CameraControls : MonoBehaviour {
 	float originalDampening;
 
 	public float CurrentOrbitDistance;
+	const float LegacyPlanetRadius = 7.62f;
 	public float MaxOrbitDistance = 10f, MinOrbitDistance = 0.1f;
 	Vector3 startPosition;
 	public Vector3 desiredPosition;
@@ -81,6 +82,7 @@ public class CameraControls : MonoBehaviour {
 		Camera.main.cullingMask = ~(1<<10);
 
 
+		MaxOrbitDistance *= Planet.Radius / LegacyPlanetRadius;
 		CurrentOrbitDistance = 7.5f;
 		startPosition = new Vector3 (Planet.PlanetObject.transform.position.x, Planet.PlanetObject.transform.position.y, MainCamera.transform.position.z);
 		zoomAmount = currentFov / Maximum;

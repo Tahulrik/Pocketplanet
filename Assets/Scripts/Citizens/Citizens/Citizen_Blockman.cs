@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PocketPlanet.Planet;
 using Citizens.Actions;
 using Citizens;
 using Buildings;
@@ -46,6 +47,7 @@ public class Citizen_Blockman : CitizenBehaviour {
 
 		Planet.PlaceObjectOnSurface (gameObject);
 		Planet.RotateObjectToSurface (gameObject);
+		RegisterAsAirborne ();
 		startPosition = gameObject.transform.position + transform.up * 2;
 
 		gameObject.transform.position = startPosition;
@@ -59,6 +61,14 @@ public class Citizen_Blockman : CitizenBehaviour {
 
 	}
 	
+	void RegisterAsAirborne()
+	{
+		var airborne = GetComponent<AirborneAgent> ();
+		if (airborne == null)
+			airborne = gameObject.AddComponent<AirborneAgent> ();
+		airborne.SetTags ("Blockman");
+	}
+
 	// Update is called once per frame
 	protected override void Update () {
 		if (stats.Health <= 0)

@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 namespace PocketPlanet.Planet.Editor
 {
@@ -15,6 +17,15 @@ namespace PocketPlanet.Planet.Editor
         const string MaterialPath = Root + "/PlanetSurface.mat";
         const string ShaderName = "PocketPlanet/PlanetSurface";
         const int PlanetSortingOrder = -10;
+        const string OldPlanetPrefabPath = "Assets/Prefabs/Planet.prefab";
+        const string LegacyPlanetObjectName = "Planet";
+        static readonly string[] OldGeneratorTypes = { "MapDisplay", "MapGenerator" };
+        static readonly string[] GameScenes =
+        {
+            "Assets/Scenes/Main.unity",
+            "Assets/Scenes/Development_Main.unity",
+            "Assets/Scenes/CameraControls/Development_CameraControls.unity"
+        };
 
         [MenuItem("Pocket Planet/Create Default Planet Assets")]
         public static void CreateDefaultAssets()
@@ -28,6 +39,50 @@ namespace PocketPlanet.Planet.Editor
             AssetDatabase.SaveAssets();
             Debug.Log($"Planet assets ready in {Root}.");
         }
+
+        [MenuItem("Pocket Planet/Replace Old Planets In Game Scenes")]
+        public static void ReplacePlanetsInGameScenes()
+        {
+            foreach (var scenePath in GameScenes)
+                ReplacePlanetInScene(scenePath);
+        }
+
+        public static void ReplacePlanetInScene(string scenePath)
+        {
+            var scene = EditorSceneManager.OpenScene(scenePath, OpenSceneMode.Single);
+            var oldObjects = OldPlanetObjects(scene).ToList();
+            if (oldObjects.Count == 0)
+            {
+                Debug.LogWarning($"No old planet found in {scenePath}.");
+                return;
+            }
+
+            var position = oldObjects[0].transform.position;
+            foreach (var oldObject in oldObjects)
+                Object.DestroyImmediate(oldObject);
+
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(PrefabPath);
+            var planet = (GameObject)PrefabUtility.InstantiatePrefab(prefab, scene);
+            planet.name = LegacyPlanetObjectName;
+            planet.transform.position = position;
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log($"Replaced {oldObjects.Count} old planet object(s) in {scenePath}.");
+        }
+
+        static IEnumerable<GameObject> OldPlanetObjects(Scene scene)
+        {
+            var all = scene.GetRootGameObjects().SelectMany(root => root.GetComponentsInChildren<Transform>(true)).Select(t => t.gameObject).ToList();
+            var prefabInstances = all.Where(IsOldPlanetPrefabInstance);
+            var generators = OldGeneratorTypes.SelectMany(typeName => all.Where(go => HasComponentNamed(go, typeName)));
+            return prefabInstances.Concat(generators).Distinct();
+        }
+
+        static bool IsOldPlanetPrefabInstance(GameObject go) =>
+            PrefabUtility.IsOutermostPrefabInstanceRoot(go)
+            && PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(go) == OldPlanetPrefabPath;
+
+        static bool HasComponentNamed(GameObject go, string typeName) =>
+            go.GetComponents<MonoBehaviour>().Any(c => c != null && c.GetType().Name == typeName);
 
         static void CreatePrefab(PlanetSettings settings, Material material)
         {

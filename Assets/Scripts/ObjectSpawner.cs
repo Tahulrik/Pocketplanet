@@ -148,39 +148,9 @@ public class ObjectSpawner : MonoBehaviour {
 
 	bool ValidBuildPosition(Vector2 position, GameObject building)
 	{
-
-		bool hitBuilding = false;
-		bool hitWater = false;
-		bool hitGround = false;
-
-		if (!AppropriateDistanceToPlanet()) {
-			return false;
-		}
-
-		var buildingBounds = building.GetComponentInChildren<SpriteRenderer> ().bounds;
-		var size = new Vector2 (buildingBounds.extents.x, 0.2f);
-
-		Collider2D[] hits = Physics2D.OverlapCircleAll (position, size.x);
-
-		for (int i = 0; i < hits.Length; i++) {
-			if (hits [i].gameObject.transform.root.tag == "Building") {
-				hitBuilding = true;
-			}
-			if (hits [i].gameObject.tag == "Water") {
-				hitWater = true;
-			}
-			if (hits [i].gameObject.tag == "Ground") {
-				hitGround = true;
-			}
-		}
-		if (hitBuilding) {
-			return false;
-		} 
-		if (hitGround && hitWater) {
-			return true;
-		}
-
-		return false;
+		var planet = PocketPlanet.Planet.PlanetHost.Active.Planet;
+		var arc = planet.Frame.ToCoord(position).Arc;
+		return planet.Placement.Check(PocketPlanet.Planet.PlanetFootprint.For(building), arc).IsValid;
 	}
 
 	bool AppropriateDistanceToPlanet()

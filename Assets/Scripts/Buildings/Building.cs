@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PocketPlanet.Planet;
 using Citizens;
 using Citizens.Actions;
 
@@ -114,6 +115,7 @@ namespace Buildings
 		}
 
 		public void Kill(){
+			PlanetOccupant.ReleaseFrom (gameObject);
 
 			if (OnDestroyed != null) {
 				//print ("destroyed " + name);
