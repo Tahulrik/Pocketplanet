@@ -1,37 +1,50 @@
+# Unity project lives in "./Pocketplanet/" — patterns are unanchored so they
+# match at any depth.
+
 # =============== #
 # Unity generated #
 # =============== #
+[Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
-[Bb]uild
-/[Bb]uilds/
-/[Ll]ibrary/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emory[Cc]aptures/
+[Rr]ecordings/
 sysinfo.txt
 *.stackdump
-/Assets/AssetStoreTools*
-/Build_Dev*
-/Build_Release*
+**/[Aa]ssets/AssetStoreTools*
+Build_Dev*/
+Build_Release*/
 *.apk
 *.unitypackage
- 
+
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
 [Ee]xported[Oo]bj/
 .vs/
-/*.userprefs
-/*.csproj
-/*.pidb
+*.userprefs
+*.csproj
+*.pidb
 *.pidb.meta
-/*.suo
-/*.sln*
-/*.user
-/*.unityproj
-/*.booproj
+*.suo
+*.sln*
+*.user
+*.unityproj
+*.booproj
 .consulo/
-/*.tmp
-/*.svd
- 
+*.tmp
+*.svd
+
+# ============================================== #
+# Claude Code (keep shared settings, ignore local) #
+# ============================================== #
+.claude/settings.local.json
+.claude/worktrees/
+
 # ============ #
 # OS generated #
 # ============ #
@@ -43,7 +56,3 @@ Icon?
 ehthumbs.db
 [Tt]humbs.db
 [Dd]esktop.ini
-Corridor/Library/ShaderCache/
-Corridor/Library/metadata/
-/[Ll]ogs/
-/[Uu]ser[Ss]ettings/
