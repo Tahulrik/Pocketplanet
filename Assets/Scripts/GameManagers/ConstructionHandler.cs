@@ -113,8 +113,10 @@ public class ConstructionHandler : MonoBehaviour {
 	{
 		for (int i = 0; i < amount; i++)
 		{
-			if (!TryPlaceConstructionSite(RandomSurfacePoint(), buildingType))
+			var placement = FindRandomPlacement(buildingType);
+			if (!placement.HasValue)
 				return;
+			PlaceConstructionSite(buildingType, GetConstructionSiteSize(buildingType), placement.Value);
 		}
 	}
 
@@ -149,7 +151,7 @@ public class ConstructionHandler : MonoBehaviour {
 	public bool CreateNewBuilding()
 	{
 		var prefab = Buildings[Random.Range(0, Buildings.Length)];
-		var placement = FindPlacement(RandomSurfacePoint(), prefab);
+		var placement = FindRandomPlacement(prefab);
 		if (!placement.HasValue)
 			return false;
 		PlaceBuilding(prefab, placement.Value);
@@ -206,10 +208,11 @@ public class ConstructionHandler : MonoBehaviour {
 		return planet.Placement.FindNearestValid(PlanetFootprint.For(buildingType), arc, MaxPlacementNudge);
 	}
 
-	Vector2 RandomSurfacePoint()
+	PlacementResult? FindRandomPlacement(GameObject buildingType)
 	{
-		var frame = PlanetHost.Active.Planet.Frame;
-		return frame.ToWorld(new PlanetCoord(Random.value * frame.Circumference, 0f));
+		var planet = PlanetHost.Active.Planet;
+		var startArc = Random.value * planet.Frame.Circumference;
+		return planet.Placement.FindAnywhere(PlanetFootprint.For(buildingType), startArc);
 	}
 
 	public void PlaceConstructionSite(GameObject buildingPrefab, GameObject constructionSize, PlacementResult placement)

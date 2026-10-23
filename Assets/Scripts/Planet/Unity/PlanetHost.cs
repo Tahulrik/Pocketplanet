@@ -30,6 +30,7 @@ namespace PocketPlanet.Planet
         {
             if (settings == null)
                 throw new InvalidOperationException($"{name} has no {nameof(PlanetSettings)} assigned.");
+            regenerateRequested = false;
             planet = PlanetGenerator.Generate(settings, transform.position);
             if (view != null)
                 view.Render(planet);
@@ -58,15 +59,19 @@ namespace PocketPlanet.Planet
                 Regenerate();
         }
 
-        void OnValidate() => regenerateRequested = true;
+        public void RequestRegeneration() => regenerateRequested = true;
 
-        void Update()
+        // Regenerating during play would orphan every reservation and airborne registration,
+        // so inspector edits only take effect in edit mode.
+        public void ProcessPendingRegeneration(bool isPlaying)
         {
-            if (!regenerateRequested || settings == null)
-                return;
-            regenerateRequested = false;
-            Regenerate();
+            if (regenerateRequested && !isPlaying && settings != null)
+                Regenerate();
         }
+
+        void OnValidate() => RequestRegeneration();
+
+        void Update() => ProcessPendingRegeneration(Application.isPlaying);
 
         void LateUpdate() => SyncFrame();
 

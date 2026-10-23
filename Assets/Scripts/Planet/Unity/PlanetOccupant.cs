@@ -36,6 +36,18 @@ namespace PocketPlanet.Planet
                 occupant.Release();
         }
 
+        public bool IsReserved => track != null;
+
+        public bool ReserveAtCurrentPosition(Footprint footprint)
+        {
+            var planet = PlanetHost.Active.Planet;
+            var range = planet.Placement.RangeFor(footprint, planet.Frame.ToCoord(transform.position).Arc);
+            foreach (var surfaceRow in PlacementValidator.RowsFor(footprint.Row))
+                if (Reserve(new PlacementResult(PlacementReason.None, surfaceRow, range)))
+                    return true;
+            return false;
+        }
+
         public bool Reserve(PlacementResult placement)
         {
             var rowTrack = PlanetHost.Active.Planet.Surface.Row(placement.Row);

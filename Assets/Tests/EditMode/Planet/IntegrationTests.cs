@@ -116,6 +116,20 @@ namespace PocketPlanet.Planet.Tests
         }
 
         [Test]
+        public void PreplacedBuilding_ReservesItsCurrentSpot_AndBlocksPlacement()
+        {
+            var occupant = NewOccupant();
+            var arc = LandArc();
+            occupant.transform.position = Planet.Frame.ToWorld(new PlanetCoord(arc, 0f));
+            var footprint = new Footprint(1f, RowPreference.Front, new LandOnlyRule());
+
+            Assert.IsFalse(occupant.IsReserved);
+            Assert.IsTrue(occupant.ReserveAtCurrentPosition(footprint));
+            Assert.IsTrue(occupant.IsReserved);
+            Assert.AreEqual(PlacementReason.Occupied, Planet.Placement.Check(footprint, arc).Reason);
+        }
+
+        [Test]
         public void BackRowReservation_LowersSpriteSorting()
         {
             var occupant = NewOccupant();

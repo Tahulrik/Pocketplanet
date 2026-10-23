@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace PocketPlanet.Planet
 {
     public class PlacementValidator
@@ -23,7 +25,7 @@ namespace PocketPlanet.Planet
         public PlacementResult Check(Footprint footprint, float arc)
         {
             var range = RangeFor(footprint, arc);
-            var rows = RowsFor(footprint.Row);
+            var rows = RowArrayFor(footprint.Row);
 
             var reason = footprint.Rule.Evaluate(range, Profile, biomes);
             if (reason == PlacementReason.None)
@@ -52,6 +54,9 @@ namespace PocketPlanet.Planet
             return null;
         }
 
+        public PlacementResult? FindAnywhere(Footprint footprint, float startArc) =>
+            FindNearestValid(footprint, startArc, Profile.Circumference / 2f);
+
         PlacementReason CheckBiomeTags(Footprint footprint, ArcRange range)
         {
             foreach (var sample in Profile.SamplesIn(range))
@@ -69,7 +74,9 @@ namespace PocketPlanet.Planet
             return PlacementReason.None;
         }
 
-        static SurfaceRow[] RowsFor(RowPreference preference)
+        public static IReadOnlyList<SurfaceRow> RowsFor(RowPreference preference) => RowArrayFor(preference);
+
+        static SurfaceRow[] RowArrayFor(RowPreference preference)
         {
             switch (preference)
             {

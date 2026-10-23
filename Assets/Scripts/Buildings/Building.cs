@@ -59,6 +59,7 @@ namespace Buildings
 			anim = GetComponent<Animator> ();
 	        Planet.PlaceObjectOnSurface(gameObject);
 	        Planet.RotateObjectToSurface(gameObject);
+	        ReserveSpotIfUnplaced();
 
 	        //FinishedConstruction ();
 
@@ -103,6 +104,13 @@ namespace Buildings
 			else if (Health <= (MaxHealth/100)*0.5f) {
 				StartFire ();
 			}	
+		}
+
+		void ReserveSpotIfUnplaced()
+		{
+			var occupant = PlanetOccupant.On (gameObject, OccupantKind.Building);
+			if (!occupant.IsReserved && !occupant.ReserveAtCurrentPosition (PlanetFootprint.For (gameObject)))
+				Debug.LogWarning ($"{name} overlaps another building on the planet rim.", this);
 		}
 
 		void FinishedConstruction()

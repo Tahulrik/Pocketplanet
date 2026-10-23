@@ -182,6 +182,18 @@ namespace PocketPlanet.Planet.Tests
         }
 
         [Test]
+        public void FindAnywhere_FromMidOcean_FindsLand()
+        {
+            var planet = TestPlanets.Generate(3);
+            var footprint = new Footprint(1f, RowPreference.Front, LandOnly);
+            var oceanCenter = CenterOfLongest(planet, TerrainKind.Water);
+            Assert.IsNull(planet.Placement.FindNearestValid(footprint, oceanCenter, 1.5f));
+            var result = planet.Placement.FindAnywhere(footprint, oceanCenter);
+            Assert.IsTrue(result.HasValue);
+            Assert.IsTrue(result.Value.IsValid);
+        }
+
+        [Test]
         public void PlacementRules_CreateMatchesKind()
         {
             Assert.IsInstanceOf<LandOnlyRule>(PlacementRules.Create(PlacementRuleKind.LandOnly, 3f));

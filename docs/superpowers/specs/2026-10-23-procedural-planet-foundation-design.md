@@ -219,7 +219,7 @@ EditMode tests (`PocketPlanet.Planet.Tests`):
 - `FindLandingSite` with land only, with water allowed, and with no site.
 - `AirTraffic` and `AirZones` queries by band and range.
 - Mood palette blending at −1, 0 and +1.
-- Performance: generation with `Circumference = 500` completes in under 50 ms in the editor.
+- Performance: generation with `Circumference = 500` completes in under 100 ms in the editor (unoptimised editor code; the default planet takes a few ms).
 
 Manual check: open `Development_Main`, regenerate with different settings, sweep the mood slider, and use the gizmos and inspector placement test.
 

@@ -59,6 +59,36 @@ namespace PocketPlanet.Planet.Tests
         }
 
         [Test]
+        public void PendingRegeneration_IgnoredWhilePlaying()
+        {
+            var host = NewHost();
+            var planet = host.Planet;
+            host.RequestRegeneration();
+            host.ProcessPendingRegeneration(isPlaying: true);
+            Assert.AreSame(planet, host.Planet);
+        }
+
+        [Test]
+        public void PendingRegeneration_AppliedInEditMode()
+        {
+            var host = NewHost();
+            var planet = host.Planet;
+            host.RequestRegeneration();
+            host.ProcessPendingRegeneration(isPlaying: false);
+            Assert.AreNotSame(planet, host.Planet);
+        }
+
+        [Test]
+        public void Regenerate_ClearsPendingRequest()
+        {
+            var host = NewHost();
+            host.RequestRegeneration();
+            var planet = host.Regenerate();
+            host.ProcessPendingRegeneration(isPlaying: false);
+            Assert.AreSame(planet, host.Planet);
+        }
+
+        [Test]
         public void Host_WithoutSettings_Throws()
         {
             var host = go.AddComponent<PlanetHost>();
