@@ -3,8 +3,9 @@ namespace PocketPlanet.Planet
     public sealed class PlanetModel : IPlanet
     {
         public PlanetModel(PlanetSettings settings, PlanetFrame frame, BiomeTable biomes, BlockMap blockMap,
-            SurfaceLayer surface, UndergroundLayer underground, AirLayer air, PlanetQueries queries)
+            SurfaceLayer surface, UndergroundLayer underground, AirLayer air, PlanetQueries queries, PlacementValidator placement)
         {
+            Placement = placement;
             Settings = settings;
             Frame = frame;
             Biomes = biomes;
@@ -23,5 +24,6 @@ namespace PocketPlanet.Planet
         public UndergroundLayer Underground { get; }
         public AirLayer Air { get; }
         public PlanetQueries Queries { get; }
+        public PlacementValidator Placement { get; }
     }
 }

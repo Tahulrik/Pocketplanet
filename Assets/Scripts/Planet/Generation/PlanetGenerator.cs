@@ -16,7 +16,8 @@ namespace PocketPlanet.Planet
             var air = new AirLayer(settings.AirBands, profile.Circumference);
             var queries = new PlanetQueries(surface, biomes);
             var frame = new PlanetFrame(center, settings.Radius);
-            return new PlanetModel(settings, frame, biomes, blockMap, surface, underground, air, queries);
+            var placement = new PlacementValidator(surface, biomes);
+            return new PlanetModel(settings, frame, biomes, blockMap, surface, underground, air, queries, placement);
         }
     }
 }

@@ -10,5 +10,6 @@ namespace PocketPlanet.Planet
         UndergroundLayer Underground { get; }
         AirLayer Air { get; }
         PlanetQueries Queries { get; }
+        PlacementValidator Placement { get; }
     }
 }
