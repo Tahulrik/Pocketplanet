@@ -15,6 +15,9 @@ namespace PocketPlanet.Planet.Tests
             return settings;
         }
 
+        public static PlanetModel Generate(int seed = 1, float circumference = 48f, int continents = 3, float coverage = 0.6f) =>
+            PlanetGenerator.Generate(Settings(seed, circumference, continents, coverage));
+
         public static SurfaceProfile Profile(PlanetSettings settings)
         {
             var biomes = new BiomeTable(settings.BiomeTable);

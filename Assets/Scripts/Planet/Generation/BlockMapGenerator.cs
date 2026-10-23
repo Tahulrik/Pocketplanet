@@ -12,7 +12,8 @@ namespace PocketPlanet.Planet
         const float IslandThreshold = 0.78f;
         const float IslandBonus = 0.6f;
         const float ClimateNoiseScale = 0.08f;
-        const int Octaves = 4;
+        const int ShapeOctaves = 3;
+        const int ClimateOctaves = 2;
 
         public static BlockMap Generate(PlanetSettings settings, BiomeTable biomes, IReadOnlyList<ArcRange> landArcs, int seed)
         {
@@ -37,26 +38,46 @@ namespace PocketPlanet.Planet
                     var p = map.BlockCenter(x, y);
                     inside[x, y] = p.magnitude <= radius;
                     if (inside[x, y])
-                        land[x, y] = LandScore(settings, landArcs, noise, p) > LandThreshold;
+                        land[x, y] = IsLand(settings, landArcs, noise, p);
                 }
         }
 
-        static float LandScore(PlanetSettings settings, IReadOnlyList<ArcRange> landArcs, SeededNoise noise, Vector2 p)
+        // Noise is the expensive part, so it is only sampled when it can still change the outcome.
+        static bool IsLand(PlanetSettings settings, IReadOnlyList<ArcRange> landArcs, SeededNoise noise, Vector2 p)
+        {
+            var continent = ContinentScore(settings, landArcs, p);
+            var coastReach = 0.5f * settings.CoastRoughness;
+            if (continent - coastReach > LandThreshold)
+                return true;
+
+            var onlyAnIslandCanMakeLand = continent + coastReach <= LandThreshold;
+            if (onlyAnIslandCanMakeLand && !IsIsland(noise, p))
+                return false;
+
+            var score = continent + CoastOffset(settings, noise, p);
+            if (score > LandThreshold)
+                return true;
+            return score + IslandBonus > LandThreshold && IsIsland(noise, p);
+        }
+
+        static float CoastOffset(PlanetSettings settings, SeededNoise noise, Vector2 p) =>
+            (noise.Fractal(p.x * CoastNoiseScale, p.y * CoastNoiseScale, ShapeOctaves) - 0.5f) * settings.CoastRoughness;
+
+        static float ContinentScore(PlanetSettings settings, IReadOnlyList<ArcRange> landArcs, Vector2 p)
         {
             var radius = settings.Radius;
             var inland = 1f - (radius - p.magnitude) / (InlandReach * radius);
+            if (inland <= 0f)
+                return 0f;
             var arc = ArcOf(p, radius, settings.Circumference);
-
             var continent = 0f;
             foreach (var landArc in landArcs)
                 continent = Mathf.Max(continent, ArcMembership(landArc, arc, settings.BlockSize) * inland);
-
-            var coast = (noise.Fractal(p.x * CoastNoiseScale, p.y * CoastNoiseScale, Octaves) - 0.5f) * settings.CoastRoughness;
-            var island = noise.Fractal(p.x * IslandNoiseScale + 100f, p.y * IslandNoiseScale + 100f, Octaves) > IslandThreshold
-                ? IslandBonus
-                : 0f;
-            return continent + coast + island;
+            return continent;
         }
+
+        static bool IsIsland(SeededNoise noise, Vector2 p) =>
+            noise.Fractal(p.x * IslandNoiseScale + 100f, p.y * IslandNoiseScale + 100f, ShapeOctaves) > IslandThreshold;
 
         static float ArcMembership(ArcRange landArc, float arc, float blockSize)
         {
@@ -101,8 +122,8 @@ namespace PocketPlanet.Planet
 
         static byte ClassifyLand(BiomeTable biomes, SeededNoise noise, Vector2 p)
         {
-            var temperature = noise.Fractal(p.x * ClimateNoiseScale + 300f, p.y * ClimateNoiseScale + 300f, Octaves);
-            var moisture = noise.Fractal(p.x * ClimateNoiseScale + 600f, p.y * ClimateNoiseScale + 600f, Octaves);
+            var temperature = noise.Fractal(p.x * ClimateNoiseScale + 300f, p.y * ClimateNoiseScale + 300f, ClimateOctaves);
+            var moisture = noise.Fractal(p.x * ClimateNoiseScale + 600f, p.y * ClimateNoiseScale + 600f, ClimateOctaves);
             return biomes.ClassifyLand(temperature, moisture);
         }
 

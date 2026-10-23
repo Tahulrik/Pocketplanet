@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace PocketPlanet.Planet
 {
     public class SeededNoise
@@ -13,13 +11,19 @@ namespace PocketPlanet.Planet
 
         public float Value(float x, float y)
         {
-            var x0 = Mathf.FloorToInt(x);
-            var y0 = Mathf.FloorToInt(y);
+            var x0 = (int)x;
+            if (x0 > x) x0--;
+            var y0 = (int)y;
+            if (y0 > y) y0--;
             var sx = Smooth(x - x0);
             var sy = Smooth(y - y0);
-            var bottom = Mathf.Lerp(Hash(x0, y0), Hash(x0 + 1, y0), sx);
-            var top = Mathf.Lerp(Hash(x0, y0 + 1), Hash(x0 + 1, y0 + 1), sx);
-            return Mathf.Lerp(bottom, top, sy);
+            var a = Hash(x0, y0);
+            var b = Hash(x0 + 1, y0);
+            var c = Hash(x0, y0 + 1);
+            var d = Hash(x0 + 1, y0 + 1);
+            var bottom = a + (b - a) * sx;
+            var top = c + (d - c) * sx;
+            return bottom + (top - bottom) * sy;
         }
 
         public float Fractal(float x, float y, int octaves)
