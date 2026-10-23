@@ -3988,7 +3988,7 @@ MonoBehaviour:
   MoneyText: {fileID: 272928463}
   DailyMoneyText: {fileID: 352810061}
   WeekDayText: {fileID: 87173773}
-  gamePoints: 1
+  gamePoints: 100
   dailyAmount: 0
   moneyGreen: {r: 0.07947663, g: 0.7205882, b: 0.07947663, a: 1}
   moneyRed: {r: 0.86764705, g: 0.15949394, b: 0.15949394, a: 1}

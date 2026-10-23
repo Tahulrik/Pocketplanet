@@ -1,141 +1,107 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Lean.Touch;
 using UnityEngine;
-//using Lean.Touch;
 using UnityEngine.UI;
-/*
+
 public class DragObjectToWorld : MonoBehaviour {
 
 	[Tooltip("The prefab that will spawn when dragging this UI element")]
 	public GameObject SpawnType;
-  //  [HideInInspector]
 	public EventCategory EventType;
-
 	public ObjectSpawner spawner;
-
-	float Distance = 10.0f;
-
-	ScrollRect scroller;
-	Image selection;
 
 	public bool canPlace = false;
 	public bool selected = false;
 
-
+	ScrollRect scroller;
+	Image selection;
 	EventCost costScript;
 
-
-
-	protected virtual void OnEnable()
+	void OnEnable()
 	{
-		// Hook into the events we need
-		LeanTouch.OnFingerHeldDown += OnFingerHeldDown;
-
-		LeanTouch.OnFingerHeldUp += OnFingerUp;
-
+		LeanTouch.OnFingerOld += OnFingerHeld;
+		LeanTouch.OnFingerUp += OnFingerUp;
 		GameHandler.PointsRecieved += CheckForPointAvailability;
 		GameHandler.PointsSpent += CheckForPointAvailability;
-
 	}
 
-	protected virtual void OnDisable()
+	void OnDisable()
 	{
-		// Unhook events
-		LeanTouch.OnFingerHeldDown -= OnFingerHeldDown;
-
-		LeanTouch.OnFingerHeldUp -= OnFingerUp;
-
+		LeanTouch.OnFingerOld -= OnFingerHeld;
+		LeanTouch.OnFingerUp -= OnFingerUp;
 		GameHandler.PointsRecieved -= CheckForPointAvailability;
 		GameHandler.PointsSpent -= CheckForPointAvailability;
-
 	}
 
 	void Start()
 	{
-		selection = gameObject.GetComponent<Image> ();
-		scroller = gameObject.GetComponentInParent<ScrollRect> ();
+		selection = GetComponent<Image>();
+		scroller = GetComponentInParent<ScrollRect>();
 
-        if (SpawnType != null)
-        {
-			if (SpawnType.GetComponent<EventTypeTag> () != null)
-				
-                EventType = SpawnType.GetComponent<EventTypeTag>()._EventType;
-            else
-                EventType = EventCategory.Building;
-        }
-
-		costScript = SpawnType.GetComponent<EventCost> ();
-
-		CheckForPointAvailability (GameHandler.Instance.gamePoints);
-    }
-		
-	public void OnFingerHeldDown(LeanFinger finger)
-	{
-		if (!canPlace) {
+		if (SpawnType == null)
 			return;
-		}
 
-		// Does the prefab exist?
-		if (SpawnType != null)
-		{
-			if (finger.IsOverGui) {
-				//print ("Grabbing Object " + SpawnType.name);
-				// Get the RaycastResult under this finger's current position
-				var result = LeanTouch.RaycastGui(finger.ScreenPosition);
-				
-				if (result.isValid == true)
-				{
-					// Is this finger over this UI element?
-					var hit = result.gameObject.transform.parent.gameObject;
-					if (hit == gameObject)
-					{
-						selected = true;
+		var tag = SpawnType.GetComponent<EventTypeTag>();
+		EventType = tag != null ? tag._EventType : EventCategory.Building;
+		costScript = SpawnType.GetComponentInChildren<EventCost>();
 
-						selection.color = Color.blue;
-
-
-						scroller.enabled = false;
-
-						var instance = Instantiate (spawner);
-
-                        instance.currentType = EventType;
-                        instance.SpawnFinger = finger;
-						instance.selection = selection;
-						instance.prefab = SpawnType;
-						instance.costScript = costScript;
-
-						instance.Distance = Distance;
-					}
-				}
-			}
-		}
+		CheckForPointAvailability(GameHandler.Instance.gamePoints);
 	}
 
-	public void OnFingerUp(LeanFinger finger)
+	void OnFingerHeld(LeanFinger finger)
 	{
-		if (scroller != null) {
-			selected = false;
-			scroller.enabled = true;
-		}
+		if (!canPlace || SpawnType == null || !IsFingerOverThisButton(finger))
+			return;
+
+		selected = true;
+		selection.color = Color.blue;
+		SetScrollingEnabled(false);
+		SpawnPlacementCursor(finger);
+	}
+
+	void OnFingerUp(LeanFinger finger)
+	{
+		if (!selected)
+			return;
+
+		selected = false;
+		SetScrollingEnabled(true);
+	}
+
+	bool IsFingerOverThisButton(LeanFinger finger)
+	{
+		if (!finger.IsOverGui)
+			return false;
+
+		var hits = LeanTouch.RaycastGui(finger.ScreenPosition);
+		if (hits.Count == 0)
+			return false;
+
+		var hit = hits[0].gameObject.transform;
+		return hit == transform || hit.IsChildOf(transform);
+	}
+
+	void SpawnPlacementCursor(LeanFinger finger)
+	{
+		var instance = Instantiate(spawner);
+		instance.currentType = EventType;
+		instance.SpawnFinger = finger;
+		instance.selection = selection;
+		instance.prefab = SpawnType;
+		instance.costScript = costScript;
+	}
+
+	void SetScrollingEnabled(bool value)
+	{
+		if (scroller != null)
+			scroller.enabled = value;
 	}
 
 	public void CheckForPointAvailability(int points)
 	{
-		if (selected) {
-			//return;
-		}
+		if (costScript == null)
+			return;
 
-		if (GameHandler.Instance.gamePoints >= costScript.Cost) {
-			
-			selection.color = GameHandler.Instance.selectionAvailable;
-
-			canPlace = true;
-		} else {
-			selection.color = GameHandler.Instance.selectionUnavailable;
-
-			canPlace = false;
-		}
-
+		canPlace = GameHandler.Instance.gamePoints >= costScript.Cost;
+		selection.color = canPlace ? GameHandler.Instance.selectionAvailable : GameHandler.Instance.selectionUnavailable;
 	}
 }
-*/

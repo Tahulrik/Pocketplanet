@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.Events;
+﻿using Lean.Touch;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,13 +8,8 @@ public class ObjectSpawner : MonoBehaviour {
 
 	public static event ReleasedObject Released;
 
-	// The distance from the finger this object is placed in world space
 	[HideInInspector]
-	public float Distance;
-
-	// The finger used to spawn this
-	//[HideInInspector]
-	//public LeanFinger SpawnFinger;
+	public LeanFinger SpawnFinger;
 	[HideInInspector]
 	public EventCategory currentType;
 	[HideInInspector]
@@ -27,21 +20,18 @@ public class ObjectSpawner : MonoBehaviour {
 	public EventCost costScript;
 
 	protected SpriteRenderer CursorSprite;
-
 	protected Sprite SelectedSprite;
 
 	bool ValidPlacement = false;
+
 	protected virtual void OnEnable()
 	{
-		// Hook events
-		//LeanTouch.OnFingerUp += OnFingerUp;
-
+		LeanTouch.OnFingerUp += OnFingerUp;
 	}
 
 	protected virtual void OnDisable()
 	{
-		// Unhook events
-		//LeanTouch.OnFingerUp -= OnFingerUp;
+		LeanTouch.OnFingerUp -= OnFingerUp;
 	}
 
 	void Start()
@@ -55,95 +45,55 @@ public class ObjectSpawner : MonoBehaviour {
 
 	protected virtual void Update()
 	{
-		// Does the spawn finger exist?
-		//if (SpawnFinger != null)
-		{
-//			print (currentType);
-			//transform.position = SpawnFinger.GetWorldPosition(Distance);
-			Planet.RotateObjectToSurface (gameObject);
-			var surfacePosition = Planet.FindPointOnSurface (Planet.Radius, transform.position);
-			//Debug.DrawRay (Planet.PlanetObject.transform.localPosition, surfacePosition, Color.cyan);
-			//Debug.DrawRay (transform.position, -surfacePosition);
+		if (SpawnFinger == null)
+			return;
 
-			if (currentType == EventCategory.Building) {
-				//print ("building");
-				ValidPlacement = ValidBuildPosition (surfacePosition, prefab);
+		transform.position = ScreenToPlanetPlane (SpawnFinger.ScreenPosition);
+		Planet.RotateObjectToSurface (gameObject);
 
-				if (ValidPlacement) {
-					if (CursorSprite.color != Color.green) {
-						CursorSprite.color = GameHandler.Instance.selectionAvailable;
-					}
-				} 
-				else 
-				{
-					if (CursorSprite.color != Color.grey) {
-						CursorSprite.color = GameHandler.Instance.selectionUnavailable;
-					}
-				}
-			}
-			else if(currentType != EventCategory.Building)
-			{
-				//print ("Eventing");
-				ValidPlacement = ValidEventPosition (transform.position);
+		ValidPlacement = currentType == EventCategory.Building
+			? ValidBuildPosition (Planet.FindPointOnSurface (Planet.Radius, transform.position), prefab)
+			: ValidEventPosition (transform.position);
 
-				if (ValidPlacement) {
-					if (CursorSprite.color != Color.green) {
-						CursorSprite.color = GameHandler.Instance.selectionAvailable;
-					}
-				}
-				else 
-				{
-					if (CursorSprite.color != Color.gray) {
-						CursorSprite.color = GameHandler.Instance.selectionUnavailable;
-					}
-				}
-			}
-		}
+		CursorSprite.color = ValidPlacement ? GameHandler.Instance.selectionAvailable : GameHandler.Instance.selectionUnavailable;
 	}
 
-	/*public void OnFingerUp(LeanFinger finger)
+	static Vector3 ScreenToPlanetPlane(Vector2 screenPosition)
 	{
-		//If finger is on valid placement
-		if (finger.IsOverGui) {
-			CancelPlacement ();
-		}
+		var ray = Camera.main.ScreenPointToRay (screenPosition);
+		var plane = new Plane (Vector3.forward, Planet.PlanetObject.transform.position);
+		return plane.Raycast (ray, out var distance) ? ray.GetPoint (distance) : ray.origin;
+	}
 
-		// Was the spawning finger released?
-		if (finger == SpawnFinger)
-		{
-			if (Released != null) {
-				if (ValidPlacement) {
-					var fingerWorldPos = Camera.main.ScreenToWorldPoint (finger.ScreenPosition);
-					Released (currentType, fingerWorldPos, prefab, true);
+	void OnFingerUp(LeanFinger finger)
+	{
+		if (finger != SpawnFinger)
+			return;
 
+		if (ValidPlacement && !finger.IsOverGui)
+			Place ();
 
+		CancelPlacement ();
+	}
 
-					GameHandler.Instance.SpendGamePoint (costScript.Cost);
-				}
-			}
-
-			// Reset the spawn finger
-			SpawnFinger = null;
-			Destroy (gameObject);
-		}
-	}*/
+	void Place()
+	{
+		Released?.Invoke (currentType, transform.position, prefab, true);
+		GameHandler.Instance.SpendGamePoint (costScript.Cost);
+	}
 
 	public void CancelPlacement()
 	{
-		//selection.GetComponent<DragObjectToWorld> ().CheckForPointAvailability (0);
+		SpawnFinger = null;
+		var dragHandler = selection != null ? selection.GetComponent<DragObjectToWorld> () : null;
+		if (dragHandler != null)
+			dragHandler.CheckForPointAvailability (GameHandler.Instance.gamePoints);
 		Destroy (gameObject);
-		//SpawnFinger = null;
 	}
-		
+
 	bool ValidEventPosition(Vector2 position)
 	{
-		//print (position.magnitude);
-		//print (Planet.Radius);
-		if (AppropriateDistanceToPlanet()) {
-			return true;
-		}
-			
-		return false;
+		return AppropriateDistanceToPlanet();
 	}
 
 	bool ValidBuildPosition(Vector2 position, GameObject building)
@@ -155,10 +105,7 @@ public class ObjectSpawner : MonoBehaviour {
 
 	bool AppropriateDistanceToPlanet()
 	{
-		if (transform.position.magnitude >= Planet.Radius - 2f && transform.position.magnitude <= Planet.Radius + 10f) {
-			return true;
-		}
-		return false;
+		var magnitude = transform.position.magnitude;
+		return magnitude >= Planet.Radius - 2f && magnitude <= Planet.Radius + 10f;
 	}
-
 }
