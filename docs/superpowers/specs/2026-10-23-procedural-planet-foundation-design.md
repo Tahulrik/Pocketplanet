@@ -99,7 +99,7 @@ All randomness comes from `System.Random(Seed)` and noise functions seeded from 
 - `Buildable` (bool)
 - `Tags`: free-form strings such as `Fertile`, `Arid`, `Cold` or `Coastal`, for events and placement rules
 
-Default set: Grassland, Forest, Desert, Snow, Rock (not buildable), ShallowWater, DeepWater. You can add biomes without code changes.
+Default set: Grassland, Forest, Desert, Snow, ShallowWater, DeepWater. All default land biomes are buildable. You can add biomes without code changes.
 
 ## 6. Layers
 
