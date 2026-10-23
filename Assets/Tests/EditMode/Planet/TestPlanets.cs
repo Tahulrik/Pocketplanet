@@ -14,5 +14,13 @@ namespace PocketPlanet.Planet.Tests
             settings.BiomeTable = DefaultBiomes.Create();
             return settings;
         }
+
+        public static SurfaceProfile Profile(PlanetSettings settings)
+        {
+            var biomes = new BiomeTable(settings.BiomeTable);
+            var arcs = RimLayout.BuildLandArcs(settings, new System.Random(settings.Seed));
+            var map = BlockMapGenerator.Generate(settings, biomes, arcs, settings.Seed);
+            return SurfaceProfile.Build(map, biomes, settings.Radius, settings.SampleSpacing);
+        }
     }
 }
