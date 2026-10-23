@@ -25,7 +25,32 @@ namespace PocketPlanet.Planet
             MarkLandmass(settings, landArcs, map, noise, inside, land);
             ForceRimToLayout(settings, landArcs, map, inside, land);
             AssignBiomes(biomes, map, noise, inside, land);
+            FillEdgeBlocks(settings, map);
             return map;
+        }
+
+        // Blocks whose centre lies outside the circle still show partly inside the round outline;
+        // they copy the rim block in the same direction so the visible edge matches the surface data.
+        static void FillEdgeBlocks(PlanetSettings settings, BlockMap map)
+        {
+            var ringRadius = settings.Radius - settings.BlockSize / 2f;
+            for (int x = 0; x < map.Size; x++)
+                for (int y = 0; y < map.Size; y++)
+                {
+                    if (map[x, y] != BlockMap.Empty || !TouchesDisc(map, x, y, settings.Radius))
+                        continue;
+                    var ringPoint = map.BlockCenter(x, y).normalized * ringRadius;
+                    if (map.TryGetBlock(ringPoint, out var rx, out var ry))
+                        map[x, y] = map[rx, ry];
+                }
+        }
+
+        static bool TouchesDisc(BlockMap map, int x, int y, float radius)
+        {
+            var center = map.BlockCenter(x, y);
+            var half = map.BlockSize / 2f;
+            var closest = new Vector2(Mathf.Clamp(0f, center.x - half, center.x + half), Mathf.Clamp(0f, center.y - half, center.y + half));
+            return closest.sqrMagnitude < radius * radius;
         }
 
         static void MarkLandmass(PlanetSettings settings, IReadOnlyList<ArcRange> landArcs, BlockMap map,

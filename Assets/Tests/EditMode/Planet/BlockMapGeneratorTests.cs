@@ -41,6 +41,25 @@ namespace PocketPlanet.Planet.Tests
             Assert.AreNotEqual(BlockMap.Empty, map[map.Size / 2, map.Size / 2]);
         }
 
+        [TestCase(5)]
+        [TestCase(8)]
+        public void BlocksTouchingTheDisc_AreNeverEmpty(int seed)
+        {
+            var settings = TestPlanets.Settings(seed);
+            var map = Generate(seed);
+            var half = map.BlockSize / 2f;
+            for (int x = 0; x < map.Size; x++)
+                for (int y = 0; y < map.Size; y++)
+                {
+                    var c = map.BlockCenter(x, y);
+                    var closest = new UnityEngine.Vector2(
+                        UnityEngine.Mathf.Clamp(0f, c.x - half, c.x + half),
+                        UnityEngine.Mathf.Clamp(0f, c.y - half, c.y + half));
+                    if (closest.magnitude < settings.Radius - 1e-3f)
+                        Assert.AreNotEqual(BlockMap.Empty, map[x, y], $"block {x},{y}");
+                }
+        }
+
         [Test]
         public void HasBothLandAndWater()
         {
