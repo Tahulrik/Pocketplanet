@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Lean;
 using Lean.Touch;
-using Cinemachine;
+
 using System.Linq;
 
 public enum CameraState
@@ -24,7 +24,7 @@ public class CameraController : MonoBehaviour
     public float FarthestZoom;
     public float NearestZoom;
     public AnimationCurve CameraZoomMoveCurve;
-    public CinemachineVirtualCamera VCam;
+    public Unity.Cinemachine.CinemachineVirtualCamera VCam;
 
 
     public GameObject CameraHolder;
@@ -100,8 +100,8 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         MainCam = Camera.main;
-        VCam = GetComponentInChildren<CinemachineVirtualCamera>();
-        float cameraDistance = VCam.GetCinemachineComponent<CinemachineFramingTransposer>().m_CameraDistance;
+        VCam = GetComponentInChildren<Unity.Cinemachine.CinemachineVirtualCamera>();
+        float cameraDistance = VCam.GetCinemachineComponent<Unity.Cinemachine.CinemachineFramingTransposer>().m_CameraDistance;
     }
 
     private void Update()

@@ -57,9 +57,9 @@ public class DragObjectToWorld : MonoBehaviour {
 
         if (SpawnType != null)
         {
-			if (SpawnType.GetComponent<EventType> () != null)
+			if (SpawnType.GetComponent<EventTypeTag> () != null)
 				
-                EventType = SpawnType.GetComponent<EventType>()._EventType;
+                EventType = SpawnType.GetComponent<EventTypeTag>()._EventType;
             else
                 EventType = EventCategory.Building;
         }

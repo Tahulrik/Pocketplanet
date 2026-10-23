@@ -38,7 +38,7 @@ public class MeteorImpact : MonoBehaviour {
 
 		//Meteor Explosion
 		gameObject.GetComponent<Collider2D> ().enabled = false;
-		gameObject.GetComponent<Rigidbody2D> ().velocity = Vector2.zero;
+		gameObject.GetComponent<Rigidbody2D> ().linearVelocity = Vector2.zero;
 		gameObject.GetComponent<AudioSource> ().Play ();
 		Transform fire = transform.GetChild (0);
 		for (int i = 0; i < fire.childCount; i++) {
