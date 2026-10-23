@@ -19,7 +19,7 @@ public class GameHandler : MonoBehaviour{
 	[HideInInspector]
 	public CitizenManager CitizenManager;
 	[HideInInspector]
-	public CameraControls CameraControls;
+	public CameraController CameraController;
     [HideInInspector]
     public AudioManager AudioManager;
 
@@ -67,7 +67,7 @@ public class GameHandler : MonoBehaviour{
         AudioManager = FindObjectOfType<AudioManager>();
 		CPRData = FindObjectOfType<CPRAccountData>();
 
-        CameraControls = FindObjectOfType<CameraControls> ();
+        CameraController = FindObjectOfType<CameraController> ();
 		MeteorHandler = FindObjectOfType<MeteorHandler> ();
 
 		Blockzilla = Resources.Load<GameObject>("Events/Blockzilla");

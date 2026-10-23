@@ -96,17 +96,24 @@ public class CameraController : MonoBehaviour
         LeanTouch.OnFingerUp -= CommandRemoveFinger;
     }
 
-    // Start is called before the first frame update
+    public float ZoomedOutAmount => 1f - CurrentZoomAmount;
+
     void Start()
     {
+        InteractionTypes.InteractionType.ChangeModeToCamera();
+        FitToPlanet();
         MainCam = Camera.main;
         VCam = GetComponentInChildren<Unity.Cinemachine.CinemachineVirtualCamera>();
         float cameraDistance = VCam.GetCinemachineComponent<Unity.Cinemachine.CinemachineFramingTransposer>().m_CameraDistance;
+        SetZoomLevel(CurrentZoomAmount);
     }
 
-    private void Update()
+    void FitToPlanet()
     {
-        
+        var planetPosition = Planet.PlanetObject.transform.position;
+        transform.position = new Vector3(planetPosition.x, planetPosition.y, transform.position.z);
+        FarthestZoom = PocketPlanet.Planet.PlanetScale.FromReference(FarthestZoom, PlanetRadius, Planet.Radius);
+        PlanetRadius = Planet.Radius;
     }
 
     // Update is called once per frame

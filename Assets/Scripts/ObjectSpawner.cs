@@ -49,7 +49,7 @@ public class ObjectSpawner : MonoBehaviour {
 		CursorSprite = GetComponent<SpriteRenderer> ();
 		SelectedSprite = prefab.GetComponentInChildren<SpriteRenderer>().sprite;
 		if (SelectedSprite.bounds.extents.magnitude < 0.5f && currentType != EventCategory.Building)
-			gameObject.transform.localScale = Vector3.one * Mathf.Clamp(10 * GameHandler.Instance.CameraControls.zoomAmount, 1, Mathf.Infinity);
+			gameObject.transform.localScale = Vector3.one * Mathf.Clamp(10 * GameHandler.Instance.CameraController.ZoomedOutAmount, 1, Mathf.Infinity);
 		CursorSprite.sprite = SelectedSprite;
 	}
 
