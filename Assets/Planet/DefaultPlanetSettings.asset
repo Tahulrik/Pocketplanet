@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2d160fe5036dd7438e92bb1a7e05105, type: 3}
+  m_Name: DefaultPlanetSettings
+  m_EditorClassIdentifier: PocketPlanet.Planet::PocketPlanet.Planet.PlanetSettings
+  Seed: 0
+  Circumference: 48
+  BlockSize: 0.6
+  ContinentCount: 3
+  LandCoverage: 0.6
+  CoastRoughness: 0.5
+  SurfaceSampleSpacing: 0.25
+  BiomeTable:
+  - {fileID: 11400000, guid: 6311bba1087354c4fa6ccf5a100a9e42, type: 2}
+  - {fileID: 11400000, guid: 078184ddf2b193746a95ee4453ad35cb, type: 2}
+  - {fileID: 11400000, guid: 583bbf58b7915a04fb05382c6afac17b, type: 2}
+  - {fileID: 11400000, guid: 2faa69f2f9ba8014fb73c0f867765cb8, type: 2}
+  - {fileID: 11400000, guid: 4487e8dee4e016844bdc43b324057d6c, type: 2}
+  - {fileID: 11400000, guid: 47f71a18dc844f24da749a9a4240590b, type: 2}
+  UndergroundBands:
+  - Name: Topsoil
+    Min: 0
+    Max: 1
+  - Name: Bedrock
+    Min: 1
+    Max: 3
+  - Name: Deep
+    Min: 3
+    Max: 6
+  AirBands:
+  - Name: Low
+    Min: 0
+    Max: 2
+  - Name: Flight
+    Min: 2
+    Max: 5
+  - Name: High
+    Min: 5
+    Max: 8
+  - Name: Orbit
+    Min: 8
+    Max: 14

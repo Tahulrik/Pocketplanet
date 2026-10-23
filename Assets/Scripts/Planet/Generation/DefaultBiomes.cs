@@ -11,8 +11,8 @@ namespace PocketPlanet.Planet
             Land("Forest", "#007A24", "#262626", "#00D63F", new Vector2(0.25f, 0.65f), new Vector2(0.55f, 1f), "Fertile"),
             Land("Desert", "#E8C766", "#5A4A3A", "#FFE27A", new Vector2(0.65f, 1f), new Vector2(0f, 0.35f), "Arid"),
             Land("Snow", "#F2F6F8", "#6B6B6B", "#FFFFFF", new Vector2(0f, 0.25f), new Vector2(0f, 1f), "Cold"),
-            Water(BiomeTable.ShallowWaterId, "#63B3F2", "#E2531B", "#7FE0FF"),
-            Water(BiomeTable.DeepWaterId, "#3A8DDE", "#B3260E", "#4FB8FF")
+            Water(BiomeTable.ShallowWaterId, "#8ECDF7", "#F07A2A", "#A8EEFF"),
+            Water(BiomeTable.DeepWaterId, "#63B3F2", "#C4300F", "#6FD3FF")
         };
 
         static BiomeDefinition Land(string id, string normal, string doom, string hallowed,

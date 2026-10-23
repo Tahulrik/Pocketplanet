@@ -6,12 +6,12 @@ namespace PocketPlanet.Planet
     public static class BlockMapGenerator
     {
         const float LandThreshold = 0.5f;
-        const float InlandReach = 0.45f;
+        const float InlandReach = 0.85f;
         const float CoastNoiseScale = 0.15f;
-        const float IslandNoiseScale = 0.25f;
-        const float IslandThreshold = 0.78f;
+        const float IslandNoiseScale = 0.2f;
+        const float IslandThreshold = 0.57f;
         const float IslandBonus = 0.6f;
-        const float ClimateNoiseScale = 0.08f;
+        const float ClimateNoiseScale = 0.22f;
         const int ShapeOctaves = 3;
         const int ClimateOctaves = 2;
 

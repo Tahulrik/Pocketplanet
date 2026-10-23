@@ -40,7 +40,6 @@ Shader "PocketPlanet/PlanetSurface"
 
             TEXTURE2D(_BiomeMap);
             TEXTURE2D(_Palette);
-            SAMPLER(sampler_PointClamp);
 
             CBUFFER_START(UnityPerMaterial)
                 float _BiomeCount;
