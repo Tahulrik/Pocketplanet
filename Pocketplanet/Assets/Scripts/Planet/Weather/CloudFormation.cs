@@ -8,30 +8,39 @@ namespace PocketPlanet.Planet
         public const string CloudTag = "Cloud";
         public const string RainTag = "Rain";
 
+        const float AlphaRampShare = 0.3f;
+
         readonly List<SpriteRenderer> puffs = new List<SpriteRenderer>();
+        readonly List<float> puffScales = new List<float>();
         PlanetFrame frame;
         RainShower rain;
+        Color tint;
         float arc;
         float height;
         float speed;
         float age;
         float lifetime;
-        float fadeSeconds;
+        float growSeconds;
 
         public float Height => height;
 
-        public void Begin(PlanetFrame planetFrame, CloudShape shape, IReadOnlyList<Sprite> sprites, CloudFlight flight, int sortingOrder)
+        public void Begin(PlanetFrame planetFrame, CloudShape shape, IReadOnlyList<Sprite> sprites, CloudFlight flight,
+            Color cloudTint, int sortingOrder)
         {
             frame = planetFrame;
+            tint = cloudTint;
             arc = flight.Arc;
             height = flight.Height;
             speed = flight.Speed;
             lifetime = flight.Lifetime;
-            fadeSeconds = flight.FadeSeconds;
+            growSeconds = flight.GrowSeconds;
             age = flight.StartAge;
 
             for (int i = 0; i < shape.Puffs.Count; i++)
+            {
                 puffs.Add(CreatePuff(shape.Puffs[i], sprites, sortingOrder + i));
+                puffScales.Add(shape.Puffs[i].Scale);
+            }
 
             var agent = gameObject.AddComponent<AirborneAgent>();
             agent.SetTags(CloudTag);
@@ -60,11 +69,23 @@ namespace PocketPlanet.Planet
         void Apply()
         {
             transform.SetPositionAndRotation(frame.ToWorld(new PlanetCoord(arc, height)), frame.UprightRotation(arc));
-            var alpha = FadeEnvelope.Alpha(age, lifetime, fadeSeconds);
-            foreach (var puff in puffs)
-                puff.color = new Color(1f, 1f, 1f, alpha);
+            var totalProgress = 0f;
+            for (int i = 0; i < puffs.Count; i++)
+            {
+                var progress = CloudGrowth.PuffProgress(age, lifetime, growSeconds, i, puffs.Count);
+                ShowPuff(i, progress);
+                totalProgress += progress;
+            }
             if (rain != null)
-                rain.SetIntensity(alpha);
+                rain.SetIntensity(totalProgress / puffs.Count);
+        }
+
+        void ShowPuff(int index, float progress)
+        {
+            var puff = puffs[index];
+            puff.enabled = progress > 0f;
+            puff.transform.localScale = Vector3.one * (puffScales[index] * CloudGrowth.PopScale(progress));
+            puff.color = new Color(tint.r, tint.g, tint.b, tint.a * Mathf.Clamp01(progress / AlphaRampShare));
         }
 
         SpriteRenderer CreatePuff(CloudPuff puff, IReadOnlyList<Sprite> sprites, int sortingOrder)
@@ -72,7 +93,6 @@ namespace PocketPlanet.Planet
             var renderer = new GameObject("Puff").AddComponent<SpriteRenderer>();
             renderer.transform.SetParent(transform, false);
             renderer.transform.localPosition = puff.Offset;
-            renderer.transform.localScale = Vector3.one * puff.Scale;
             renderer.sprite = sprites[puff.SpriteIndex];
             renderer.flipX = puff.Flipped;
             renderer.sortingOrder = sortingOrder;

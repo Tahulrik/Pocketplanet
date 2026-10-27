@@ -396,14 +396,15 @@ MonoBehaviour:
   maxFormations: 7
   spawnInterval: {x: 4, y: 12}
   lifetime: {x: 30, y: 70}
-  fadeSeconds: 5
-  heightRange: {x: 3, y: 5.2}
-  driftSpeed: {x: 0.04, y: 0.14}
-  scaleRange: {x: 1.2, y: 2.6}
+  growSeconds: 4
+  heightRange: {x: 2.6, y: 6.2}
+  driftSpeed: {x: 0.025, y: 0.2}
+  scaleRange: {x: 0.8, y: 2.8}
   groupChance: 0.35
   groupSize: {x: 2, y: 5}
   sortingOrder: 30
   rainChance: 0.2
+  rainCloudTint: {r: 0.58, g: 0.6, b: 0.66, a: 1}
   doomRainBonus: 0.4
   mood: {fileID: 8183574370078660775}
   dropsPerUnit: 18

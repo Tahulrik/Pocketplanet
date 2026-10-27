@@ -49,19 +49,52 @@ namespace PocketPlanet.Planet.Tests
         }
 
         [TestCase(0f, 0f)]
-        [TestCase(2.5f, 0.5f)]
+        [TestCase(2f, 0.5f)]
         [TestCase(30f, 1f)]
-        [TestCase(57.5f, 0.5f)]
+        [TestCase(58f, 0.5f)]
         [TestCase(60f, 0f)]
-        public void FadeEnvelope_FadesInAndOut(float age, float expected)
+        public void CloudGrowth_SinglePuff_GrowsInAndOut(float age, float expected)
         {
-            Assert.AreEqual(expected, FadeEnvelope.Alpha(age, 60f, 5f), 1e-4f);
+            Assert.AreEqual(expected, CloudGrowth.PuffProgress(age, 60f, 4f, 0, 1), 1e-4f);
         }
 
         [Test]
-        public void FadeEnvelope_ShortLife_StillPeaksAtOne()
+        public void CloudGrowth_PuffsGrowInOneAfterAnother()
         {
-            Assert.AreEqual(1f, FadeEnvelope.Alpha(2f, 4f, 5f), 1e-4f);
+            var first = CloudGrowth.PuffProgress(1f, 60f, 4f, 0, 3);
+            var middle = CloudGrowth.PuffProgress(1f, 60f, 4f, 1, 3);
+            var last = CloudGrowth.PuffProgress(1f, 60f, 4f, 2, 3);
+            Assert.Greater(first, middle);
+            Assert.Greater(middle, last);
+        }
+
+        [Test]
+        public void CloudGrowth_LastPuffShrinksOutFirst()
+        {
+            var first = CloudGrowth.PuffProgress(59f, 60f, 4f, 0, 3);
+            var last = CloudGrowth.PuffProgress(59f, 60f, 4f, 2, 3);
+            Assert.Greater(first, last);
+        }
+
+        [Test]
+        public void CloudGrowth_AllPuffsFullyGrownAfterGrowTime()
+        {
+            for (int i = 0; i < 4; i++)
+                Assert.AreEqual(1f, CloudGrowth.PuffProgress(4f, 60f, 4f, i, 4), 1e-4f);
+        }
+
+        [Test]
+        public void CloudGrowth_ShortLife_StillPeaksAtOne()
+        {
+            Assert.AreEqual(1f, CloudGrowth.PuffProgress(2f, 4f, 5f, 0, 1), 1e-4f);
+        }
+
+        [Test]
+        public void CloudGrowth_PopScale_StartsAtZeroOvershootsAndSettles()
+        {
+            Assert.AreEqual(0f, CloudGrowth.PopScale(0f), 1e-4f);
+            Assert.Greater(CloudGrowth.PopScale(0.8f), 1f);
+            Assert.AreEqual(1f, CloudGrowth.PopScale(1f), 1e-4f);
         }
     }
 }

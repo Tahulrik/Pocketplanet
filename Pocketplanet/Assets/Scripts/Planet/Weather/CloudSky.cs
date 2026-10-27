@@ -12,18 +12,20 @@ namespace PocketPlanet.Planet
         [SerializeField, Min(0)] int maxFormations = 7;
         [SerializeField] Vector2 spawnInterval = new Vector2(4f, 12f);
         [SerializeField] Vector2 lifetime = new Vector2(30f, 70f);
-        [SerializeField, Min(0f)] float fadeSeconds = 5f;
+        [SerializeField, Min(0f), Tooltip("Seconds for all puffs of a cloud to grow in (and shrink out).")]
+        float growSeconds = 4f;
         [SerializeField, Tooltip("Height above the surface, in world units.")]
-        Vector2 heightRange = new Vector2(3f, 5.2f);
+        Vector2 heightRange = new Vector2(2.6f, 6.2f);
         [SerializeField, Tooltip("Arc units per second. All clouds share one wind direction.")]
-        Vector2 driftSpeed = new Vector2(0.04f, 0.14f);
-        [SerializeField] Vector2 scaleRange = new Vector2(1.2f, 2.6f);
+        Vector2 driftSpeed = new Vector2(0.025f, 0.2f);
+        [SerializeField] Vector2 scaleRange = new Vector2(0.8f, 2.8f);
         [SerializeField, Range(0f, 1f)] float groupChance = 0.35f;
         [SerializeField] Vector2Int groupSize = new Vector2Int(2, 5);
         [SerializeField] int sortingOrder = 30;
 
         [Header("Rain")]
         [SerializeField, Range(0f, 1f)] float rainChance = 0.2f;
+        [SerializeField] Color rainCloudTint = new Color(0.58f, 0.6f, 0.66f, 1f);
         [SerializeField, Range(0f, 1f), Tooltip("Extra rain chance at full doom mood.")]
         float doomRainBonus = 0.4f;
         [SerializeField] WorldMoodController mood;
@@ -72,13 +74,14 @@ namespace PocketPlanet.Planet
                 Range(heightRange),
                 wind * Range(driftSpeed),
                 life,
-                fadeSeconds,
+                growSeconds,
                 prewarmed ? life * Range(new Vector2(0.15f, 0.6f)) : 0f);
 
             var formation = new GameObject("CloudFormation").AddComponent<CloudFormation>();
             formation.transform.SetParent(transform, false);
-            formation.Begin(frame, shape, cloudSprites, flight, sortingOrder);
-            if (rng.NextDouble() < CurrentRainChance())
+            var raining = rng.NextDouble() < CurrentRainChance();
+            formation.Begin(frame, shape, cloudSprites, flight, raining ? rainCloudTint : Color.white, sortingOrder);
+            if (raining)
                 StartRain(formation, shape);
             formations.Add(formation);
         }
