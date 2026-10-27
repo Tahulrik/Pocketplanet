@@ -116,9 +116,13 @@ public class CameraController : MonoBehaviour
         PlanetRadius = Planet.Radius;
     }
 
+    const float ScrollZoomStep = 0.15f;
+
     // Update is called once per frame
     void LateUpdate()
     {
+        ZoomWithScrollWheel();
+
         switch (CurrentCameraState)
         {
             case CameraState.CityView:
@@ -178,9 +182,29 @@ public class CameraController : MonoBehaviour
     }
 
     #region ZoomFunctions
+    void ZoomWithScrollWheel()
+    {
+        var scroll = Input.mouseScrollDelta.y;
+        if (scroll == 0f || !IsCurrentActionManual || LeanTouch.Fingers.Count > 0)
+            return;
+        SetZoomLevel(CurrentZoomAmount + scroll * ScrollZoomStep);
+        SetCameraZoomState();
+    }
+
+    // A pinch counts as long as one finger started on the world; a second finger landing on
+    // on-screen buttons (common with the editor's mirrored pinch simulation) must not cancel it.
+    static List<LeanFinger> PinchFingers()
+    {
+        var fingers = LeanTouch.GetFingers(false, false);
+        foreach (var finger in fingers)
+            if (!finger.StartedOverGui)
+                return fingers;
+        return new List<LeanFinger>();
+    }
+
     void ZoomCamera()
     {
-        var fingers = Use.GetFingers(true);
+        var fingers = PinchFingers();
         var zoomAmount = LeanGesture.GetPinchScale(fingers);
 
         if (zoomAmount != 1.0f) //Fingers changed position
