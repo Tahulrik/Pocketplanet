@@ -87,7 +87,7 @@ MonoBehaviour:
   CurrentZoomAmount: 0.1
   ZoomLevelSnapThreshold: 0.5
   CameraMinMoveHeight: 0
-  CameraMaxMoveHeight: 1.2
+  CameraMaxMoveHeight: 6
   CameraMaxMoveWidth: 0.5
   CameraRotationSpeed: 25
   CurrentCameraState: 0

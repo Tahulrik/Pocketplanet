@@ -50,7 +50,7 @@ public class ObjectSpawner : MonoBehaviour {
 		if (SpawnFinger == null)
 			return;
 
-		transform.position = ScreenToPlanetPlane (SpawnFinger.ScreenPosition);
+		transform.position = PlanetPlane.FromScreen (SpawnFinger.ScreenPosition);
 		Planet.RotateObjectToSurface (gameObject);
 
 		ValidPlacement = currentType == EventCategory.Building
@@ -64,18 +64,11 @@ public class ObjectSpawner : MonoBehaviour {
 
 	void PreviewRowDepth()
 	{
-		var row = BuildRowSelection.ActiveRow;
+		var row = PocketPlanet.Planet.BuildRowSelection.ActiveRow;
 		if (!row.HasValue)
 			return;
 		transform.localScale = cursorBaseScale * PocketPlanet.Planet.RowDepth.Scale (row.Value);
 		CursorSprite.color *= PocketPlanet.Planet.RowDepth.Tint (row.Value);
-	}
-
-	static Vector3 ScreenToPlanetPlane(Vector2 screenPosition)
-	{
-		var ray = Camera.main.ScreenPointToRay (screenPosition);
-		var plane = new Plane (Vector3.forward, Planet.PlanetObject.transform.position);
-		return plane.Raycast (ray, out var distance) ? ray.GetPoint (distance) : ray.origin;
 	}
 
 	void OnFingerUp(LeanFinger finger)
@@ -114,7 +107,7 @@ public class ObjectSpawner : MonoBehaviour {
 		var planet = PocketPlanet.Planet.PlanetHost.Active.Planet;
 		var arc = planet.Frame.ToCoord(position).Arc;
 		var footprint = PocketPlanet.Planet.PlanetFootprint.For(building);
-		var row = BuildRowSelection.ActiveRow;
+		var row = PocketPlanet.Planet.BuildRowSelection.ActiveRow;
 		var result = row.HasValue ? planet.Placement.Check(footprint, arc, row.Value) : planet.Placement.Check(footprint, arc);
 		return result.IsValid;
 	}

@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 8539355544450466259}
   - component: {fileID: 6901253125217245179}
   - component: {fileID: 5822130993937050521}
+  - component: {fileID: 6799914902754254154}
+  - component: {fileID: 3824051932701706544}
   - component: {fileID: 3398328233703857303}
-  - component: {fileID: 3642699422610978360}
   m_Layer: 0
   m_Name: BuildRowControls
   m_TagString: Untagged
@@ -46,7 +47,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e6666c495a29664cac7fd58f42c8604, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuildRowSelection
+  m_EditorClassIdentifier: PocketPlanet.Planet::PocketPlanet.Planet.BuildRowSelection
   current: 2
 --- !u!114 &5822130993937050521
 MonoBehaviour:
@@ -59,11 +60,42 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92c0083214ebb6049a2b7ba9e3dc5721, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuildRowKeyboardInput
+  m_EditorClassIdentifier: Assembly-CSharp::BuildRowDesktopInput
   frontKey: 49
   middleKey: 50
   backKey: 51
   cycleKey: 9
+--- !u!114 &6799914902754254154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5402932626843162965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fa9296013d35e14ab792b9a3a066564, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildRowSwipeInput
+  swipeDistance: 0.08
+  maxSpreadRatio: 0.5
+--- !u!114 &3824051932701706544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5402932626843162965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad28b0db640071f49874aa35cf4fae39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildRowToast
+  holdSeconds: 0.9
+  fadeSeconds: 0.5
+  fontSize: 48
+  anchor: {x: 0.5, y: 0.82}
+  pillColor: {r: 1, g: 1, b: 1, a: 0.85}
 --- !u!114 &3398328233703857303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,24 +108,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c4ead6b1e2c06a43a96f0db6554b523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnsureEventSystem
---- !u!114 &3642699422610978360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5402932626843162965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb342446fee5a1a4ea2632986df2067a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BuildRowButtons
-  buttonBackground: {fileID: 21300000, guid: e1575e5f8b2450942b211ca316a226c2, type: 3}
-  buttonSize: {x: 190, y: 96}
-  spacing: 14
-  screenAnchor: {x: 1, y: 0.5}
-  offset: {x: -36, y: 0}
-  fontSize: 34
-  canvasSortingOrder: 50
-  selectedColor: {r: 1, g: 0.83, b: 0.25, a: 1}
-  idleColor: {r: 1, g: 1, b: 1, a: 0.75}
