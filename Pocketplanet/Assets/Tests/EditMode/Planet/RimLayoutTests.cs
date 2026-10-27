@@ -49,6 +49,31 @@ namespace PocketPlanet.Planet.Tests
                 Assert.Less(arcs[i - 1].Start, arcs[i].Start);
         }
 
+        [TestCase(1, 1)]
+        [TestCase(2, 3)]
+        [TestCase(7, 5)]
+        public void LargestArc_IsCenteredAtTop(int seed, int continents)
+        {
+            var settings = TestPlanets.Settings(seed, continents: continents);
+            var arcs = RimLayout.BuildLandArcs(settings, new System.Random(seed));
+            var largest = arcs.OrderByDescending(a => a.Length).First();
+            var up = ContinentOrientation.UpArc(settings.Circumference);
+            Assert.AreEqual(0f, ArcRange.Distance(largest.Center, up, settings.Circumference), 1e-3);
+        }
+
+        [Test]
+        public void CenterLargestOn_KeepsLengthsAndGaps()
+        {
+            const float c = 40f;
+            var arcs = new[] { new ArcRange(2f, 4f, c), new ArcRange(10f, 9f, c), new ArcRange(25f, 6f, c) };
+            var oriented = ContinentOrientation.CenterLargestOn(arcs, 30f);
+            CollectionAssert.AreEquivalent(new[] { 4f, 9f, 6f }, oriented.Select(a => a.Length).ToArray());
+            var big = oriented.First(a => Mathf.Approximately(a.Length, 9f));
+            var small = oriented.First(a => Mathf.Approximately(a.Length, 4f));
+            Assert.AreEqual(30f, big.Center, 1e-4);
+            Assert.AreEqual(4f, ArcRange.Wrap(big.Start - small.End, c), 1e-4);
+        }
+
         [Test]
         public void TinyPlanet_ClampsContinentCount()
         {

@@ -59,7 +59,7 @@ namespace Buildings
 			anim = GetComponent<Animator> ();
 	        Planet.PlaceObjectOnSurface(gameObject);
 	        Planet.RotateObjectToSurface(gameObject);
-	        ReserveSpotIfUnplaced();
+	        SettleIfUnplaced();
 
 	        //FinishedConstruction ();
 
@@ -106,11 +106,11 @@ namespace Buildings
 			}	
 		}
 
-		void ReserveSpotIfUnplaced()
+		void SettleIfUnplaced()
 		{
 			var occupant = PlanetOccupant.On (gameObject, OccupantKind.Building);
-			if (!occupant.IsReserved && !occupant.ReserveAtCurrentPosition (PlanetFootprint.For (gameObject)))
-				Debug.LogWarning ($"{name} overlaps another building on the planet rim.", this);
+			if (!occupant.IsReserved && !occupant.SettleOnNearestValidSpot (PlanetFootprint.For (gameObject)))
+				Debug.LogWarning ($"{name} found no free land on the planet rim.", this);
 		}
 
 		void FinishedConstruction()

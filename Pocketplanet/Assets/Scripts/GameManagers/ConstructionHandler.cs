@@ -216,24 +216,15 @@ public class ConstructionHandler : MonoBehaviour {
 	public void PlaceConstructionSite(GameObject buildingPrefab, GameObject constructionSize, PlacementResult placement)
 	{
 		var newConstructionSite = Instantiate (constructionSize);
-		PositionOnSurface(newConstructionSite, placement);
 		newConstructionSite.GetComponent<Building_ConstructionSite> ().buildingPrefab = buildingPrefab;
-		PlanetOccupant.On(newConstructionSite, OccupantKind.ConstructionSite).Reserve(placement);
+		PlanetOccupant.On(newConstructionSite, OccupantKind.ConstructionSite).Settle(placement);
 	}
 
 	void PlaceBuilding(GameObject buildingPrefab, PlacementResult placement)
 	{
 		var building = Instantiate (buildingPrefab);
-		PositionOnSurface(building, placement);
-		PlanetOccupant.On(building, OccupantKind.Building).Reserve(placement);
+		PlanetOccupant.On(building, OccupantKind.Building).Settle(placement);
 		WorldObjects.Targets.Add (building);
-	}
-
-	static void PositionOnSurface(GameObject target, PlacementResult placement)
-	{
-		var frame = PlanetHost.Active.Planet.Frame;
-		target.transform.position = frame.ToWorld(new PlanetCoord(placement.Range.Center, 0f));
-		target.transform.rotation = frame.UprightRotation(placement.Range.Center);
 	}
 
 	public GameObject GetConstructionSiteSize(GameObject buildingPrefab)

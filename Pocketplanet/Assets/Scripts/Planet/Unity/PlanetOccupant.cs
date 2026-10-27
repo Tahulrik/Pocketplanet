@@ -38,14 +38,26 @@ namespace PocketPlanet.Planet
 
         public bool IsReserved => track != null;
 
-        public bool ReserveAtCurrentPosition(Footprint footprint)
+        public bool SettleOnNearestValidSpot(Footprint footprint)
         {
             var planet = PlanetHost.Active.Planet;
-            var range = planet.Placement.RangeFor(footprint, planet.Frame.ToCoord(transform.position).Arc);
-            foreach (var surfaceRow in PlacementValidator.RowsFor(footprint.Row))
-                if (Reserve(new PlacementResult(PlacementReason.None, surfaceRow, range)))
-                    return true;
-            return false;
+            var placement = planet.Placement.FindAnywhere(footprint, planet.Frame.ToCoord(transform.position).Arc);
+            return placement.HasValue && Settle(placement.Value);
+        }
+
+        public bool Settle(PlacementResult placement)
+        {
+            MoveTo(placement);
+            return Reserve(placement);
+        }
+
+        public void MoveTo(PlacementResult placement)
+        {
+            var frame = PlanetHost.Active.Planet.Frame;
+            var arc = placement.Range.Center;
+            var surface = frame.ToWorld(new PlanetCoord(arc, 0f));
+            transform.SetPositionAndRotation(
+                new Vector3(surface.x, surface.y, transform.position.z), frame.UprightRotation(arc));
         }
 
         public bool Reserve(PlacementResult placement)

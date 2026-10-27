@@ -117,7 +117,7 @@ namespace PocketPlanet.Planet.Tests
         }
 
         [Test]
-        public void PreplacedBuilding_ReservesItsCurrentSpot_AndBlocksPlacement()
+        public void PreplacedBuilding_OnLand_KeepsItsSpot_AndBlocksPlacement()
         {
             var occupant = NewOccupant();
             var arc = LandArc();
@@ -125,9 +125,50 @@ namespace PocketPlanet.Planet.Tests
             var footprint = new Footprint(1f, RowPreference.Front, new LandOnlyRule());
 
             Assert.IsFalse(occupant.IsReserved);
-            Assert.IsTrue(occupant.ReserveAtCurrentPosition(footprint));
+            Assert.IsTrue(occupant.SettleOnNearestValidSpot(footprint));
             Assert.IsTrue(occupant.IsReserved);
+            Assert.AreEqual(arc, Planet.Frame.ToCoord(occupant.transform.position).Arc, Planet.Surface.Profile.Spacing);
             Assert.AreEqual(PlacementReason.Occupied, Planet.Placement.Check(footprint, arc).Reason);
+        }
+
+        [Test]
+        public void PreplacedBuilding_OverWater_MovesOntoLand_StandingUpright()
+        {
+            var occupant = NewOccupant();
+            var waterArc = Planet.Surface.Profile.Segments.First(s => s.Terrain == TerrainKind.Water).Range.Center;
+            occupant.transform.position = Planet.Frame.ToWorld(new PlanetCoord(waterArc, 2f));
+            var footprint = new Footprint(1f, RowPreference.Front, new LandOnlyRule());
+
+            Assert.IsTrue(occupant.SettleOnNearestValidSpot(footprint));
+            var coord = Planet.Frame.ToCoord(occupant.transform.position);
+            Assert.AreEqual(TerrainKind.Land, Planet.Surface.Profile.TerrainAt(coord.Arc));
+            Assert.AreEqual(0f, coord.Height, 1e-3);
+            Assert.AreEqual(0f, Vector2.Distance(Planet.Frame.Outward(coord.Arc), occupant.transform.up), 1e-3);
+        }
+
+        [Test]
+        public void PreplacedBuildings_AtSameSpot_DoNotOverlap()
+        {
+            var first = NewOccupant();
+            var second = NewOccupant();
+            var position = Planet.Frame.ToWorld(new PlanetCoord(LandArc(), 0f));
+            first.transform.position = position;
+            second.transform.position = position;
+            var footprint = new Footprint(1f, RowPreference.Front, new LandOnlyRule());
+
+            Assert.IsTrue(first.SettleOnNearestValidSpot(footprint));
+            Assert.IsTrue(second.SettleOnNearestValidSpot(footprint));
+            var row = Planet.Surface.Row(SurfaceRow.Front);
+            row.TryGetRange(first, out var firstRange);
+            row.TryGetRange(second, out var secondRange);
+            Assert.IsFalse(firstRange.Overlaps(secondRange));
+        }
+
+        [Test]
+        public void GeneratedPlanet_LandAtTop()
+        {
+            var up = ContinentOrientation.UpArc(Planet.Frame.Circumference);
+            Assert.AreEqual(TerrainKind.Land, Planet.Surface.Profile.TerrainAt(up));
         }
 
         [Test]

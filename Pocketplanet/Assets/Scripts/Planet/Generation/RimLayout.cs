@@ -21,13 +21,13 @@ namespace PocketPlanet.Planet
             var oceanLengths = Distribute(ocean, count, minArc, rng);
 
             var arcs = new List<ArcRange>(count);
-            var cursor = (float)rng.NextDouble() * circumference;
+            var cursor = 0f;
             for (int i = 0; i < count; i++)
             {
                 arcs.Add(new ArcRange(cursor, landLengths[i], circumference));
                 cursor += landLengths[i] + oceanLengths[i];
             }
-            return arcs.OrderBy(a => a.Start).ToList();
+            return ContinentOrientation.CenterLargestOn(arcs, ContinentOrientation.UpArc(circumference));
         }
 
         static int FittingContinentCount(int requested, float land, float ocean, float minArc)
