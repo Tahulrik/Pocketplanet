@@ -94,9 +94,7 @@ public class ConstructionHandler : MonoBehaviour {
 		if (Type != type) {
 			return;
 		}
-		//print (true);
-
-		CreateNewBuildingAtPosition (position, prefab);
+		TryPlaceConstructionSite(position, prefab, fromPlayer ? BuildRowSelection.ActiveRow : null);
 	}
 
 	public void CreateNewBuildingAtPosition(Vector2 position, GameObject buildingType)
@@ -165,7 +163,7 @@ public class ConstructionHandler : MonoBehaviour {
 		if (oldOccupant != null)
 			oldOccupant.Release();
 
-		var placement = FindPlacement(oldBuilding.transform.position, newBuilding);
+		var placement = FindPlacement(oldBuilding.transform.position, newBuilding, oldPlacement?.Row);
 		if (!placement.HasValue)
 		{
 			if (oldPlacement.HasValue)
@@ -192,20 +190,20 @@ public class ConstructionHandler : MonoBehaviour {
 		return null;
 	}
 
-	bool TryPlaceConstructionSite(Vector2 position, GameObject buildingType)
+	bool TryPlaceConstructionSite(Vector2 position, GameObject buildingType, SurfaceRow? row = null)
 	{
-		var placement = FindPlacement(position, buildingType);
+		var placement = FindPlacement(position, buildingType, row);
 		if (!placement.HasValue)
 			return false;
 		PlaceConstructionSite(buildingType, GetConstructionSiteSize(buildingType), placement.Value);
 		return true;
 	}
 
-	PlacementResult? FindPlacement(Vector2 position, GameObject buildingType)
+	PlacementResult? FindPlacement(Vector2 position, GameObject buildingType, SurfaceRow? row = null)
 	{
 		var planet = PlanetHost.Active.Planet;
 		var arc = planet.Frame.ToCoord(position).Arc;
-		return planet.Placement.FindNearestValid(PlanetFootprint.For(buildingType), arc, MaxPlacementNudge);
+		return planet.Placement.FindNearestValid(PlanetFootprint.For(buildingType), arc, MaxPlacementNudge, row);
 	}
 
 	PlacementResult? FindRandomPlacement(GameObject buildingType)

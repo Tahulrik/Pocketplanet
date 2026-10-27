@@ -11,7 +11,7 @@ namespace PocketPlanet.Planet.Editor
         bool showPlacementTest;
         float testArc;
         float testWidth = 1f;
-        RowPreference testRow = RowPreference.Either;
+        RowPreference testRow = RowPreference.Any;
         PlacementRuleKind testRule = PlacementRuleKind.LandOnly;
         float testMaxSpan = 3f;
 

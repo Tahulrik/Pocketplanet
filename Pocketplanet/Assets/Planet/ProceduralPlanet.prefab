@@ -39,6 +39,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2261116518398355605}
+  - {fileID: 8776548650395937569}
+  - {fileID: 4345547064374405953}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4599256400026016775
@@ -74,7 +76,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 9f5c1c003b7f4604d99b9820b3b2fd37, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -146,7 +148,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Radius: 7.639437
 --- !u!114 &3727529044212562210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,6 +219,79 @@ MonoBehaviour:
   - {fileID: 8625033760530830847}
   - {fileID: 1193924511908636621}
   unitsPerSecond: 0.25
+--- !u!1 &1407614388861927605
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8776548650395937569}
+  - component: {fileID: 97845631785827107}
+  m_Layer: 0
+  m_Name: Trees
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8776548650395937569
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407614388861927605}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5806995438344946321}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &97845631785827107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407614388861927605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 121bac8f952958242a32b1bc80ae30ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PocketPlanet.Planet::PocketPlanet.Planet.TreeGrove
+  seed: 1
+  groveThreshold: 0.55
+  groveNoiseCells: 20
+  scaleRange: {x: 1.1, y: 1.7}
+  clearanceWidth: 0.25
+  flora:
+  - biomeId: Grassland
+    density: 3
+    sprites:
+    - {fileID: 21300000, guid: 222e59c1b3a41a54a957dd198047d464, type: 3}
+    - {fileID: 21300000, guid: 697f54a3622933b458606b2f429904b0, type: 3}
+    - {fileID: 21300000, guid: ee4d809d9a86a0e4bb73a32abca9344f, type: 3}
+  - biomeId: Forest
+    density: 10
+    sprites:
+    - {fileID: 21300000, guid: 222e59c1b3a41a54a957dd198047d464, type: 3}
+    - {fileID: 21300000, guid: 670280c06fafa884f87f4d0a73ab790b, type: 3}
+    - {fileID: 21300000, guid: 099157649bbcbad46a6cefcb11c418c5, type: 3}
+    - {fileID: 21300000, guid: 697f54a3622933b458606b2f429904b0, type: 3}
+  - biomeId: Desert
+    density: 2
+    sprites:
+    - {fileID: 21300000, guid: 4f9383ca13e923e46bb4cb49b8550d69, type: 3}
+    - {fileID: 21300000, guid: 618cb77b4000f3b4c89475b0561a6927, type: 3}
+  - biomeId: Snow
+    density: 5
+    sprites:
+    - {fileID: 21300000, guid: 2e01b8ed922a244439da0c9cbc8d41a7, type: 3}
+    - {fileID: 21300000, guid: 670280c06fafa884f87f4d0a73ab790b, type: 3}
 --- !u!1 &7272181036000376064
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,3 +341,72 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 0}
+--- !u!1 &8086443587643436316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4345547064374405953}
+  - component: {fileID: 3514362526545693968}
+  m_Layer: 0
+  m_Name: Sky
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4345547064374405953
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8086443587643436316}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5806995438344946321}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3514362526545693968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8086443587643436316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ee06b3b410a6f04b815f3f566a3f9a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PocketPlanet.Planet::PocketPlanet.Planet.CloudSky
+  cloudSprites:
+  - {fileID: 21300000, guid: 5e046351d5f386548bc4bc087a8195cf, type: 3}
+  - {fileID: 21300000, guid: 756fd2d903340934d8411a58dcae5f63, type: 3}
+  - {fileID: 21300000, guid: d4eee98e427f0a947b6c257561e4b0c1, type: 3}
+  - {fileID: 21300000, guid: 0d5c056cb9f1dea448a1e4ababb0c104, type: 3}
+  - {fileID: 21300000, guid: d67248dc34e178a46b5a6908410368f6, type: 3}
+  - {fileID: 21300000, guid: 291de019d41d5d84fbea413c2944fbb6, type: 3}
+  - {fileID: 21300000, guid: a2fe2a24146babe48bf4e20885fa2e7e, type: 3}
+  maxFormations: 7
+  spawnInterval: {x: 4, y: 12}
+  lifetime: {x: 30, y: 70}
+  fadeSeconds: 5
+  heightRange: {x: 3, y: 5.2}
+  driftSpeed: {x: 0.04, y: 0.14}
+  scaleRange: {x: 1.2, y: 2.6}
+  groupChance: 0.35
+  groupSize: {x: 2, y: 5}
+  sortingOrder: 30
+  rainChance: 0.2
+  doomRainBonus: 0.4
+  mood: {fileID: 8183574370078660775}
+  dropsPerUnit: 18
+  dropSpeed: 4.5
+  dropSize: {x: 0.02, y: 0.16}
+  dropColor: {r: 0.62, g: 0.78, b: 0.95, a: 0.7}

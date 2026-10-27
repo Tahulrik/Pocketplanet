@@ -40,8 +40,7 @@ namespace PocketPlanet.Planet
 
         bool IsFreeLand(ArcRange range) =>
             Profile.IsAll(range, s => s.Terrain == TerrainKind.Land)
-            && surface.Row(SurfaceRow.Front).IsFree(range)
-            && surface.Row(SurfaceRow.Back).IsFree(range);
+            && surface.IsFreeInAllRows(range);
 
         static bool IsWater(SurfaceSample sample) => sample.Terrain == TerrainKind.Water;
 

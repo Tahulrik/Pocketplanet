@@ -8,7 +8,7 @@ namespace PocketPlanet.Planet
 
         [SerializeField, Min(0f), Tooltip("Arc width in world units. 0 = use the sprite width.")]
         float width;
-        [SerializeField] RowPreference row = RowPreference.Front;
+        [SerializeField] RowPreference row = RowPreference.Any;
         [SerializeField] PlacementRuleKind rule = PlacementRuleKind.LandOnly;
         [SerializeField, Min(0f)] float maxSpan = 3f;
         [SerializeField] string[] requiredBiomeTags = new string[0];
@@ -30,7 +30,7 @@ namespace PocketPlanet.Planet
             var footprint = prefab.GetComponent<PlanetFootprint>();
             return footprint != null
                 ? footprint.ToFootprint()
-                : new Footprint(SpriteWidth(prefab), RowPreference.Front, new LandOnlyRule());
+                : new Footprint(SpriteWidth(prefab), RowPreference.Any, new LandOnlyRule());
         }
 
         static float SpriteWidth(GameObject target)

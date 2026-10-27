@@ -117,22 +117,52 @@ namespace PocketPlanet.Planet.Tests
         }
 
         [Test]
-        public void Either_FrontTaken_FallsBackToBack()
+        public void Any_FrontTaken_FallsBackToMiddle()
         {
             var (validator, surface) = HandBuilt(Repeat(TerrainKind.Land, 10));
             surface.Row(SurfaceRow.Front).TryAdd(new FakeOccupant("a"), ArcRange.Centered(5f, 2f, 10f));
-            var result = validator.Check(new Footprint(2f, RowPreference.Either, LandOnly), 5f);
+            var result = validator.Check(new Footprint(2f, RowPreference.Any, LandOnly), 5f);
             Assert.IsTrue(result.IsValid);
-            Assert.AreEqual(SurfaceRow.Back, result.Row);
+            Assert.AreEqual(SurfaceRow.Middle, result.Row);
         }
 
         [Test]
-        public void Either_BothTaken_ReasonOccupied()
+        public void Any_AllRowsTaken_ReasonOccupied()
         {
             var (validator, surface) = HandBuilt(Repeat(TerrainKind.Land, 10));
             surface.Row(SurfaceRow.Front).TryAdd(new FakeOccupant("a"), ArcRange.Centered(5f, 2f, 10f));
             surface.Row(SurfaceRow.Back).TryAdd(new FakeOccupant("b"), ArcRange.Centered(5f, 2f, 10f));
-            Assert.AreEqual(PlacementReason.Occupied, validator.Check(new Footprint(2f, RowPreference.Either, LandOnly), 5f).Reason);
+            surface.Row(SurfaceRow.Middle).TryAdd(new FakeOccupant("c"), ArcRange.Centered(5f, 2f, 10f));
+            Assert.AreEqual(PlacementReason.Occupied, validator.Check(new Footprint(2f, RowPreference.Any, LandOnly), 5f).Reason);
+        }
+
+        [Test]
+        public void ExplicitRow_UsesOnlyThatRow()
+        {
+            var (validator, surface) = HandBuilt(Repeat(TerrainKind.Land, 10));
+            surface.Row(SurfaceRow.Middle).TryAdd(new FakeOccupant("a"), ArcRange.Centered(5f, 2f, 10f));
+            var footprint = new Footprint(2f, RowPreference.Any, LandOnly);
+            Assert.AreEqual(PlacementReason.Occupied, validator.Check(footprint, 5f, SurfaceRow.Middle).Reason);
+            Assert.AreEqual(SurfaceRow.Back, validator.Check(footprint, 5f, SurfaceRow.Back).Row);
+        }
+
+        [Test]
+        public void ExplicitRow_NotAllowedByFootprint_ReasonRowNotAllowed()
+        {
+            var (validator, _) = HandBuilt(Repeat(TerrainKind.Land, 10));
+            var result = validator.Check(new Footprint(2f, RowPreference.Front, LandOnly), 5f, SurfaceRow.Back);
+            Assert.AreEqual(PlacementReason.RowNotAllowed, result.Reason);
+        }
+
+        [Test]
+        public void FindNearestValid_ExplicitRow_NudgesWithinThatRow()
+        {
+            var (validator, surface) = HandBuilt(Repeat(TerrainKind.Land, 10));
+            surface.Row(SurfaceRow.Back).TryAdd(new FakeOccupant("a"), ArcRange.Centered(5f, 2f, 10f));
+            var result = validator.FindNearestValid(new Footprint(1f, RowPreference.Any, LandOnly), 5f, 3f, SurfaceRow.Back);
+            Assert.IsTrue(result.HasValue);
+            Assert.AreEqual(SurfaceRow.Back, result.Value.Row);
+            Assert.GreaterOrEqual(ArcRange.Distance(result.Value.Range.Center, 5f, 10f), 1.49f);
         }
 
         [Test]
@@ -169,7 +199,7 @@ namespace PocketPlanet.Planet.Tests
         public void FindNearestValid_NoRoom_ReturnsNull()
         {
             var (validator, _) = HandBuilt(Repeat(TerrainKind.Land, 3).Concat(Repeat(TerrainKind.Water, 7)).ToArray());
-            Assert.IsNull(validator.FindNearestValid(new Footprint(4f, RowPreference.Either, LandOnly), 1.5f, 10f));
+            Assert.IsNull(validator.FindNearestValid(new Footprint(4f, RowPreference.Any, LandOnly), 1.5f, 10f));
         }
 
         [Test]
@@ -178,7 +208,8 @@ namespace PocketPlanet.Planet.Tests
             var (validator, surface) = HandBuilt(Repeat(TerrainKind.Land, 10));
             surface.Row(SurfaceRow.Front).TryAdd(new FakeOccupant("a"), new ArcRange(0f, 10f, 10f));
             surface.Row(SurfaceRow.Back).TryAdd(new FakeOccupant("b"), new ArcRange(0f, 10f, 10f));
-            Assert.IsNull(validator.FindNearestValid(new Footprint(1f, RowPreference.Either, LandOnly), 5f, 10f));
+            surface.Row(SurfaceRow.Middle).TryAdd(new FakeOccupant("c"), new ArcRange(0f, 10f, 10f));
+            Assert.IsNull(validator.FindNearestValid(new Footprint(1f, RowPreference.Any, LandOnly), 5f, 10f));
         }
 
         [Test]

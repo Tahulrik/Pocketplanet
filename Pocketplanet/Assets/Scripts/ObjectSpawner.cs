@@ -23,6 +23,7 @@ public class ObjectSpawner : MonoBehaviour {
 	protected Sprite SelectedSprite;
 
 	bool ValidPlacement = false;
+	Vector3 cursorBaseScale;
 
 	protected virtual void OnEnable()
 	{
@@ -41,6 +42,7 @@ public class ObjectSpawner : MonoBehaviour {
 		if (SelectedSprite.bounds.extents.magnitude < 0.5f && currentType != EventCategory.Building)
 			gameObject.transform.localScale = Vector3.one * Mathf.Clamp(10 * GameHandler.Instance.CameraController.ZoomedOutAmount, 1, Mathf.Infinity);
 		CursorSprite.sprite = SelectedSprite;
+		cursorBaseScale = transform.localScale;
 	}
 
 	protected virtual void Update()
@@ -56,6 +58,17 @@ public class ObjectSpawner : MonoBehaviour {
 			: ValidEventPosition (transform.position);
 
 		CursorSprite.color = ValidPlacement ? GameHandler.Instance.selectionAvailable : GameHandler.Instance.selectionUnavailable;
+		if (currentType == EventCategory.Building)
+			PreviewRowDepth ();
+	}
+
+	void PreviewRowDepth()
+	{
+		var row = BuildRowSelection.ActiveRow;
+		if (!row.HasValue)
+			return;
+		transform.localScale = cursorBaseScale * PocketPlanet.Planet.RowDepth.Scale (row.Value);
+		CursorSprite.color *= PocketPlanet.Planet.RowDepth.Tint (row.Value);
 	}
 
 	static Vector3 ScreenToPlanetPlane(Vector2 screenPosition)
@@ -100,7 +113,10 @@ public class ObjectSpawner : MonoBehaviour {
 	{
 		var planet = PocketPlanet.Planet.PlanetHost.Active.Planet;
 		var arc = planet.Frame.ToCoord(position).Arc;
-		return planet.Placement.Check(PocketPlanet.Planet.PlanetFootprint.For(building), arc).IsValid;
+		var footprint = PocketPlanet.Planet.PlanetFootprint.For(building);
+		var row = BuildRowSelection.ActiveRow;
+		var result = row.HasValue ? planet.Placement.Check(footprint, arc, row.Value) : planet.Placement.Check(footprint, arc);
+		return result.IsValid;
 	}
 
 	bool AppropriateDistanceToPlanet()

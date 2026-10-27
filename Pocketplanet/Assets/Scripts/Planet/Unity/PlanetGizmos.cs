@@ -5,11 +5,12 @@ namespace PocketPlanet.Planet
     public static class PlanetGizmos
     {
         const float SegmentStep = 0.1f;
-        const float FrontRowOffset = 0.2f;
-        const float BackRowOffset = 0.4f;
+        const float FrontRowHeight = 0.2f;
+        const float RowHeightStep = 0.15f;
         static readonly Color LandColor = new Color(0.2f, 0.9f, 0.3f);
         static readonly Color WaterColor = new Color(0.3f, 0.6f, 1f);
         static readonly Color FrontColor = new Color(1f, 0.85f, 0.2f);
+        static readonly Color MiddleColor = new Color(1f, 0.7f, 0.15f);
         static readonly Color BackColor = new Color(1f, 0.55f, 0.1f);
         static readonly Color BandColor = new Color(1f, 1f, 1f, 0.15f);
         static readonly Color ZoneColor = new Color(1f, 0.2f, 0.2f);
@@ -17,8 +18,9 @@ namespace PocketPlanet.Planet
         public static void Draw(IPlanet planet)
         {
             DrawSegments(planet);
-            DrawRow(planet, SurfaceRow.Front, FrontRowOffset, FrontColor);
-            DrawRow(planet, SurfaceRow.Back, BackRowOffset, BackColor);
+            DrawRow(planet, SurfaceRow.Front, FrontRowHeight, FrontColor);
+            DrawRow(planet, SurfaceRow.Middle, FrontRowHeight + RowHeightStep, MiddleColor);
+            DrawRow(planet, SurfaceRow.Back, FrontRowHeight + 2f * RowHeightStep, BackColor);
             DrawAirBands(planet);
             DrawAirZones(planet);
         }

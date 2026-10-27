@@ -2,11 +2,13 @@ using System.Collections.Generic;
 
 namespace PocketPlanet.Planet
 {
+    // Values are serialized by index in prefabs, so new members go at the end.
     public enum RowPreference
     {
         Back,
         Front,
-        Either
+        Any,
+        Middle
     }
 
     public sealed class Footprint

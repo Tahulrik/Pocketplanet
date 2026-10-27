@@ -8,6 +8,7 @@ namespace PocketPlanet.Planet
         MissingBiomeTag,
         ForbiddenBiomeTag,
         Occupied,
-        RuleViolation
+        RuleViolation,
+        RowNotAllowed
     }
 }

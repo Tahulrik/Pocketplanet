@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace PocketPlanet.Planet.Tests
 {
@@ -130,15 +131,41 @@ namespace PocketPlanet.Planet.Tests
         }
 
         [Test]
-        public void BackRowReservation_LowersSpriteSorting()
+        public void BackRowReservation_SortsBehindFrontRow()
+        {
+            var back = ReserveWithSprite(RowPreference.Back, LandArc());
+            var front = ReserveWithSprite(RowPreference.Front, LandArc());
+            Assert.Less(back.GetComponent<SortingGroup>().sortingOrder, front.GetComponent<SortingGroup>().sortingOrder);
+            Assert.Less(back.transform.localScale.x, front.transform.localScale.x);
+        }
+
+        [Test]
+        public void RowDepthStyle_ReapplyingDoesNotCompound()
+        {
+            var occupant = ReserveWithSprite(RowPreference.Back, LandArc());
+            var sprite = occupant.GetComponentInChildren<SpriteRenderer>();
+            var scale = occupant.transform.localScale;
+            var color = sprite.color;
+            RowDepthStyle.Apply(occupant.gameObject, SurfaceRow.Back, RowDepthKind.Building);
+            Assert.AreEqual(scale, occupant.transform.localScale);
+            Assert.AreEqual(color, sprite.color);
+        }
+
+        [Test]
+        public void RowDepth_FloraSortsJustBehindBuildingsInSameRow()
+        {
+            foreach (var row in SurfaceRows.FrontToBack)
+                Assert.AreEqual(RowDepth.SortingOrder(row, RowDepthKind.Building) - 1, RowDepth.SortingOrder(row, RowDepthKind.Flora));
+            Assert.Less(RowDepth.SortingOrder(SurfaceRow.Middle, RowDepthKind.Building), RowDepth.SortingOrder(SurfaceRow.Front, RowDepthKind.Flora));
+        }
+
+        PlanetOccupant ReserveWithSprite(RowPreference row, float arc)
         {
             var occupant = NewOccupant();
             var sprite = new GameObject("sprite").AddComponent<SpriteRenderer>();
             sprite.transform.SetParent(occupant.transform);
-            sprite.sortingOrder = 5;
-            var placement = Planet.Placement.Check(new Footprint(1f, RowPreference.Back, new LandOnlyRule()), LandArc());
-            occupant.Reserve(placement);
-            Assert.AreEqual(5 + RowSorting.BackRowOffset, sprite.sortingOrder);
+            occupant.Reserve(Planet.Placement.Check(new Footprint(1f, row, new LandOnlyRule()), arc));
+            return occupant;
         }
 
         [Test]
@@ -176,10 +203,10 @@ namespace PocketPlanet.Planet.Tests
         {
             var prefab = Track(new GameObject("port"));
             var footprint = prefab.AddComponent<PlanetFootprint>();
-            footprint.Configure(3f, RowPreference.Either, PlacementRuleKind.Coastal);
+            footprint.Configure(3f, RowPreference.Any, PlacementRuleKind.Coastal);
             var result = PlanetFootprint.For(prefab);
             Assert.AreEqual(3f, result.Width, 1e-4);
-            Assert.AreEqual(RowPreference.Either, result.Row);
+            Assert.AreEqual(RowPreference.Any, result.Row);
             Assert.IsInstanceOf<CoastalRule>(result.Rule);
         }
 

@@ -12,7 +12,7 @@ Pocket Planet shows a player's budget health through a small planet city. Sticki
 - Generate a planet in the style of the existing asset: a round outline with blocky, thresholded continents and sea inside it.
 - Add biomes for visual variety and as gameplay data.
 - Make the number of continents and the circumference adjustable. Circumference sets how much room the player has.
-- Provide layered data: surface (two building rows), underground, and air.
+- Provide layered data: surface (three building rows), underground, and air.
 - Allow building only on the rim, on land. Water is not buildable, except through dedicated rules for ports and bridges.
 - Add a world-mood axis from doom (−1) to hallowed (+1), with the hooks for its effects.
 - Drop the planet into the old game without rewriting existing systems.
@@ -40,7 +40,7 @@ A pure C# generator turns a seed plus settings into a `PlanetModel` that holds i
 ```
 PlanetSettings + seed ──► PlanetGenerator ──► PlanetModel
                                                ├─ BlockMap     (biome per block, drives visuals)
-                                               ├─ Surface      (rim profile, Back/Front rows)
+                                               ├─ Surface      (rim profile, Back/Middle/Front rows)
                                                ├─ Underground  (depth bands, data only)
                                                └─ Air          (altitude bands, traffic, zones)
                                                       │
@@ -107,7 +107,7 @@ Default set: Grassland, Forest, Desert, Snow, ShallowWater, DeepWater. All defau
 
 - **`SurfaceProfile`.** The rim is sampled every `SurfaceSampleSpacing × BlockSize` of arc. Each sample reads the block directly under the rim (radius `R − BlockSize/2`), so what is visible at the edge matches the data exactly. Each sample stores the terrain (Land/Water), the biome and `IsCoast` (adjacent to the other terrain type). Consecutive samples with the same terrain and biome merge into `SurfaceSegment(range, terrain, biome)`.
   - Queries: `TerrainAt(arc)`, `BiomeAt(arc)`, `SamplesIn(range)`, `Segments` (filterable), `IsAll(range, predicate)`.
-- **Rows.** `Surface.Rows[Back]` and `Surface.Rows[Front]`, each an `OccupancyTrack`.
+- **Rows.** `Surface.Row(Back)`, `Surface.Row(Middle)` and `Surface.Row(Front)`, each an `OccupancyTrack`. The player picks the row to build in with on-screen buttons (touch or mouse) or keys 1/2/3 and Tab. Rows further back draw behind, slightly smaller and darker.
 
 ### 6.2 Underground layer (data only)
 
@@ -142,7 +142,7 @@ Placement is free (no slots) but checked against data. The building **always sna
 
 - **`PlanetFootprint`** (component on building prefabs):
   - `Width` (arc length). If it isn't set, it's computed from the sprite bounds.
-  - `Row`: Back, Front or Either. The default is Front.
+  - `Row`: Back, Middle, Front or Any. The default is Any.
   - `Rule`: a reference to a placement rule.
   - `RequiredBiomeTags`, `ForbiddenBiomeTags`.
 - **`IPlacementRule`** implementations:

@@ -80,7 +80,7 @@ namespace PocketPlanet.Planet
         {
             track = rowTrack;
             row = surfaceRow;
-            RowSorting.Apply(gameObject, surfaceRow);
+            RowDepthStyle.Apply(gameObject, surfaceRow, RowDepthKind.Building);
         }
 
         void OnDestroy() => Release();

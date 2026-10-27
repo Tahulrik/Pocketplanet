@@ -20,7 +20,7 @@ namespace PocketPlanet.Planet.Editor
         const string OldPlanetPrefabPath = "Assets/Prefabs/Planet.prefab";
         const string LegacyPlanetObjectName = "Planet";
         static readonly string[] OldGeneratorTypes = { "MapDisplay", "MapGenerator" };
-        static readonly string[] GameScenes =
+        public static readonly string[] GameScenes =
         {
             "Assets/Scenes/Main.unity",
             "Assets/Scenes/Development_Main.unity",
@@ -94,6 +94,7 @@ namespace PocketPlanet.Planet.Editor
                 root.GetComponent<MeshRenderer>().sortingOrder = PlanetSortingOrder;
                 root.AddComponent<PlanetHost>().Configure(settings, view);
                 AddMood(root, view);
+                PlanetDecorSetup.Add(root);
                 PrefabUtility.SaveAsPrefabAsset(root, PrefabPath);
             }
             finally
