@@ -51,7 +51,7 @@ Pure math in the `PocketPlanet.Planet` assembly so edit-mode tests can reach it.
 - Input: `ArcShape` (`Ground` = 160° centred on up, `Ring` = 360°), slot angle in degrees, action count, page index.
 - Output: a list of `ArcSlot` values, each with a centre angle (degrees, 0 = local up, positive = clockwise) and a kind: `Action(index)`, `PreviousPage` or `NextPage`.
 - Capacity is `floor(span / slotAngle)`.
-- When the actions fit, they are centred on 0° in order, with the first action at the top centre. Unused slots stay empty; buttons are never stretched.
+- When the actions fit, they run left to right in order, and the group is centred on 0°. Unused slots stay empty; buttons are never stretched.
 - Ground shape, too many actions: the left end slot is `PreviousPage` when an earlier page exists and the right end slot is `NextPage` when a later page exists. The remaining slots hold actions. The page index is clamped to the valid range.
 - Ring shape, too many actions: the two slots on either side of 180° (the bottom) hold `PreviousPage` (left) and `NextPage` (right). Both always show, and paging wraps around.
 - Exposes the page count so the view can clamp or wrap the page.
