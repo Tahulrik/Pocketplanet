@@ -26,7 +26,10 @@ namespace PocketPlanet.Planet
         [SerializeField] int sortingOrder = 30;
 
         [Header("Rain")]
-        [SerializeField, Range(0f, 1f)] float rainChance = 0.2f;
+        [SerializeField, Min(0f), Tooltip("Narrower clouds never rain. A single puff is at most about 2.4 wide.")]
+        float minRainCloudWidth = 2.4f;
+        [SerializeField, Range(0f, 1f), Tooltip("Chance that a cloud wide enough to rain does.")]
+        float rainChance = 0.35f;
         [SerializeField] Color rainCloudTint = new Color(0.58f, 0.6f, 0.66f, 1f);
         [SerializeField, Range(0f, 1f), Tooltip("Extra rain chance at full doom mood.")]
         float doomRainBonus = 0.4f;
@@ -93,7 +96,7 @@ namespace PocketPlanet.Planet
 
             var formation = new GameObject("CloudFormation").AddComponent<CloudFormation>();
             formation.transform.SetParent(transform, false);
-            var raining = rng.NextDouble() < CurrentRainChance();
+            var raining = shape.Width >= minRainCloudWidth && rng.NextDouble() < CurrentRainChance();
             formation.Begin(frame, shape, cloudSprites, flight, raining ? rainCloudTint : Color.white, sortingOrder);
             if (raining)
                 StartRain(formation, shape);

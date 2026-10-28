@@ -404,7 +404,8 @@ MonoBehaviour:
   groupChance: 0.35
   groupSize: {x: 2, y: 5}
   sortingOrder: 30
-  rainChance: 0.2
+  minRainCloudWidth: 2.4
+  rainChance: 0.35
   rainCloudTint: {r: 0.58, g: 0.6, b: 0.66, a: 1}
   doomRainBonus: 0.4
   mood: {fileID: 8183574370078660775}
