@@ -393,8 +393,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d67248dc34e178a46b5a6908410368f6, type: 3}
   - {fileID: 21300000, guid: 291de019d41d5d84fbea413c2944fbb6, type: 3}
   - {fileID: 21300000, guid: a2fe2a24146babe48bf4e20885fa2e7e, type: 3}
-  maxFormations: 7
-  spawnInterval: {x: 4, y: 12}
+  maxFormations: 16
+  startingFormations: 12
+  spawnInterval: {x: 1.5, y: 4}
   lifetime: {x: 30, y: 70}
   growSeconds: 4
   heightRange: {x: 2.6, y: 6.2}

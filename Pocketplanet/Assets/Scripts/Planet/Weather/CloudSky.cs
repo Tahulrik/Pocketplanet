@@ -9,8 +9,10 @@ namespace PocketPlanet.Planet
 
         [Header("Clouds")]
         [SerializeField] Sprite[] cloudSprites = new Sprite[0];
-        [SerializeField, Min(0)] int maxFormations = 7;
-        [SerializeField] Vector2 spawnInterval = new Vector2(4f, 12f);
+        [SerializeField, Min(0)] int maxFormations = 16;
+        [SerializeField, Min(0), Tooltip("Clouds already in the sky when the game starts.")]
+        int startingFormations = 12;
+        [SerializeField] Vector2 spawnInterval = new Vector2(1.5f, 4f);
         [SerializeField] Vector2 lifetime = new Vector2(30f, 70f);
         [SerializeField, Min(0f), Tooltip("Seconds for all puffs of a cloud to grow in (and shrink out).")]
         float growSeconds = 4f;
@@ -50,9 +52,21 @@ namespace PocketPlanet.Planet
             frame = PlanetHost.Active.Planet.Frame;
             rng = new System.Random(Random.Range(int.MinValue, int.MaxValue));
             wind = rng.Next(2) == 0 ? 1f : -1f;
-            for (int i = 0; i < maxFormations / 2; i++)
-                Spawn(prewarmed: true);
+            FillSky();
             ScheduleNextSpawn();
+        }
+
+        // Spreads the starting clouds evenly around the planet at staggered ages,
+        // so any part of the sky has clouds and they don't all fade out together.
+        void FillSky()
+        {
+            var count = Mathf.Min(startingFormations, maxFormations);
+            for (int i = 0; i < count; i++)
+            {
+                var arc = (i + (float)rng.NextDouble()) / count * frame.Circumference;
+                var lifeShare = Range(new Vector2(0.05f, 0.85f));
+                Spawn(arc, lifeShare);
+            }
         }
 
         void Update()
@@ -61,21 +75,21 @@ namespace PocketPlanet.Planet
             if (Time.time < nextSpawn)
                 return;
             if (formations.Count < maxFormations)
-                Spawn(prewarmed: false);
+                Spawn(Range(new Vector2(0f, frame.Circumference)), 0f);
             ScheduleNextSpawn();
         }
 
-        void Spawn(bool prewarmed)
+        void Spawn(float arc, float lifeAlreadyLived)
         {
             var shape = CloudShape.Create(rng, ShapeSettings(), cloudSprites.Length);
             var life = Range(lifetime);
             var flight = new CloudFlight(
-                Range(new Vector2(0f, frame.Circumference)),
+                arc,
                 Range(heightRange),
                 wind * Range(driftSpeed),
                 life,
                 growSeconds,
-                prewarmed ? life * Range(new Vector2(0.15f, 0.6f)) : 0f);
+                life * lifeAlreadyLived);
 
             var formation = new GameObject("CloudFormation").AddComponent<CloudFormation>();
             formation.transform.SetParent(transform, false);
