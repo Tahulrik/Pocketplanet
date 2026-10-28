@@ -12,6 +12,8 @@ namespace PocketPlanet.Planet
             var blockMap = BlockMapGenerator.Generate(settings, biomes, landArcs, settings.Seed);
             var profile = SurfaceProfile.Build(blockMap, biomes, settings.Radius, settings.SampleSpacing);
             var surface = new SurfaceLayer(profile);
+            foreach (var mountain in MountainLayout.Generate(profile, settings, settings.Seed + 2))
+                surface.TryAddMountain(mountain);
             var underground = UndergroundLayer.Build(profile, biomes, settings.UndergroundBands, settings.Seed + 1);
             var air = new AirLayer(settings.AirBands, profile.Circumference);
             var queries = new PlanetQueries(surface, biomes);

@@ -6,8 +6,6 @@ namespace PocketPlanet.Planet
     // Lives on a cloud formation, whose local -Y points at the planet centre.
     public class RainShower : MonoBehaviour
     {
-        static Sprite dropSprite;
-
         readonly List<SpriteRenderer> drops = new List<SpriteRenderer>();
         float width;
         float top;
@@ -53,23 +51,12 @@ namespace PocketPlanet.Planet
             drop.transform.SetParent(transform, false);
             drop.transform.localPosition = new Vector3(RandomX(), startY, 0f);
             drop.transform.localScale = new Vector3(size.x, size.y, 1f);
-            drop.sprite = DropSprite();
+            drop.sprite = SolidSprite.White;
             drop.sortingOrder = sortingOrder;
             drop.color = color;
             return drop;
         }
 
         float RandomX() => (Random.value - 0.5f) * width;
-
-        static Sprite DropSprite()
-        {
-            if (dropSprite == null)
-            {
-                var texture = Texture2D.whiteTexture;
-                dropSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
-                    new Vector2(0.5f, 0.5f), texture.width);
-            }
-            return dropSprite;
-        }
     }
 }

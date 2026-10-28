@@ -6,35 +6,64 @@ namespace PocketPlanet.Planet
 {
     public sealed class FloraLayoutSettings
     {
-        public float GroveThreshold { get; set; } = 0.55f;
-        public float GroveNoiseCells { get; set; } = 20f;
+        public float Jitter { get; set; } = 0.45f;
         public float MinScale { get; set; } = 0.8f;
         public float MaxScale { get; set; } = 1.2f;
+        public int RegrowthAttempts { get; set; } = 12;
     }
 
     public static class FloraLayout
     {
+        // Walks the rim and drops a tree every 1/density units (with some jitter) wherever the biome has a rule,
+        // which spreads trees evenly instead of clumping them.
         public static List<FloraPlacement> Generate(SurfaceProfile profile, BiomeTable biomes,
             IReadOnlyList<FloraRule> rules, int seed, FloraLayoutSettings settings)
         {
             var rng = new System.Random(seed);
-            var groves = new SeededNoise(seed);
             var placements = new List<FloraPlacement>();
             var ruleByBiome = RuleIndexByBiome(biomes, rules);
 
-            for (int i = 0; i < profile.SampleCount; i++)
+            var arc = (float)rng.NextDouble() * profile.Spacing;
+            while (arc < profile.Circumference)
             {
-                var sample = profile.SampleAtIndex(i);
-                if (sample.Terrain != TerrainKind.Land || !ruleByBiome.TryGetValue(sample.Biome, out var ruleIndex))
-                    continue;
-                var arc = (i + (float)rng.NextDouble()) * profile.Spacing;
-                var chance = rules[ruleIndex].Density * profile.Spacing * GroveStrength(groves, arc, profile.Circumference, settings);
-                if (rng.NextDouble() >= chance)
-                    continue;
-                placements.Add(Plant(rng, arc, ruleIndex, rules[ruleIndex], settings));
+                if (TryRuleAt(profile, ruleByBiome, arc, out var ruleIndex) && rules[ruleIndex].Density > 0f)
+                {
+                    placements.Add(Plant(rng, arc, ruleIndex, rules[ruleIndex], settings));
+                    arc += Step(rng, rules[ruleIndex].Density, settings);
+                }
+                else
+                {
+                    arc += profile.Spacing;
+                }
             }
             return placements;
         }
+
+        public static FloraPlacement? FindRegrowthSpot(SurfaceProfile profile, BiomeTable biomes, IReadOnlyList<FloraRule> rules,
+            System.Random rng, FloraLayoutSettings settings, Func<float, SurfaceRow, bool> isFree)
+        {
+            var ruleByBiome = RuleIndexByBiome(biomes, rules);
+            for (int attempt = 0; attempt < settings.RegrowthAttempts; attempt++)
+            {
+                var arc = (float)rng.NextDouble() * profile.Circumference;
+                if (!TryRuleAt(profile, ruleByBiome, arc, out var ruleIndex) || rules[ruleIndex].Density <= 0f)
+                    continue;
+                var placement = Plant(rng, arc, ruleIndex, rules[ruleIndex], settings);
+                if (isFree(placement.Arc, placement.Row))
+                    return placement;
+            }
+            return null;
+        }
+
+        static bool TryRuleAt(SurfaceProfile profile, Dictionary<byte, int> ruleByBiome, float arc, out int ruleIndex)
+        {
+            var sample = profile.SampleAt(arc);
+            ruleIndex = -1;
+            return sample.Terrain == TerrainKind.Land && ruleByBiome.TryGetValue(sample.Biome, out ruleIndex);
+        }
+
+        static float Step(System.Random rng, float density, FloraLayoutSettings settings) =>
+            1f / density * Mathf.Lerp(1f - settings.Jitter, 1f + settings.Jitter, (float)rng.NextDouble());
 
         static FloraPlacement Plant(System.Random rng, float arc, int ruleIndex, FloraRule rule, FloraLayoutSettings settings)
         {
@@ -43,16 +72,6 @@ namespace PocketPlanet.Planet
             var variant = rng.Next(Math.Max(1, rule.VariantCount));
             var scale = Mathf.Lerp(settings.MinScale, settings.MaxScale, (float)rng.NextDouble());
             return new FloraPlacement(arc, row, ruleIndex, variant, scale, rng.Next(2) == 0);
-        }
-
-        // Noise is sampled on a circle so groves join up across the arc seam.
-        // Strength is 0 outside groves and rises toward each grove's heart, so trees thin out at the edges.
-        static float GroveStrength(SeededNoise noise, float arc, float circumference, FloraLayoutSettings settings)
-        {
-            var angle = arc / circumference * 2f * Mathf.PI;
-            var radius = settings.GroveNoiseCells / (2f * Mathf.PI);
-            var value = noise.Value(1000f + Mathf.Cos(angle) * radius, 1000f + Mathf.Sin(angle) * radius);
-            return Mathf.Clamp01((value - settings.GroveThreshold) / (1f - settings.GroveThreshold)) * 2f;
         }
 
         static Dictionary<byte, int> RuleIndexByBiome(BiomeTable biomes, IReadOnlyList<FloraRule> rules)

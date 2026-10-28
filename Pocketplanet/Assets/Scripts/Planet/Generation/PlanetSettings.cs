@@ -15,6 +15,12 @@ namespace PocketPlanet.Planet
         [Range(0.05f, 1f)] public float SurfaceSampleSpacing = 0.25f;
         public List<BiomeDefinition> BiomeTable = new List<BiomeDefinition>();
 
+        [Header("Mountains")]
+        [Min(0f), Tooltip("Mountains per world unit of land along the rim.")]
+        public float MountainsPerLandUnit = 0.08f;
+        public Vector2 MountainWidth = new Vector2(2.4f, 4.2f);
+        public Vector2 MountainHeight = new Vector2(1.4f, 2.6f);
+
         public List<BandDefinition> UndergroundBands = new List<BandDefinition>
         {
             new BandDefinition("Topsoil", 0f, 1f),

@@ -42,17 +42,55 @@ namespace PocketPlanet.Planet.Tests
         }
 
         [Test]
-        public void Trees_ClusterIntoGroves()
+        public void Trees_AreEvenlySpacedAcrossLand()
+        {
+            const float density = 2f;
+            var planet = TestPlanets.Generate(4);
+            var profile = planet.Surface.Profile;
+            var placements = FloraLayout.Generate(profile, planet.Biomes, AllLand(planet, density), 9, Settings);
+            var minStep = (1f - Settings.Jitter) / density - 1e-3f;
+            var maxStep = (1f + Settings.Jitter) / density + 1e-3f;
+
+            var checkedGaps = 0;
+            for (int i = 1; i < placements.Count; i++)
+            {
+                var from = placements[i - 1].Arc;
+                var gap = placements[i].Arc - from;
+                if (!profile.IsAll(new ArcRange(from, gap, profile.Circumference), s => s.Terrain == TerrainKind.Land))
+                    continue;
+                Assert.That(gap, Is.InRange(minStep, maxStep));
+                checkedGaps++;
+            }
+            Assert.Greater(checkedGaps, 10);
+        }
+
+        [Test]
+        public void TreeCount_FollowsDensity()
         {
             var planet = TestPlanets.Generate(4);
-            var landSamples = Enumerable.Range(0, planet.Surface.Profile.SampleCount)
-                .Count(i => planet.Surface.Profile.SampleAtIndex(i).Terrain == TerrainKind.Land);
-            var counts = Enumerable.Range(1, 6)
-                .Select(seed => FloraLayout.Generate(planet.Surface.Profile, planet.Biomes, AllLand(planet, 40f), seed, Settings).Count)
-                .ToArray();
-            var averageCoverage = counts.Average() / landSamples;
-            Assert.Greater(averageCoverage, 0.15, "Groves should be dense at high density.");
-            Assert.Less(averageCoverage, 0.7, "Grove noise should leave open land between groves.");
+            var landLength = planet.Surface.Profile.Segments.Where(s => s.Terrain == TerrainKind.Land).Sum(s => s.Range.Length);
+            var count = FloraLayout.Generate(planet.Surface.Profile, planet.Biomes, AllLand(planet, 1f), 9, Settings).Count;
+            Assert.That(count, Is.InRange(landLength * 0.75f, landLength * 1.25f));
+        }
+
+        [Test]
+        public void RegrowthSpot_IsOnLand_AndAcceptedByCaller()
+        {
+            var planet = TestPlanets.Generate(4);
+            var spot = FloraLayout.FindRegrowthSpot(planet.Surface.Profile, planet.Biomes, AllLand(planet, 1f),
+                new System.Random(3), Settings, (_, row) => row == SurfaceRow.Back);
+            Assert.IsTrue(spot.HasValue);
+            Assert.AreEqual(SurfaceRow.Back, spot.Value.Row);
+            Assert.AreEqual(TerrainKind.Land, planet.Surface.Profile.TerrainAt(spot.Value.Arc));
+        }
+
+        [Test]
+        public void RegrowthSpot_NoneWhenNothingIsFree()
+        {
+            var planet = TestPlanets.Generate(4);
+            var spot = FloraLayout.FindRegrowthSpot(planet.Surface.Profile, planet.Biomes, AllLand(planet, 1f),
+                new System.Random(3), Settings, (_, __) => false);
+            Assert.IsFalse(spot.HasValue);
         }
 
         [Test]

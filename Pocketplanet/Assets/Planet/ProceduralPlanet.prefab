@@ -1,5 +1,80 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &227085554327392679
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7116440455066621681}
+  - component: {fileID: 1750792330303793502}
+  m_Layer: 0
+  m_Name: Trees
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7116440455066621681
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227085554327392679}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5806995438344946321}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1750792330303793502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 227085554327392679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 121bac8f952958242a32b1bc80ae30ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: PocketPlanet.Planet::PocketPlanet.Planet.TreeGrove
+  seed: 1
+  scaleRange: {x: 1.1, y: 1.7}
+  jitter: 0.45
+  clearanceWidth: 0.25
+  minTreeSpacing: 0.4
+  regrowInterval: {x: 6, y: 14}
+  growSeconds: 8
+  flora:
+  - biomeId: Grassland
+    density: 0.8
+    sprites:
+    - {fileID: 21300000, guid: 222e59c1b3a41a54a957dd198047d464, type: 3}
+    - {fileID: 21300000, guid: 697f54a3622933b458606b2f429904b0, type: 3}
+    - {fileID: 21300000, guid: ee4d809d9a86a0e4bb73a32abca9344f, type: 3}
+  - biomeId: Forest
+    density: 2.2
+    sprites:
+    - {fileID: 21300000, guid: 222e59c1b3a41a54a957dd198047d464, type: 3}
+    - {fileID: 21300000, guid: 670280c06fafa884f87f4d0a73ab790b, type: 3}
+    - {fileID: 21300000, guid: 099157649bbcbad46a6cefcb11c418c5, type: 3}
+    - {fileID: 21300000, guid: 697f54a3622933b458606b2f429904b0, type: 3}
+  - biomeId: Desert
+    density: 0.5
+    sprites:
+    - {fileID: 21300000, guid: 4f9383ca13e923e46bb4cb49b8550d69, type: 3}
+    - {fileID: 21300000, guid: 618cb77b4000f3b4c89475b0561a6927, type: 3}
+  - biomeId: Snow
+    density: 1
+    sprites:
+    - {fileID: 21300000, guid: 2e01b8ed922a244439da0c9cbc8d41a7, type: 3}
+    - {fileID: 21300000, guid: 670280c06fafa884f87f4d0a73ab790b, type: 3}
 --- !u!1 &1280866951630994434
 GameObject:
   m_ObjectHideFlags: 0
@@ -39,8 +114,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2261116518398355605}
-  - {fileID: 8776548650395937569}
   - {fileID: 4345547064374405953}
+  - {fileID: 7116440455066621681}
+  - {fileID: 3534542006845165276}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4599256400026016775
@@ -97,7 +173,7 @@ MeshRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -10
+  m_SortingOrder: -2
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &5170480585711132265
@@ -219,7 +295,7 @@ MonoBehaviour:
   - {fileID: 8625033760530830847}
   - {fileID: 1193924511908636621}
   unitsPerSecond: 0.25
---- !u!1 &1407614388861927605
+--- !u!1 &6696427608574994588
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -227,22 +303,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8776548650395937569}
-  - component: {fileID: 97845631785827107}
+  - component: {fileID: 3534542006845165276}
+  - component: {fileID: 6240240352275887118}
   m_Layer: 0
-  m_Name: Trees
+  m_Name: Mountains
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8776548650395937569
+--- !u!4 &3534542006845165276
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1407614388861927605}
+  m_GameObject: {fileID: 6696427608574994588}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -251,47 +327,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5806995438344946321}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &97845631785827107
+--- !u!114 &6240240352275887118
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1407614388861927605}
+  m_GameObject: {fileID: 6696427608574994588}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 121bac8f952958242a32b1bc80ae30ee, type: 3}
+  m_Script: {fileID: 11500000, guid: ae2908f305572064b8177cb195ed23d3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: PocketPlanet.Planet::PocketPlanet.Planet.TreeGrove
-  seed: 1
-  groveThreshold: 0.55
-  groveNoiseCells: 20
-  scaleRange: {x: 1.1, y: 1.7}
-  clearanceWidth: 0.25
-  flora:
-  - biomeId: Grassland
-    density: 3
-    sprites:
-    - {fileID: 21300000, guid: 222e59c1b3a41a54a957dd198047d464, type: 3}
-    - {fileID: 21300000, guid: 697f54a3622933b458606b2f429904b0, type: 3}
-    - {fileID: 21300000, guid: ee4d809d9a86a0e4bb73a32abca9344f, type: 3}
-  - biomeId: Forest
-    density: 10
-    sprites:
-    - {fileID: 21300000, guid: 222e59c1b3a41a54a957dd198047d464, type: 3}
-    - {fileID: 21300000, guid: 670280c06fafa884f87f4d0a73ab790b, type: 3}
-    - {fileID: 21300000, guid: 099157649bbcbad46a6cefcb11c418c5, type: 3}
-    - {fileID: 21300000, guid: 697f54a3622933b458606b2f429904b0, type: 3}
-  - biomeId: Desert
-    density: 2
-    sprites:
-    - {fileID: 21300000, guid: 4f9383ca13e923e46bb4cb49b8550d69, type: 3}
-    - {fileID: 21300000, guid: 618cb77b4000f3b4c89475b0561a6927, type: 3}
-  - biomeId: Snow
-    density: 5
-    sprites:
-    - {fileID: 21300000, guid: 2e01b8ed922a244439da0c9cbc8d41a7, type: 3}
-    - {fileID: 21300000, guid: 670280c06fafa884f87f4d0a73ab790b, type: 3}
+  m_EditorClassIdentifier: PocketPlanet.Planet::PocketPlanet.Planet.MountainView
+  sprites:
+  - {fileID: 21300000, guid: 16f8aa925ca71204e94d753f6e49b030, type: 3}
+  - {fileID: 21300000, guid: 57f2ce43efcb26540bd201ce772d21ee, type: 3}
+  - {fileID: 21300000, guid: 694c7828c71a5df4d8bc2ced283ae7f3, type: 3}
 --- !u!1 &7272181036000376064
 GameObject:
   m_ObjectHideFlags: 0

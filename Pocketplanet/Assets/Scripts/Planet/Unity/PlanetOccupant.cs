@@ -65,7 +65,7 @@ namespace PocketPlanet.Planet
             var rowTrack = PlanetHost.Active.Planet.Surface.Row(placement.Row);
             if (!rowTrack.TryAdd(this, placement.Range))
                 return false;
-            Occupy(rowTrack, placement.Row);
+            Occupy(rowTrack, placement.Row, placement.Range);
             return true;
         }
 
@@ -78,7 +78,7 @@ namespace PocketPlanet.Planet
             Release();
             if (!rowTrack.TryAdd(next, range))
                 return false;
-            next.Occupy(rowTrack, currentRow);
+            next.Occupy(rowTrack, currentRow, range);
             return true;
         }
 
@@ -88,10 +88,11 @@ namespace PocketPlanet.Planet
             track = null;
         }
 
-        void Occupy(OccupancyTrack rowTrack, SurfaceRow surfaceRow)
+        void Occupy(OccupancyTrack rowTrack, SurfaceRow surfaceRow, ArcRange range)
         {
             track = rowTrack;
             row = surfaceRow;
+            BuildingFoundation.Ensure(gameObject, range.Length, PlanetHost.Active.Planet.Frame.Radius);
             RowDepthStyle.Apply(gameObject, surfaceRow, RowDepthKind.Building);
         }
 

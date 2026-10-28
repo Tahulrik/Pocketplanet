@@ -21,6 +21,7 @@ namespace PocketPlanet.Planet
     public class SurfaceLayer
     {
         readonly Dictionary<SurfaceRow, OccupancyTrack> rows = new Dictionary<SurfaceRow, OccupancyTrack>();
+        readonly List<MountainFeature> mountains = new List<MountainFeature>();
 
         public SurfaceLayer(SurfaceProfile profile)
         {
@@ -31,7 +32,17 @@ namespace PocketPlanet.Planet
 
         public SurfaceProfile Profile { get; }
 
+        public IReadOnlyList<MountainFeature> Mountains => mountains;
+
         public OccupancyTrack Row(SurfaceRow row) => rows[row];
+
+        public bool TryAddMountain(MountainFeature mountain)
+        {
+            if (!rows[mountain.Row].TryAdd(mountain, mountain.Range))
+                return false;
+            mountains.Add(mountain);
+            return true;
+        }
 
         public bool IsFreeInAllRows(ArcRange range)
         {

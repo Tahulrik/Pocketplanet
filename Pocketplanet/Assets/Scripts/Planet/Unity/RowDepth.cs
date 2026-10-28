@@ -8,7 +8,7 @@ namespace PocketPlanet.Planet
         Flora
     }
 
-    // Everything sits between the planet (order -10) and citizens (order 0 and up).
+    // Rows sit behind the planet (order -2), so anything below the rim is hidden, and behind characters (0 and up).
     // Within a row, flora sorts just behind buildings.
     public static class RowDepth
     {

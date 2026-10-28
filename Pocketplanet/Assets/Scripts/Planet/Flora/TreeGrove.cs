@@ -4,38 +4,50 @@ using UnityEngine;
 
 namespace PocketPlanet.Planet
 {
+    // Decorative trees: spread evenly at start, removed by anything built over them,
+    // and slowly regrown on free land of a fitting biome until the planet has its starting number again.
     public class TreeGrove : MonoBehaviour
     {
         [Serializable]
         public class BiomeFlora
         {
             public string biomeId;
-            [Min(0f), Tooltip("Average trees per world unit inside a grove.")]
-            public float density = 1.5f;
+            [Min(0f), Tooltip("Trees per world unit along the rim, across all layers.")]
+            public float density = 1f;
             public Sprite[] sprites = new Sprite[0];
         }
 
         sealed class PlantedTree
         {
             public GameObject Tree;
+            public Transform GrowPivot;
             public SurfaceRow Row;
             public ArcRange Range;
+            public float PlantedAt;
         }
 
         [SerializeField] int seed = 1;
-        [SerializeField, Range(0f, 1f), Tooltip("Higher leaves more open land between groves.")]
-        float groveThreshold = 0.55f;
-        [SerializeField, Min(1f), Tooltip("Noise cells around the planet. Roughly a third of them become groves.")]
-        float groveNoiseCells = 20f;
         [SerializeField] Vector2 scaleRange = new Vector2(1.1f, 1.7f);
+        [SerializeField, Range(0f, 0.9f), Tooltip("How much tree spacing varies around the even step.")]
+        float jitter = 0.45f;
         [SerializeField, Min(0.05f), Tooltip("Arc width a tree keeps clear. Buildings that overlap it remove the tree.")]
         float clearanceWidth = 0.25f;
+        [SerializeField, Min(0f), Tooltip("Closest a regrown tree may stand to another tree in the same layer.")]
+        float minTreeSpacing = 0.4f;
+        [SerializeField, Tooltip("Seconds between regrowth attempts.")]
+        Vector2 regrowInterval = new Vector2(6f, 14f);
+        [SerializeField, Min(0.01f)] float growSeconds = 8f;
         [SerializeField] BiomeFlora[] flora = new BiomeFlora[0];
 
         readonly List<PlantedTree> trees = new List<PlantedTree>();
         readonly Dictionary<SurfaceRow, Action<IPlanetOccupant, ArcRange>> clearHandlers =
             new Dictionary<SurfaceRow, Action<IPlanetOccupant, ArcRange>>();
         IPlanet planet;
+        FloraRule[] rules;
+        FloraLayoutSettings settings;
+        System.Random regrowthRng;
+        int targetCount;
+        float nextRegrowth;
 
         public int Count => trees.Count;
 
@@ -44,7 +56,15 @@ namespace PocketPlanet.Planet
             if (PlanetHost.Active == null)
                 return;
             planet = PlanetHost.Active.Planet;
-            Plant();
+            rules = Array.ConvertAll(flora, f => new FloraRule(f.biomeId, f.density, f.sprites.Length));
+            settings = new FloraLayoutSettings { Jitter = jitter, MinScale = scaleRange.x, MaxScale = scaleRange.y };
+            regrowthRng = new System.Random(seed + 1);
+
+            foreach (var placement in FloraLayout.Generate(planet.Surface.Profile, planet.Biomes, rules, seed, settings))
+                TryPlant(placement, fullyGrown: true);
+            targetCount = trees.Count;
+            ScheduleRegrowth();
+
             foreach (var row in SurfaceRows.FrontToBack)
                 planet.Surface.Row(row).OccupantAdded += ClearHandlerFor(row);
         }
@@ -57,31 +77,76 @@ namespace PocketPlanet.Planet
                 planet.Surface.Row(row).OccupantAdded -= ClearHandlerFor(row);
         }
 
-        void Plant()
+        void Update()
         {
-            var rules = Array.ConvertAll(flora, f => new FloraRule(f.biomeId, f.density, f.sprites.Length));
-            var settings = new FloraLayoutSettings
+            if (planet == null)
+                return;
+            GrowSaplings();
+            if (Time.time >= nextRegrowth)
             {
-                GroveThreshold = groveThreshold,
-                GroveNoiseCells = groveNoiseCells,
-                MinScale = scaleRange.x,
-                MaxScale = scaleRange.y
-            };
-            foreach (var placement in FloraLayout.Generate(planet.Surface.Profile, planet.Biomes, rules, seed, settings))
-                TryPlant(placement);
+                Regrow();
+                ScheduleRegrowth();
+            }
         }
 
-        void TryPlant(FloraPlacement placement)
+        void Regrow()
+        {
+            if (trees.Count >= targetCount)
+                return;
+            var spot = FloraLayout.FindRegrowthSpot(planet.Surface.Profile, planet.Biomes, rules, regrowthRng, settings, IsFreeForTree);
+            if (spot.HasValue)
+                TryPlant(spot.Value, fullyGrown: false);
+        }
+
+        bool IsFreeForTree(float arc, SurfaceRow row)
+        {
+            if (!planet.Surface.Row(row).IsFree(RangeAt(arc)))
+                return false;
+            foreach (var tree in trees)
+                if (tree.Row == row && ArcRange.Distance(tree.Range.Center, arc, planet.Frame.Circumference) < minTreeSpacing)
+                    return false;
+            return true;
+        }
+
+        void TryPlant(FloraPlacement placement, bool fullyGrown)
         {
             var sprites = flora[placement.RuleIndex].sprites;
             if (sprites.Length == 0 || sprites[placement.Variant] == null)
                 return;
-            var range = ArcRange.Centered(placement.Arc, clearanceWidth, planet.Frame.Circumference);
+            var range = RangeAt(placement.Arc);
             if (!planet.Surface.Row(placement.Row).IsFree(range))
                 return;
             var tree = TreeFactory.Create(transform, sprites[placement.Variant], placement, planet.Frame);
-            trees.Add(new PlantedTree { Tree = tree, Row = placement.Row, Range = range });
+            var planted = new PlantedTree
+            {
+                Tree = tree,
+                GrowPivot = tree.transform.Find(TreeFactory.GrowPivotName),
+                Row = placement.Row,
+                Range = range,
+                PlantedAt = fullyGrown ? float.NegativeInfinity : Time.time
+            };
+            trees.Add(planted);
+            SetGrowth(planted);
         }
+
+        void GrowSaplings()
+        {
+            foreach (var tree in trees)
+                if (Time.time - tree.PlantedAt < growSeconds + 0.1f)
+                    SetGrowth(tree);
+        }
+
+        void SetGrowth(PlantedTree tree)
+        {
+            if (tree.GrowPivot == null)
+                return;
+            var progress = Mathf.Clamp01((Time.time - tree.PlantedAt) / growSeconds);
+            tree.GrowPivot.localScale = Vector3.one * Mathf.SmoothStep(0f, 1f, progress);
+        }
+
+        ArcRange RangeAt(float arc) => ArcRange.Centered(arc, clearanceWidth, planet.Frame.Circumference);
+
+        void ScheduleRegrowth() => nextRegrowth = Time.time + Mathf.Lerp(regrowInterval.x, regrowInterval.y, (float)regrowthRng.NextDouble());
 
         Action<IPlanetOccupant, ArcRange> ClearHandlerFor(SurfaceRow row)
         {

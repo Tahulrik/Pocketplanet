@@ -10,7 +10,7 @@ namespace PocketPlanet.Planet
             Land("Grassland", "#00AE2F", "#3A3A3A", "#2BFF5A", new Vector2(0f, 1f), new Vector2(0f, 1f), "Fertile"),
             Land("Forest", "#007A24", "#262626", "#00D63F", new Vector2(0.25f, 0.65f), new Vector2(0.55f, 1f), "Fertile"),
             Land("Desert", "#E8C766", "#5A4A3A", "#FFE27A", new Vector2(0.65f, 1f), new Vector2(0f, 0.35f), "Arid"),
-            Land("Snow", "#F2F6F8", "#6B6B6B", "#FFFFFF", new Vector2(0f, 0.25f), new Vector2(0f, 1f), "Cold"),
+            Land("Snow", "#F2F6F8", "#6B6B6B", "#FFFFFF", new Vector2(0f, 0.12f), new Vector2(0f, 1f), "Cold"),
             Water(BiomeTable.ShallowWaterId, "#8ECDF7", "#F07A2A", "#A8EEFF"),
             Water(BiomeTable.DeepWaterId, "#63B3F2", "#C4300F", "#6FD3FF")
         };

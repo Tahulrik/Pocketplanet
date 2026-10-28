@@ -4,7 +4,8 @@ namespace PocketPlanet.Planet.Tests
 {
     public static class TestPlanets
     {
-        public static PlanetSettings Settings(int seed = 1, float circumference = 48f, int continents = 3, float coverage = 0.6f)
+        public static PlanetSettings Settings(int seed = 1, float circumference = 48f, int continents = 3, float coverage = 0.6f,
+            float mountainsPerLandUnit = 0f)
         {
             var settings = ScriptableObject.CreateInstance<PlanetSettings>();
             settings.Seed = seed;
@@ -12,11 +13,15 @@ namespace PocketPlanet.Planet.Tests
             settings.ContinentCount = continents;
             settings.LandCoverage = coverage;
             settings.BiomeTable = DefaultBiomes.Create();
+            settings.MountainsPerLandUnit = mountainsPerLandUnit;
             return settings;
         }
 
         public static PlanetModel Generate(int seed = 1, float circumference = 48f, int continents = 3, float coverage = 0.6f) =>
             PlanetGenerator.Generate(Settings(seed, circumference, continents, coverage));
+
+        public static PlanetModel GenerateWithMountains(int seed = 1, float mountainsPerLandUnit = 0.15f) =>
+            PlanetGenerator.Generate(Settings(seed, mountainsPerLandUnit: mountainsPerLandUnit));
 
         public static SurfaceProfile Profile(PlanetSettings settings)
         {

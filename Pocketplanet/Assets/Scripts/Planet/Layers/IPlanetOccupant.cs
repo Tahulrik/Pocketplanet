@@ -6,7 +6,8 @@ namespace PocketPlanet.Planet
     {
         Building,
         ConstructionSite,
-        Prop
+        Prop,
+        Mountain
     }
 
     public interface IPlanetOccupant

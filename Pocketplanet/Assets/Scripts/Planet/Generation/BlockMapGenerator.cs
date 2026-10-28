@@ -14,6 +14,9 @@ namespace PocketPlanet.Planet
         const float ClimateNoiseScale = 0.22f;
         const int ShapeOctaves = 3;
         const int ClimateOctaves = 2;
+        // Layered noise bunches around 0.5, so hot-and-dry or very cold spots almost never happened.
+        // Stretching it away from the middle lets deserts and snow show up on most planets.
+        const float ClimateContrast = 2.2f;
 
         public static BlockMap Generate(PlanetSettings settings, BiomeTable biomes, IReadOnlyList<ArcRange> landArcs, int seed)
         {
@@ -147,10 +150,12 @@ namespace PocketPlanet.Planet
 
         static byte ClassifyLand(BiomeTable biomes, SeededNoise noise, Vector2 p)
         {
-            var temperature = noise.Fractal(p.x * ClimateNoiseScale + 300f, p.y * ClimateNoiseScale + 300f, ClimateOctaves);
-            var moisture = noise.Fractal(p.x * ClimateNoiseScale + 600f, p.y * ClimateNoiseScale + 600f, ClimateOctaves);
+            var temperature = Stretch(noise.Fractal(p.x * ClimateNoiseScale + 300f, p.y * ClimateNoiseScale + 300f, ClimateOctaves));
+            var moisture = Stretch(noise.Fractal(p.x * ClimateNoiseScale + 600f, p.y * ClimateNoiseScale + 600f, ClimateOctaves));
             return biomes.ClassifyLand(temperature, moisture);
         }
+
+        static float Stretch(float climate) => Mathf.Clamp01(0.5f + (climate - 0.5f) * ClimateContrast);
 
         static bool HasLandNeighbour(bool[,] land, int x, int y)
         {

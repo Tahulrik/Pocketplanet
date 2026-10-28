@@ -18,7 +18,7 @@ MonoBehaviour:
   NormalColor: {r: 0.9490196, g: 0.9647059, b: 0.972549, a: 1}
   DoomColor: {r: 0.41960785, g: 0.41960785, b: 0.41960785, a: 1}
   HallowedColor: {r: 1, g: 1, b: 1, a: 1}
-  TemperatureRange: {x: 0, y: 0.25}
+  TemperatureRange: {x: 0, y: 0.12}
   MoistureRange: {x: 0, y: 1}
   Buildable: 1
   Tags:

@@ -8,16 +8,18 @@ namespace PocketPlanet.Planet.Editor
     {
         const string TreesName = "Trees";
         const string SkyName = "Sky";
+        const string MountainsName = "Mountains";
+        static readonly string[] MountainSprites = { "Mountain_01", "Mountain_02", "Mountain_03" };
         const string NatureFolder = "Assets/Graphics/Nature";
         const string CloudFolder = "Assets/Graphics/Planet";
         const int CloudSpriteCount = 7;
 
         static readonly (string Biome, float Density, string[] Trees)[] FloraByBiome =
         {
-            ("Grassland", 3f, new[] { "Tree_Round_01", "Tree_Round_02", "Tree_Bush_01" }),
-            ("Forest", 10f, new[] { "Tree_Round_01", "Tree_Pine_01", "Tree_Poplar_01", "Tree_Round_02" }),
-            ("Desert", 2f, new[] { "Tree_Cactus_01", "Tree_Bush_Dry_01" }),
-            ("Snow", 5f, new[] { "Tree_Pine_Snow_01", "Tree_Pine_01" })
+            ("Grassland", 0.8f, new[] { "Tree_Round_01", "Tree_Round_02", "Tree_Bush_01" }),
+            ("Forest", 2.2f, new[] { "Tree_Round_01", "Tree_Pine_01", "Tree_Poplar_01", "Tree_Round_02" }),
+            ("Desert", 0.5f, new[] { "Tree_Cactus_01", "Tree_Bush_Dry_01" }),
+            ("Snow", 1f, new[] { "Tree_Pine_Snow_01", "Tree_Pine_01" })
         };
 
         [MenuItem("Pocket Planet/Add Trees And Clouds To Planet Prefab")]
@@ -38,8 +40,37 @@ namespace PocketPlanet.Planet.Editor
 
         public static void Add(GameObject planetRoot)
         {
-            AddTrees(ReplaceChild(planetRoot, TreesName));
+            AddGround(planetRoot);
             AddSky(ReplaceChild(planetRoot, SkyName), planetRoot.GetComponent<WorldMoodController>());
+        }
+
+        [MenuItem("Pocket Planet/Refresh Trees And Mountains On Planet Prefab")]
+        public static void RefreshGroundOnPlanetPrefab()
+        {
+            var root = PrefabUtility.LoadPrefabContents(PlanetSetup.PrefabPath);
+            try
+            {
+                AddGround(root);
+                PrefabUtility.SaveAsPrefabAsset(root, PlanetSetup.PrefabPath);
+            }
+            finally
+            {
+                PrefabUtility.UnloadPrefabContents(root);
+            }
+            Debug.Log("Trees and mountains refreshed on the planet prefab.");
+        }
+
+        static void AddGround(GameObject planetRoot)
+        {
+            AddTrees(ReplaceChild(planetRoot, TreesName));
+            AddMountains(ReplaceChild(planetRoot, MountainsName));
+        }
+
+        static void AddMountains(GameObject holder)
+        {
+            var view = new SerializedObject(holder.AddComponent<MountainView>());
+            SetSprites(view.FindProperty("sprites"), MountainSprites.Select(m => $"{NatureFolder}/{m}.png"));
+            view.ApplyModifiedPropertiesWithoutUndo();
         }
 
         static void AddTrees(GameObject holder)
