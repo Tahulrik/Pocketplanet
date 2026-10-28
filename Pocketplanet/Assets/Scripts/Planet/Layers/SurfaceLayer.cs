@@ -13,10 +13,7 @@ namespace PocketPlanet.Planet
     {
         public static readonly IReadOnlyList<SurfaceRow> FrontToBack = new[] { SurfaceRow.Front, SurfaceRow.Middle, SurfaceRow.Back };
 
-        public static int DepthIndex(SurfaceRow row) => row == SurfaceRow.Front ? 0 : row == SurfaceRow.Middle ? 1 : 2;
-
-        public static bool IsInFrontOf(SurfaceRow row, SurfaceRow other) => DepthIndex(row) < DepthIndex(other);
-    }
+        public static int DepthIndex(SurfaceRow row) => row == SurfaceRow.Front ? 0 : row == SurfaceRow.Middle ? 1 : 2;    }
 
     public class SurfaceLayer
     {

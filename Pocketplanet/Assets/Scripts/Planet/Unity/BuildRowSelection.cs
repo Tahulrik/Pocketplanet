@@ -15,7 +15,7 @@ namespace PocketPlanet.Planet
 
         public static SurfaceRow? ActiveRow => Active != null ? Active.Current : (SurfaceRow?)null;
 
-        public static bool IsInteractive(SurfaceRow row) => !ActiveRow.HasValue || !SurfaceRows.IsInFrontOf(row, ActiveRow.Value);
+        public static bool IsInteractive(SurfaceRow row) => !ActiveRow.HasValue || row == ActiveRow.Value;
 
         public void Select(SurfaceRow row)
         {
@@ -29,16 +29,10 @@ namespace PocketPlanet.Planet
 
         public void StepForward() => Step(-1);
 
-        public void CycleBackward()
-        {
-            var rows = SurfaceRows.FrontToBack;
-            Select(rows[(DepthIndex() + 1) % rows.Count]);
-        }
-
         void Step(int direction)
         {
             var rows = SurfaceRows.FrontToBack;
-            Select(rows[Mathf.Clamp(DepthIndex() + direction, 0, rows.Count - 1)]);
+            Select(rows[(DepthIndex() + direction + rows.Count) % rows.Count]);
         }
 
         int DepthIndex() => SurfaceRows.DepthIndex(current);
@@ -54,7 +48,7 @@ namespace PocketPlanet.Planet
             if (Active != this)
                 return;
             Active = null;
-            ActiveRowChanged?.Invoke(SurfaceRow.Back);
+            ActiveRowChanged?.Invoke(SurfaceRow.Front);
         }
     }
 }

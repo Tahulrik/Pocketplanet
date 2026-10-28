@@ -24,7 +24,7 @@ public class BuildRowDesktopInput : MonoBehaviour
 		else if (Input.GetKeyDown(backKey))
 			selection.Select(SurfaceRow.Back);
 		else if (Input.GetKeyDown(cycleKey))
-			selection.CycleBackward();
+			selection.StepBack();
 
 		StepWithWheel();
 	}
