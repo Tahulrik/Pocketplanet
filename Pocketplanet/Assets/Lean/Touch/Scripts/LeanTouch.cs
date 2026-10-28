@@ -551,6 +551,12 @@ namespace Lean.Touch
 					var set   = touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Stationary || touch.phase == TouchPhase.Moved;
 
 					AddFinger(touch.fingerId, touch.position, touch.pressure, set);
+
+					// The Device Simulator turns the mouse into a single touch, so simulate the second finger from it too.
+					if (Application.isEditor == true && Input.touchCount == 1)
+					{
+						SimulateExtraFinger(touch.position, set);
+					}
 				}
 			}
 			// If there are no real touches, simulate some from the mouse?
@@ -575,32 +581,35 @@ namespace Lean.Touch
 					{
 						AddFinger(-1, mousePosition, 1.0f, mouseSet);
 
-						// Simulate pinch & twist?
-						if (SimulateMultiFingers == true)
-						{
-							//var finger0 = FindFinger(0);
-
-							if (Input.GetKey(MovePivotKey) == true)
-							{
-								pivot.x = mousePosition.x / Screen.width;
-								pivot.y = mousePosition.y / Screen.height;
-							}
-
-							if (Input.GetKey(PinchTwistKey) == true)
-							{
-								var center = new Vector2(Screen.width * pivot.x, Screen.height * pivot.y);
-
-								AddFinger(-2, center - (mousePosition - center), 1.0f, mouseSet);
-								//AddFinger(-2, finger0.StartScreenPosition - finger0.SwipeScreenDelta, 1.0f);
-							}
-							// Simulate multi drag?
-							else if (Input.GetKey(MultiDragKey) == true)
-							{
-								AddFinger(-2, mousePosition, 1.0f, mouseSet);
-							}
-						}
+						SimulateExtraFinger(mousePosition, mouseSet);
 					}
 				}
+			}
+		}
+
+		// Adds a second finger mirrored around the pivot (pinch & twist) or on top of the first (multi drag).
+		private void SimulateExtraFinger(Vector2 position, bool set)
+		{
+			if (SimulateMultiFingers == false)
+			{
+				return;
+			}
+
+			if (Input.GetKey(MovePivotKey) == true)
+			{
+				pivot.x = position.x / Screen.width;
+				pivot.y = position.y / Screen.height;
+			}
+
+			if (Input.GetKey(PinchTwistKey) == true)
+			{
+				var center = new Vector2(Screen.width * pivot.x, Screen.height * pivot.y);
+
+				AddFinger(-2, center - (position - center), 1.0f, set);
+			}
+			else if (Input.GetKey(MultiDragKey) == true)
+			{
+				AddFinger(-2, position, 1.0f, set);
 			}
 		}
 

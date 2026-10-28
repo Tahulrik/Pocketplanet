@@ -23,7 +23,6 @@ public class CameraController : MonoBehaviour
 
     public float FarthestZoom;
     public float NearestZoom;
-    public AnimationCurve CameraZoomMoveCurve;
     public Unity.Cinemachine.CinemachineVirtualCamera VCam;
 
     public GameObject CameraHolder;
@@ -193,8 +192,7 @@ public class CameraController : MonoBehaviour
     void SetZoomLevel(float newZoomLevel)
     {
         CurrentZoomAmount = zoomScale.ClampLevel(newZoomLevel);
-        var lerpAmount = Mathf.Clamp01(CameraZoomMoveCurve.Evaluate(CurrentZoomAmount));
-        CameraHolder.transform.localPosition = new Vector3(0f, Mathf.Lerp(0f, PlanetRadius, lerpAmount), 0f);
+        CameraHolder.transform.localPosition = new Vector3(0f, FocusHeightAt(CurrentZoomAmount), 0f);
         VCam.m_Lens.OrthographicSize = zoomScale.OrthoAt(CurrentZoomAmount);
 
         if (!IsZoomedIn)
@@ -202,6 +200,14 @@ public class CameraController : MonoBehaviour
             CentreCameraOnOrigin();
             StopFollowing();
         }
+    }
+
+    // The whole-planet view looks at the centre; every zoom that can be kept (at or above the snap
+    // threshold) looks at the surface, and zooms in between glide from one to the other.
+    float FocusHeightAt(float level)
+    {
+        var towardsSurface = Mathf.InverseLerp(MinZoomLevel, ZoomLevelSnapThreshold, level);
+        return PlanetRadius * Mathf.SmoothStep(0f, 1f, towardsSurface);
     }
 
     // One finger grabs the planet: moving around the centre spins the view, moving away from it pans up into the sky.

@@ -33,7 +33,9 @@ public class BuildRowSwipeInput : MonoBehaviour
 
 	void OnGesture(List<LeanFinger> fingers)
 	{
-		var touching = LeanTouch.GetFingers(true, false);
+		// Lifted fingers still appear for one frame; dropping them here is what ends the gesture,
+		// since Lean sends no gesture event once every finger is gone.
+		var touching = LeanTouch.GetFingers(true, false).FindAll(finger => !finger.Up);
 		if (touching.Count != 2)
 		{
 			ResetGesture();
