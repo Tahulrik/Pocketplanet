@@ -24,7 +24,8 @@ Tapping a building or character in city view selects it and opens a menu shaped 
 - An object is flying when it has an `IAirborne` component. Everything else gets the ground arch.
 - When the selected object is on a layer that is not active, the menu hides; the selection and highlight stay.
 - Tapping the off-screen arrow centres the camera on the object once. It does not start following. The existing "Follow" action is still how to follow.
-- Tapping the already selected object does nothing.
+- Tapping the already selected object does nothing, unless an action dismissed its menu. In that case the menu opens again.
+- Running an action that closes the menu (for example "Follow") keeps the selection and its highlight.
 
 ## Current state
 
@@ -40,7 +41,7 @@ Tapping a building or character in city view selects it and opens a menu shaped 
 Plain C# class with no Unity view code.
 
 - `GameObject Current`, `void Select(GameObject)`, `void Clear()`, `event Action Changed`.
-- `Select` with the current object does nothing and raises no event.
+- `Select` with the current object raises `Reselected` instead of `Changed`. The menu uses it to reopen after being dismissed.
 - When `Current` is destroyed, the selection reads as empty and raises `Changed` once. This is checked with a `Refresh()` call that the owning component runs each frame, so `Selection` stays testable in edit mode.
 
 ### `ArcLayout`
@@ -52,7 +53,7 @@ Pure math in the `PocketPlanet.Planet` assembly so edit-mode tests can reach it.
 - Capacity is `floor(span / slotAngle)`.
 - When the actions fit, they are centred on 0° in order, with the first action at the top centre. Unused slots stay empty; buttons are never stretched.
 - Ground shape, too many actions: the left end slot is `PreviousPage` when an earlier page exists and the right end slot is `NextPage` when a later page exists. The remaining slots hold actions. The page index is clamped to the valid range.
-- Ring shape, too many actions: one slot at 180° (the bottom) holds `PreviousPage` and the slot next to it `NextPage`. Both always show, and paging wraps around.
+- Ring shape, too many actions: the two slots on either side of 180° (the bottom) hold `PreviousPage` (left) and `NextPage` (right). Both always show, and paging wraps around.
 - Exposes the page count so the view can clamp or wrap the page.
 
 ### `ArcMenuView`
@@ -68,7 +69,7 @@ Replaces `RadialContextMenu`. A MonoBehaviour on the screen-space overlay canvas
 - It is visible only when `Selection.Current` is set, the camera state is `CityView`, the object has actions and the object is on the interactive layer (`RowDepthStyle.IsInteractiveObject`). Otherwise it hides without clearing the selection, and shows again when the conditions hold.
 - It rebuilds its buttons when the selection changes or a page arrow is pressed. A new selection starts on page 0.
 - The info pill (`IContextMenu.ShowInfo`) keeps working: it sits above the arch's top centre.
-- `IContextMenu.Close()` clears the selection, so actions such as "Demolish" still dismiss the menu.
+- `IContextMenu.Close()` dismisses the menu but keeps the selection. The menu stays dismissed until the selection changes or the player taps the selected object again.
 
 ### `SelectionHighlight`
 
@@ -104,7 +105,7 @@ An arrow on the overlay canvas.
 
 ## Error handling
 
-- The selected object is destroyed or deactivated: the selection clears and all three views hide.
+- The selected object is destroyed, deactivated or demolished (a building that is no longer standing, as `WorldPicker` defines it): the selection clears and all three views hide.
 - There is no `PlanetHost.Active` or no main camera: the views hide and do nothing that frame.
 - The object has no visible sprites: the highlight uses the object's position with the minimum size.
 
@@ -123,7 +124,7 @@ Edit-mode tests in `Tests/EditMode/Planet`:
   - ring pages wrapping around
 - `SelectionTests`:
   - select raises `Changed`
-  - selecting the same object raises nothing
+  - selecting the same object raises `Reselected`, not `Changed`
   - selecting another object switches
   - clear
   - a destroyed object reads as empty after `Refresh()`
