@@ -3,7 +3,7 @@ using Lean.Touch;
 using PocketPlanet.Planet;
 using UnityEngine;
 
-// Two fingers moving up together step one layer back, down steps one layer forward.
+// Two fingers moving up together push the layer belt back, down pushes it forward.
 // A pinch changes the finger spread a lot, a swipe barely does, which is how the two are told apart.
 [RequireComponent(typeof(BuildRowSelection))]
 public class BuildRowSwipeInput : MonoBehaviour
@@ -67,9 +67,9 @@ public class BuildRowSwipeInput : MonoBehaviour
 			return;
 
 		if (travel.y > 0f)
-			selection.StepBack();
+			selection.PushBack();
 		else
-			selection.StepForward();
+			selection.PushForward();
 		usedThisGesture = true;
 	}
 

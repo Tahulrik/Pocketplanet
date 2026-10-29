@@ -66,7 +66,7 @@ public class BuildRowIndicator : MonoBehaviour
 		button.transition = Selectable.Transition.None;
 		button.onClick.AddListener(() => selection.Select(row));
 
-		var bar = OverlayFactory.CreateImage(rect, "Bar", null, new Vector2(barLength * RowDepth.Scale(row), barThickness), idleColor);
+		var bar = OverlayFactory.CreateImage(rect, "Bar", null, new Vector2(barLength, barThickness), idleColor);
 		bar.raycastTarget = false;
 		bars[row] = bar;
 	}

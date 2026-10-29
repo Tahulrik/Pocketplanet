@@ -24,19 +24,19 @@ public class BuildRowDesktopInput : MonoBehaviour
 		else if (Input.GetKeyDown(backKey))
 			selection.Select(SurfaceRow.Back);
 		else if (Input.GetKeyDown(cycleKey))
-			selection.StepBack();
+			selection.PushBack();
 
-		StepWithWheel();
+		PushWithWheel();
 	}
 
-	void StepWithWheel()
+	void PushWithWheel()
 	{
 		if (!IsLayerWheelHeld)
 			return;
 		var wheel = Input.mouseScrollDelta.y;
 		if (wheel > 0f)
-			selection.StepBack();
+			selection.PushBack();
 		else if (wheel < 0f)
-			selection.StepForward();
+			selection.PushForward();
 	}
 }

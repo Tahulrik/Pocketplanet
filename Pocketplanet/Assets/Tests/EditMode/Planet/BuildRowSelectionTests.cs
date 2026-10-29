@@ -23,23 +23,33 @@ namespace PocketPlanet.Planet.Tests
         }
 
         [Test]
-        public void StepBack_GoesOneLayerDeeper_AndWrapsToFront()
+        public void PushBack_MovesEveryRowDeeper_AndWrapsTheBackRowToTheFront()
         {
-            selection.StepBack();
-            Assert.AreEqual(SurfaceRow.Middle, selection.Current);
-            selection.StepBack();
+            selection.PushBack();
+
             Assert.AreEqual(SurfaceRow.Back, selection.Current);
-            selection.StepBack();
-            Assert.AreEqual(SurfaceRow.Front, selection.Current);
+            Assert.AreEqual(0, RowDepth.Place(SurfaceRow.Back));
+            Assert.AreEqual(1, RowDepth.Place(SurfaceRow.Front));
+            Assert.AreEqual(2, RowDepth.Place(SurfaceRow.Middle));
         }
 
         [Test]
-        public void StepForward_WrapsFromFrontToBack()
+        public void PushForward_BringsTheNextRowToTheFront_AndSendsTheFrontRowToTheBack()
         {
-            selection.StepForward();
-            Assert.AreEqual(SurfaceRow.Back, selection.Current);
-            selection.StepForward();
+            selection.PushForward();
+
             Assert.AreEqual(SurfaceRow.Middle, selection.Current);
+            Assert.AreEqual(1, RowDepth.Place(SurfaceRow.Back));
+            Assert.AreEqual(2, RowDepth.Place(SurfaceRow.Front));
+        }
+
+        [Test]
+        public void ThreePushes_ComeFullCircle()
+        {
+            selection.PushBack();
+            selection.PushBack();
+            selection.PushBack();
+            Assert.AreEqual(SurfaceRow.Front, selection.Current);
         }
 
         [Test]
@@ -52,37 +62,28 @@ namespace PocketPlanet.Planet.Tests
         }
 
         [Test]
-        public void IsInFrontOf_FollowsDepthOrder()
+        public void RowsFurtherBackOnTheBelt_SitDeeperInTheShade()
         {
-            Assert.IsTrue(SurfaceRows.IsInFrontOf(SurfaceRow.Front, SurfaceRow.Middle));
-            Assert.IsTrue(SurfaceRows.IsInFrontOf(SurfaceRow.Middle, SurfaceRow.Back));
-            Assert.IsFalse(SurfaceRows.IsInFrontOf(SurfaceRow.Back, SurfaceRow.Front));
-            Assert.IsFalse(SurfaceRows.IsInFrontOf(SurfaceRow.Middle, SurfaceRow.Middle));
+            selection.Select(SurfaceRow.Middle);
+
+            Assert.AreEqual(1f, RowDepth.Shade(SurfaceRow.Middle));
+            Assert.Less(RowDepth.Shade(SurfaceRow.Back), 1f);
+            Assert.Less(RowDepth.Shade(SurfaceRow.Front), RowDepth.Shade(SurfaceRow.Back));
         }
 
         [Test]
-        public void Tint_ShowsActiveRowFully_SeesThroughRowsInFront_AndDimsRowsBehind()
-        {
-            Assert.AreEqual(Color.white, RowDepth.Tint(SurfaceRow.Middle, SurfaceRow.Middle));
-            Assert.Less(RowDepth.Tint(SurfaceRow.Front, SurfaceRow.Middle).a, 1f);
-            var behind = RowDepth.Tint(SurfaceRow.Back, SurfaceRow.Middle);
-            Assert.AreEqual(1f, behind.a);
-            Assert.Less(behind.r, RowDepth.Shade(SurfaceRow.Back));
-        }
-
-        [Test]
-        public void SwitchingRows_KeepsTheDepthOrder_AndMakesRowsInFrontSeeThrough()
+        public void PushingBack_RestylesRows_SoTheActiveOneIsInFront()
         {
             var front = StyledObject(SurfaceRow.Front);
             var back = StyledObject(SurfaceRow.Back);
             try
             {
-                selection.Select(SurfaceRow.Back);
+                selection.PushBack();
 
-                Assert.Greater(Order(front), Order(back));
-                Assert.Greater(front.transform.localScale.x, back.transform.localScale.x);
-                Assert.Less(front.GetComponentInChildren<SpriteRenderer>().color.a, 1f);
+                Assert.Greater(Order(back), Order(front));
+                Assert.Greater(back.transform.localScale.x, front.transform.localScale.x);
                 Assert.AreEqual(Color.white, back.GetComponentInChildren<SpriteRenderer>().color);
+                Assert.Less(front.GetComponentInChildren<SpriteRenderer>().color.r, 1f);
             }
             finally
             {

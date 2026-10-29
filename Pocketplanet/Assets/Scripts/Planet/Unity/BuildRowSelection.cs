@@ -25,11 +25,12 @@ namespace PocketPlanet.Planet
             ActiveRowChanged?.Invoke(row);
         }
 
-        public void StepBack() => Step(1);
+        // Pushing the belt back sends every row one place deeper; the row at the very back wraps round to the front.
+        public void PushBack() => Advance(-1);
 
-        public void StepForward() => Step(-1);
+        public void PushForward() => Advance(1);
 
-        void Step(int direction)
+        void Advance(int direction)
         {
             var rows = SurfaceRows.FrontToBack;
             Select(rows[(DepthIndex() + direction + rows.Count) % rows.Count]);
