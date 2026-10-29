@@ -34,6 +34,7 @@ public static class GameControlsSetup
 			root.AddComponent<WorldTapSelector>();
 			root.AddComponent<ArcMenuView>();
 			root.AddComponent<SelectionHighlight>();
+			root.AddComponent<OffscreenPointer>();
 		});
 
 	// Batch entry point: Unity -batchmode -executeMethod GameControlsSetup.SetUpEverything -quit
