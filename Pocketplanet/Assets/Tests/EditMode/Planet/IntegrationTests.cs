@@ -200,9 +200,26 @@ namespace PocketPlanet.Planet.Tests
             Assert.Less(RowDepth.SortingOrder(SurfaceRow.Middle, RowDepthKind.Building), RowDepth.SortingOrder(SurfaceRow.Front, RowDepthKind.Flora));
         }
 
-        PlanetOccupant ReserveWithSprite(RowPreference row, float arc)
+        [Test]
+        public void RowDepth_ScaffoldSortsInFrontOfBuildingsInSameRow_AndBehindRowInFront()
         {
-            var occupant = NewOccupant();
+            foreach (var row in SurfaceRows.FrontToBack)
+                Assert.Greater(RowDepth.SortingOrder(row, RowDepthKind.Scaffold), RowDepth.SortingOrder(row, RowDepthKind.Building));
+            Assert.Less(RowDepth.SortingOrder(SurfaceRow.Middle, RowDepthKind.Scaffold), RowDepth.SortingOrder(SurfaceRow.Front, RowDepthKind.Flora));
+        }
+
+        [Test]
+        public void ConstructionSite_SortsInFrontOfTheBuildingItTransfersTo()
+        {
+            var site = ReserveWithSprite(RowPreference.Front, LandArc(), OccupantKind.ConstructionSite);
+            var building = NewOccupant();
+            Assert.IsTrue(site.TransferTo(building));
+            Assert.Greater(site.GetComponent<SortingGroup>().sortingOrder, building.GetComponent<SortingGroup>().sortingOrder);
+        }
+
+        PlanetOccupant ReserveWithSprite(RowPreference row, float arc, OccupantKind kind = OccupantKind.Building)
+        {
+            var occupant = NewOccupant(kind);
             var sprite = new GameObject("sprite").AddComponent<SpriteRenderer>();
             sprite.transform.SetParent(occupant.transform);
             occupant.Reserve(Planet.Placement.Check(new Footprint(1f, row, new LandOnlyRule()), arc));

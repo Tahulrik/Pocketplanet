@@ -16,7 +16,7 @@ namespace PocketPlanet.Planet.Editor
         const string SettingsPath = Root + "/DefaultPlanetSettings.asset";
         const string MaterialPath = Root + "/PlanetSurface.mat";
         const string ShaderName = "PocketPlanet/PlanetSurface";
-        // In front of the surface rows (-9 to -4) so anything sunk below the rim is hidden, behind characters (0+).
+        // In front of the surface rows (-11 to -3) so anything sunk below the rim is hidden, behind characters (0+).
         const int PlanetSortingOrder = -2;
         const string OldPlanetPrefabPath = "Assets/Prefabs/Planet.prefab";
         const string LegacyPlanetObjectName = "Planet";

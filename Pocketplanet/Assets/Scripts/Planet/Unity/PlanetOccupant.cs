@@ -93,8 +93,10 @@ namespace PocketPlanet.Planet
             track = rowTrack;
             row = surfaceRow;
             BuildingFoundation.Ensure(gameObject, range.Length, PlanetHost.Active.Planet.Frame.Radius);
-            RowDepthStyle.Apply(gameObject, surfaceRow, RowDepthKind.Building);
+            RowDepthStyle.Apply(gameObject, surfaceRow, DepthKind);
         }
+
+        RowDepthKind DepthKind => kind == OccupantKind.ConstructionSite ? RowDepthKind.Scaffold : RowDepthKind.Building;
 
         void OnDestroy() => Release();
     }

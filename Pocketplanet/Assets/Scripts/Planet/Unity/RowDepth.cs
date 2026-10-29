@@ -4,17 +4,19 @@ namespace PocketPlanet.Planet
 {
     public enum RowDepthKind
     {
+        Flora,
         Building,
-        Flora
+        Scaffold
     }
 
     // The rows behave like a conveyor belt: the active row is always in front, the others follow behind it
     // in belt order, each one further back sitting deeper in the shade.
     // Rows sit behind the planet (order -2), so anything below the rim is hidden, and behind characters (0 and up).
-    // Within a row, flora sorts just behind buildings.
+    // Within a row, flora sorts just behind buildings and scaffolding just in front, so a finished building
+    // stays hidden until its scaffold is removed.
     public static class RowDepth
     {
-        static readonly int[] SortingBases = { -5, -7, -9 };
+        static readonly int[] SortingBases = { -5, -8, -11 };
         static readonly float[] Scales = { 1f, 0.91f, 0.82f };
         static readonly float[] Shades = { 1f, 0.72f, 0.5f };
 
@@ -28,8 +30,7 @@ namespace PocketPlanet.Planet
 
         public static int SortingOrder(SurfaceRow row, RowDepthKind kind)
         {
-            var rowBase = SortingBases[Place(row)];
-            return kind == RowDepthKind.Flora ? rowBase : rowBase + 1;
+            return SortingBases[Place(row)] + (int)kind;
         }
 
         public static float Scale(SurfaceRow row) => Scales[Place(row)];
