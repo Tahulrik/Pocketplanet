@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8174413588502939524}
-  - component: {fileID: 15955483275469566}
   - component: {fileID: 837250260395315325}
+  - component: {fileID: 7521631685655063349}
   m_Layer: 0
   m_Name: WorldInteraction
   m_TagString: Untagged
@@ -33,27 +33,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &15955483275469566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3625393706362390283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c89160f27a6a1149aa92ac47e235d05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RadialContextMenu
-  buttonSize: 150
-  minRadius: 190
-  maxRadius: 520
-  padding: 60
-  fontSize: 26
-  ringColor: {r: 1, g: 1, b: 1, a: 0.55}
-  buttonColor: {r: 1, g: 0.92, b: 0.55, a: 1}
-  unavailableColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-  infoColor: {r: 1, g: 1, b: 1, a: 0.92}
 --- !u!114 &837250260395315325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,3 +46,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldTapSelector
   tapTolerance: 0.015
+--- !u!114 &7521631685655063349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3625393706362390283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f26f3eeaedf274143b3fa0bc01b7dabe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArcMenuView
+  radius: 300
+  buttonSize: 140
+  buttonGap: 12
+  fontSize: 26
+  ringColor: {r: 1, g: 1, b: 1, a: 0.55}
+  buttonColor: {r: 1, g: 0.92, b: 0.55, a: 1}
+  arrowColor: {r: 1, g: 1, b: 1, a: 0.9}
+  unavailableColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+  infoColor: {r: 1, g: 1, b: 1, a: 0.92}

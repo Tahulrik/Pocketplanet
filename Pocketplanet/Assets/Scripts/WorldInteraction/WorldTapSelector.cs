@@ -1,46 +1,38 @@
-using System.Collections.Generic;
-using System.Linq;
 using Lean.Touch;
+using PocketPlanet.Planet;
 using UnityEngine;
 
-[RequireComponent(typeof(RadialContextMenu))]
+// Turns taps in city view into selections: a tap on something selects it, a tap on empty space clears.
 public class WorldTapSelector : MonoBehaviour
 {
 	[SerializeField, Range(0f, 0.1f), Tooltip("Extra tap tolerance around sprites, as a fraction of the camera's view height.")]
 	float tapTolerance = 0.015f;
 
-	readonly List<IContextActionProvider> providers = new List<IContextActionProvider>
-	{
-		new BuildingActionProvider(),
-		new CitizenActionProvider()
-	};
+	public Selection Selection { get; private set; }
+	public ContextActionCatalog Actions { get; } = new ContextActionCatalog();
 
-	RadialContextMenu menu;
-
-	void Awake() => menu = GetComponent<RadialContextMenu>();
+	void Awake() => Selection = new Selection(WorldPicker.IsPickable);
 
 	void OnEnable() => LeanTouch.OnFingerTap += OnTap;
 
 	void OnDisable() => LeanTouch.OnFingerTap -= OnTap;
 
+	void Update() => Selection.Refresh();
+
 	void OnTap(LeanFinger finger)
 	{
-		if (finger.StartedOverGui || finger.IsOverGui || finger.TapCount > 1 || IsPlacingSomething())
+		if (finger.StartedOverGui || finger.IsOverGui || finger.TapCount > 1 || IsPlacingSomething() || !IsInCityView())
 			return;
 
 		var margin = Camera.main.orthographicSize * 2f * tapTolerance;
 		var target = WorldPicker.Pick(PlanetPlane.FromScreen(finger.ScreenPosition), margin);
-		var actions = target != null ? ActionsFor(target) : new List<ContextAction>();
-		if (actions.Count == 0 || target == menu.Target)
-		{
-			menu.Close();
-			return;
-		}
-		menu.Open(target, actions);
+		if (target == null || !Actions.HasActions(target))
+			Selection.Clear();
+		else
+			Selection.Select(target);
 	}
 
-	List<ContextAction> ActionsFor(GameObject target) =>
-		providers.Where(p => p.Handles(target)).SelectMany(p => p.ActionsFor(target)).ToList();
+	static bool IsInCityView() => GameHandler.Instance.CameraController.IsZoomedIn;
 
 	static bool IsPlacingSomething() => FindAnyObjectByType<ObjectSpawner>() != null;
 }

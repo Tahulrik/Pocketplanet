@@ -22,15 +22,18 @@ public static class GameControlsSetup
 			root.AddComponent<BuildRowToast>();
 			root.AddComponent<EnsureEventSystem>();
 		});
-		var interaction = CreatePrefab(InteractionPrefabPath, "WorldInteraction", root =>
-		{
-			root.AddComponent<RadialContextMenu>();
-			root.AddComponent<WorldTapSelector>();
-		});
+		var interaction = CreateInteractionPrefab();
 
 		foreach (var scenePath in PlanetSetup.GameScenes)
 			AddToScene(scenePath, buildRows, interaction);
 	}
+
+	public static GameObject CreateInteractionPrefab() =>
+		CreatePrefab(InteractionPrefabPath, "WorldInteraction", root =>
+		{
+			root.AddComponent<WorldTapSelector>();
+			root.AddComponent<ArcMenuView>();
+		});
 
 	// Batch entry point: Unity -batchmode -executeMethod GameControlsSetup.SetUpEverything -quit
 	public static void SetUpEverything()
