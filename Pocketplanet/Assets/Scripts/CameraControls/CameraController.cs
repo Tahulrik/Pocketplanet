@@ -63,7 +63,7 @@ public class CameraController : MonoBehaviour
 
     bool IsCurrentActionManual => CurrentCameraState != CameraState.EventView && CurrentCameraState != CameraState.MovingTo;
 
-    bool IsZoomedIn => CurrentZoomAmount >= ZoomLevelSnapThreshold;
+    public bool IsZoomedIn => CurrentZoomAmount >= ZoomLevelSnapThreshold;
 
     void OnEnable()
     {
@@ -106,6 +106,13 @@ public class CameraController : MonoBehaviour
 
     public void StopFollowing() => followTarget = null;
 
+    public void FocusOn(Transform target)
+    {
+        StopFollowing();
+        StopAllCoroutines();
+        StartCoroutine(MoveCameraTo(target.position, IsZoomedIn ? CurrentZoomAmount : comfortableZoom, aimHeight: true));
+    }
+
     void LateUpdate()
     {
         HandleWheelZoom();
@@ -121,7 +128,7 @@ public class CameraController : MonoBehaviour
                 {
                     var targetPos = fingers[0].GetWorldPosition(0f);
                     targetPos.z = 0;
-                    StartCoroutine(MoveCameraToSelectedPosition(targetPos));
+                    StartCoroutine(MoveCameraTo(targetPos, comfortableZoom));
                     break;
                 }
                 DragAroundPlanet(allowHeight: false);
@@ -242,7 +249,12 @@ public class CameraController : MonoBehaviour
             return;
         Vector2 offset = followTarget.position - transform.position;
         transform.rotation = Quaternion.LookRotation(Vector3.forward, offset);
-        var heightAboveCameraBase = offset.magnitude - CameraHolder.transform.localPosition.y;
+        AimHeightAt(followTarget.position);
+    }
+
+    void AimHeightAt(Vector2 worldPoint)
+    {
+        var heightAboveCameraBase = (worldPoint - (Vector2)transform.position).magnitude - CameraHolder.transform.localPosition.y;
         var local = CameraTarget.transform.localPosition;
         local.y = Mathf.Clamp(heightAboveCameraBase, CameraMinMoveHeight, CameraMaxMoveHeight);
         CameraTarget.transform.localPosition = local;
@@ -271,7 +283,7 @@ public class CameraController : MonoBehaviour
         SetCameraZoomState();
     }
 
-    IEnumerator MoveCameraToSelectedPosition(Vector2 targetPosition)
+    IEnumerator MoveCameraTo(Vector2 targetPosition, float zoomLevel, bool aimHeight = false)
     {
         CurrentCameraState = CameraState.MovingTo;
         var startRotation = transform.rotation;
@@ -281,12 +293,14 @@ public class CameraController : MonoBehaviour
         {
             var eased = Mathf.SmoothStep(0f, 1f, t);
             transform.rotation = Quaternion.Slerp(startRotation, endRotation, eased);
-            SetZoomLevel(Mathf.Lerp(startZoom, comfortableZoom, eased));
+            SetZoomLevel(Mathf.Lerp(startZoom, zoomLevel, eased));
             yield return null;
         }
         transform.rotation = endRotation;
-        SetZoomLevel(comfortableZoom);
+        SetZoomLevel(zoomLevel);
         SetCameraZoomState();
+        if (aimHeight && IsZoomedIn)
+            AimHeightAt(targetPosition);
     }
 
     void SetCameraZoomState()
