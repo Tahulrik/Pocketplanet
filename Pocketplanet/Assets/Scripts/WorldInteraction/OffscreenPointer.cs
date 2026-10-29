@@ -26,7 +26,7 @@ public class OffscreenPointer : MonoBehaviour
 
 	void LateUpdate()
 	{
-		var target = selector.Selection?.Current;
+		var target = selector != null ? selector.Selection?.Current : null;
 		var camera = Camera.main;
 		var shown = target != null && camera != null && TryPlace(camera.WorldToViewportPoint(WorldPicker.VisibleBounds(target).center));
 		arrow.gameObject.SetActive(shown);

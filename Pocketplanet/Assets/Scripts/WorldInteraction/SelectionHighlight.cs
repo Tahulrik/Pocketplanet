@@ -24,7 +24,7 @@ public class SelectionHighlight : MonoBehaviour
 
 	void LateUpdate()
 	{
-		var target = selector.Selection?.Current;
+		var target = selector != null ? selector.Selection?.Current : null;
 		var camera = Camera.main;
 		var visible = target != null && camera != null && TryPlace(camera, WorldPicker.VisibleBounds(target));
 		ring.gameObject.SetActive(visible);

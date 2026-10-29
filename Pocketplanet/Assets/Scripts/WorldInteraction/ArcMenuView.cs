@@ -32,7 +32,7 @@ public class ArcMenuView : MonoBehaviour, IContextMenu
 	bool dismissed;
 	bool wasShown;
 
-	Selection Selection => selector.Selection;
+	Selection Selection => selector != null ? selector.Selection : null;
 
 	void Awake()
 	{
@@ -46,6 +46,8 @@ public class ArcMenuView : MonoBehaviour, IContextMenu
 
 	void Start()
 	{
+		if (Selection == null)
+			return;
 		Selection.Changed += OnSelectionChanged;
 		Selection.Reselected += OnReselected;
 	}
@@ -95,7 +97,7 @@ public class ArcMenuView : MonoBehaviour, IContextMenu
 
 	bool ShouldShow()
 	{
-		var target = Selection.Current;
+		var target = Selection?.Current;
 		return target != null
 			&& !dismissed
 			&& Camera.main != null
