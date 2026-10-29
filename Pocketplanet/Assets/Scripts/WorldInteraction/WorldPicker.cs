@@ -24,6 +24,8 @@ public static class WorldPicker
 		return best;
 	}
 
+	public static bool IsPickable(GameObject target) => target.GetComponent<Building>() == null || IsStanding(target);
+
 	public static Bounds VisibleBounds(GameObject target)
 	{
 		var bounds = new Bounds(target.transform.position, Vector3.zero);
