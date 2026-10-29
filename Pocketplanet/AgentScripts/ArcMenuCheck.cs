@@ -28,7 +28,7 @@ public static class ArcMenuCheck
     {
         if (!Application.isPlaying)
             return "Not playing";
-        var building = PickBuilding();
+        var building = PickBuilding() ?? BringFirstBuildingRowForward();
         if (building == null)
             return "No standing interactive building found";
         Cam.FocusOn(building.transform);
@@ -37,6 +37,31 @@ public static class ArcMenuCheck
         await Awaitable.NextFrameAsync();
         await Awaitable.NextFrameAsync();
         return $"Selected {building.name}. zoomedIn={Cam.IsZoomedIn} {MenuReport()}";
+    }
+
+    public static string Scene() =>
+        $"active={UnityEngine.SceneManagement.SceneManager.GetActiveScene().path} playing={Application.isPlaying}";
+
+    public static string PickName()
+    {
+        var all = Object.FindObjectsByType<Building>().Select(b => b.gameObject).ToList();
+        var both = all.Where(b => WorldPicker.IsPickable(b) && RowDepthStyle.IsInteractiveObject(b)).ToList();
+        return $"all={all.Count} both={both.Count} names=[{string.Join(", ", all.Select(b => $"{b.name}:{WorldPicker.IsPickable(b)}/{RowDepthStyle.IsInteractiveObject(b)}"))}] pick={PickBuilding()?.name ?? "none"}";
+    }
+
+    public static async Task<string> PickNameAsync()
+    {
+        await Task.Yield();
+        return $"async pick={PickBuilding()?.name ?? "none"} thread={System.Threading.Thread.CurrentThread.ManagedThreadId} playing={Application.isPlaying}";
+    }
+
+    public static string Diagnose()
+    {
+        var buildings = Object.FindObjectsByType<Building>();
+        var named = Object.FindObjectsByType<Transform>().Count(t => t.name.StartsWith("Building_"));
+        return $"Building components={buildings.Length} pickable={buildings.Count(b => WorldPicker.IsPickable(b.gameObject))} " +
+               $"interactive={buildings.Count(b => RowDepthStyle.IsInteractiveObject(b.gameObject))} objectsNamedBuilding_={named} " +
+               $"selector={(Selector != null)} zoomedIn={CameraRig.IsInCityView()}";
     }
 
     public static async Task<string> ZoomLevels()
@@ -166,6 +191,11 @@ public static class ArcMenuCheck
 
     public static async Task<string> FollowBlockman()
     {
+        if (Object.FindAnyObjectByType<Citizen_Blockman>() == null)
+        {
+            EventHandler.TriggerBlockman(EventCategory.BlockMan, Random.insideUnitCircle * 2, GameHandler.Instance.Blockman, false);
+            await Awaitable.WaitForSecondsAsync(3f);
+        }
         var blockman = Object.FindAnyObjectByType<Citizen_Blockman>();
         if (blockman == null)
             return "No Blockman in the scene";
@@ -198,6 +228,18 @@ public static class ArcMenuCheck
         .Concat(Object.FindObjectsByType<Building>().Select(b => b.gameObject)
             .Where(b => WorldPicker.IsPickable(b) && RowDepthStyle.IsInteractiveObject(b)))
         .FirstOrDefault();
+
+    static GameObject BringFirstBuildingRowForward()
+    {
+        var style = Object.FindObjectsByType<Building>()
+            .Where(b => WorldPicker.IsPickable(b.gameObject))
+            .Select(b => b.GetComponent<RowDepthStyle>())
+            .FirstOrDefault(s => s != null);
+        if (style == null || BuildRowSelection.Active == null)
+            return null;
+        BuildRowSelection.Active.Select(style.Row);
+        return PickBuilding();
+    }
 
     static void SetZoom(float level) => Cam.GetType().GetMethod("SetZoomLevel", Private).Invoke(Cam, new object[] { level });
 
