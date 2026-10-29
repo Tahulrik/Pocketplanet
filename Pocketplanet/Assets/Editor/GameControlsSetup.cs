@@ -20,6 +20,7 @@ public static class GameControlsSetup
 			root.AddComponent<BuildRowDesktopInput>();
 			root.AddComponent<BuildRowSwipeInput>();
 			root.AddComponent<BuildRowToast>();
+			root.AddComponent<BuildRowIndicator>();
 			root.AddComponent<EnsureEventSystem>();
 		});
 		var interaction = CreateInteractionPrefab();

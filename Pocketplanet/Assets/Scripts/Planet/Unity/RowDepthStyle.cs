@@ -11,7 +11,6 @@ namespace PocketPlanet.Planet
         Vector3 baseScale;
         bool captured;
         bool styled;
-        RowDepthKind kind;
 
         public SurfaceRow Row { get; private set; }
 
@@ -31,13 +30,14 @@ namespace PocketPlanet.Planet
             return style == null || style.IsInteractive;
         }
 
-        public void Apply(SurfaceRow row, RowDepthKind depthKind)
+        public void Apply(SurfaceRow row, RowDepthKind kind)
         {
             CaptureBaseOnce();
             Row = row;
-            kind = depthKind;
             styled = true;
-            ApplyDepth();
+            SortingGroupOf(gameObject).sortingOrder = RowDepth.SortingOrder(row, kind);
+            transform.localScale = baseScale * RowDepth.Scale(row);
+            ApplyColors();
         }
 
         void OnEnable() => BuildRowSelection.ActiveRowChanged += OnActiveRowChanged;
@@ -47,14 +47,7 @@ namespace PocketPlanet.Planet
         void OnActiveRowChanged(SurfaceRow _)
         {
             if (styled)
-                ApplyDepth();
-        }
-
-        void ApplyDepth()
-        {
-            SortingGroupOf(gameObject).sortingOrder = RowDepth.SortingOrder(Row, kind);
-            transform.localScale = baseScale * RowDepth.Scale(Row);
-            ApplyColors();
+                ApplyColors();
         }
 
         void ApplyColors()

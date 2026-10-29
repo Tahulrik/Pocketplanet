@@ -52,16 +52,26 @@ namespace PocketPlanet.Planet.Tests
         }
 
         [Test]
-        public void Place_PutsActiveRowInFront_AndTurnsTheOthersBehindIt()
+        public void IsInFrontOf_FollowsDepthOrder()
         {
-            Assert.AreEqual(0, RowDepth.Place(SurfaceRow.Middle, SurfaceRow.Middle));
-            Assert.AreEqual(1, RowDepth.Place(SurfaceRow.Back, SurfaceRow.Middle));
-            Assert.AreEqual(2, RowDepth.Place(SurfaceRow.Front, SurfaceRow.Middle));
-            Assert.AreEqual(1, RowDepth.Place(SurfaceRow.Front, SurfaceRow.Back));
+            Assert.IsTrue(SurfaceRows.IsInFrontOf(SurfaceRow.Front, SurfaceRow.Middle));
+            Assert.IsTrue(SurfaceRows.IsInFrontOf(SurfaceRow.Middle, SurfaceRow.Back));
+            Assert.IsFalse(SurfaceRows.IsInFrontOf(SurfaceRow.Back, SurfaceRow.Front));
+            Assert.IsFalse(SurfaceRows.IsInFrontOf(SurfaceRow.Middle, SurfaceRow.Middle));
         }
 
         [Test]
-        public void SwitchingRows_MovesTheNewRowInFront_AndDimsTheOld()
+        public void Tint_ShowsActiveRowFully_SeesThroughRowsInFront_AndDimsRowsBehind()
+        {
+            Assert.AreEqual(Color.white, RowDepth.Tint(SurfaceRow.Middle, SurfaceRow.Middle));
+            Assert.Less(RowDepth.Tint(SurfaceRow.Front, SurfaceRow.Middle).a, 1f);
+            var behind = RowDepth.Tint(SurfaceRow.Back, SurfaceRow.Middle);
+            Assert.AreEqual(1f, behind.a);
+            Assert.Less(behind.r, RowDepth.Shade(SurfaceRow.Back));
+        }
+
+        [Test]
+        public void SwitchingRows_KeepsTheDepthOrder_AndMakesRowsInFrontSeeThrough()
         {
             var front = StyledObject(SurfaceRow.Front);
             var back = StyledObject(SurfaceRow.Back);
@@ -69,9 +79,10 @@ namespace PocketPlanet.Planet.Tests
             {
                 selection.Select(SurfaceRow.Back);
 
-                Assert.Greater(Order(back), Order(front));
-                Assert.Greater(back.GetComponentInChildren<SpriteRenderer>().color.r, front.GetComponentInChildren<SpriteRenderer>().color.r);
-                Assert.Greater(back.transform.localScale.x, front.transform.localScale.x);
+                Assert.Greater(Order(front), Order(back));
+                Assert.Greater(front.transform.localScale.x, back.transform.localScale.x);
+                Assert.Less(front.GetComponentInChildren<SpriteRenderer>().color.a, 1f);
+                Assert.AreEqual(Color.white, back.GetComponentInChildren<SpriteRenderer>().color);
             }
             finally
             {

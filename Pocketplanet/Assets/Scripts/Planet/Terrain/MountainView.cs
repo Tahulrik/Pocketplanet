@@ -24,11 +24,13 @@ namespace PocketPlanet.Planet
             var sink = RimFit.SinkDepth(mountain.Range.Length, frame.Radius);
             root.transform.SetPositionAndRotation(frame.ToWorld(new PlanetCoord(arc, -sink)), frame.UprightRotation(arc));
 
+            // Row depth shrinks far rows, so pre-scale up to make the drawn mountain match the range it blocks.
             // The sunk part hides behind the planet, so it's added to the height to keep the peak where it belongs.
+            var depthScale = RowDepth.Scale(mountain.Row);
             var size = sprite.bounds.size;
             root.transform.localScale = new Vector3(
-                mountain.Range.Length / size.x,
-                (mountain.Height + sink) / size.y,
+                mountain.Range.Length / size.x / depthScale,
+                (mountain.Height + sink) / size.y / depthScale,
                 1f);
 
             var body = new GameObject("Sprite");

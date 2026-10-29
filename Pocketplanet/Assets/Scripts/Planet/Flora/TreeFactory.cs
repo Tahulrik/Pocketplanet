@@ -11,7 +11,7 @@ namespace PocketPlanet.Planet
         {
             var tree = new GameObject(sprite.name);
             tree.transform.SetParent(parent, false);
-            var drawnWidth = sprite.bounds.size.x * placement.Scale;
+            var drawnWidth = sprite.bounds.size.x * placement.Scale * RowDepth.Scale(placement.Row);
             var ground = frame.ToWorld(new PlanetCoord(placement.Arc, -RimFit.SinkDepth(drawnWidth, frame.Radius)));
             tree.transform.SetPositionAndRotation(ground, frame.UprightRotation(placement.Arc));
             tree.transform.localScale = Vector3.one * placement.Scale;
