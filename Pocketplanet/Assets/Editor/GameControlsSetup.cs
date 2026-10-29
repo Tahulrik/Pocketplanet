@@ -33,6 +33,7 @@ public static class GameControlsSetup
 		{
 			root.AddComponent<WorldTapSelector>();
 			root.AddComponent<ArcMenuView>();
+			root.AddComponent<SelectionHighlight>();
 		});
 
 	// Batch entry point: Unity -batchmode -executeMethod GameControlsSetup.SetUpEverything -quit
