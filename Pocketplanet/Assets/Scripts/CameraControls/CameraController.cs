@@ -249,14 +249,19 @@ public class CameraController : MonoBehaviour
             return;
         Vector2 offset = followTarget.position - transform.position;
         transform.rotation = Quaternion.LookRotation(Vector3.forward, offset);
-        AimHeightAt(followTarget.position);
+        SetCameraHeight(HeightToSee(followTarget.position));
     }
 
-    void AimHeightAt(Vector2 worldPoint)
+    float HeightToSee(Vector2 worldPoint)
     {
         var heightAboveCameraBase = (worldPoint - (Vector2)transform.position).magnitude - CameraHolder.transform.localPosition.y;
+        return Mathf.Clamp(heightAboveCameraBase, CameraMinMoveHeight, CameraMaxMoveHeight);
+    }
+
+    void SetCameraHeight(float height)
+    {
         var local = CameraTarget.transform.localPosition;
-        local.y = Mathf.Clamp(heightAboveCameraBase, CameraMinMoveHeight, CameraMaxMoveHeight);
+        local.y = height;
         CameraTarget.transform.localPosition = local;
     }
 
@@ -289,18 +294,21 @@ public class CameraController : MonoBehaviour
         var startRotation = transform.rotation;
         var endRotation = Quaternion.LookRotation(Vector3.forward, targetPosition - (Vector2)transform.position);
         var startZoom = CurrentZoomAmount;
+        var startHeight = CameraTarget.transform.localPosition.y;
         for (float t = 0f; t < 1f; t += Time.deltaTime / 1.5f)
         {
             var eased = Mathf.SmoothStep(0f, 1f, t);
             transform.rotation = Quaternion.Slerp(startRotation, endRotation, eased);
             SetZoomLevel(Mathf.Lerp(startZoom, zoomLevel, eased));
+            if (aimHeight && IsZoomedIn)
+                SetCameraHeight(Mathf.Lerp(startHeight, HeightToSee(targetPosition), eased));
             yield return null;
         }
         transform.rotation = endRotation;
         SetZoomLevel(zoomLevel);
         SetCameraZoomState();
         if (aimHeight && IsZoomedIn)
-            AimHeightAt(targetPosition);
+            SetCameraHeight(HeightToSee(targetPosition));
     }
 
     void SetCameraZoomState()

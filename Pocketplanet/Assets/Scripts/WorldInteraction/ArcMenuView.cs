@@ -98,7 +98,9 @@ public class ArcMenuView : MonoBehaviour, IContextMenu
 		var target = Selection.Current;
 		return target != null
 			&& !dismissed
-			&& GameHandler.Instance.CameraController.IsZoomedIn
+			&& Camera.main != null
+			&& PlanetHost.Active != null
+			&& CameraRig.IsInCityView()
 			&& selector.Actions.HasActions(target)
 			&& RowDepthStyle.IsInteractiveObject(target);
 	}

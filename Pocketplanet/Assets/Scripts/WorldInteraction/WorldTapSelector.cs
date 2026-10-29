@@ -21,7 +21,7 @@ public class WorldTapSelector : MonoBehaviour
 
 	void OnTap(LeanFinger finger)
 	{
-		if (finger.StartedOverGui || finger.IsOverGui || finger.TapCount > 1 || IsPlacingSomething() || !IsInCityView())
+		if (finger.StartedOverGui || finger.IsOverGui || finger.TapCount > 1 || IsPlacingSomething() || !CameraRig.IsInCityView() || Camera.main == null)
 			return;
 
 		var margin = Camera.main.orthographicSize * 2f * tapTolerance;
@@ -31,8 +31,6 @@ public class WorldTapSelector : MonoBehaviour
 		else
 			Selection.Select(target);
 	}
-
-	static bool IsInCityView() => GameHandler.Instance.CameraController.IsZoomedIn;
 
 	static bool IsPlacingSomething() => FindAnyObjectByType<ObjectSpawner>() != null;
 }

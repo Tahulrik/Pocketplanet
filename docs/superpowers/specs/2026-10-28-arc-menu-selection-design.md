@@ -90,7 +90,8 @@ An arrow on the overlay canvas.
 
 - Moves the camera once to centre on the target, reusing the existing move-to coroutine.
 - If the camera is zoomed out past the snap threshold, it zooms in to the comfortable zoom level first, as `Follow` does.
-- It does not start following and does not change an existing follow target.
+- It does not start following. It stops an active follow, because otherwise the camera would swing straight back to the followed object.
+- It eases the camera height together with the rotation, so there is no jump at the end.
 
 ### `WorldTapSelector`
 

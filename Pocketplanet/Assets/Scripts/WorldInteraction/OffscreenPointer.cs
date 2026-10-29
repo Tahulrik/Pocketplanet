@@ -51,7 +51,8 @@ public class OffscreenPointer : MonoBehaviour
 	void JumpToSelection()
 	{
 		var target = selector.Selection.Current;
-		if (target != null)
-			GameHandler.Instance.CameraController.FocusOn(target.transform);
+		var camera = CameraRig.Controller;
+		if (target != null && camera != null)
+			camera.FocusOn(target.transform);
 	}
 }
